@@ -1,8 +1,6 @@
-var board = new Board();
-
 angular.module("myApp", []).
 controller("gameController", function($scope) {
-	$scope.cells = board.getCells();
+	$scope.board = new Board();
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
@@ -10,15 +8,14 @@ controller("gameController", function($scope) {
         if (!modifiers) {
         	switch (event.which) {
         		case 38: //up
-        			board.slideUp();break;
+        			$scope.board.slideUp();break;
         		case 40: //down
-        			board.slideDown();break;
+        			$scope.board.slideDown();break;
         		case 37: //left
-        			board.slideLeft();break;
+        			$scope.board.slideLeft();break;
         		case 39: //right
-        			board.slideRight();break;
+        			$scope.board.slideRight();break;
         	}
-        	$scope.cells = board.getCells();
         }
 	};
 
@@ -28,5 +25,13 @@ controller("gameController", function($scope) {
 		} else {
 			return "cell";
 		}
+	};
+
+	$scope.newGame = function() {
+
+	};
+
+	$scope.showHelp = function() {
+
 	};
 });

@@ -9,10 +9,6 @@ var Board = function() {
 	this.col = 0; // current col of 0
 };
 
-Board.prototype.getCells = function() {
-	return this.cells;
-};
-
 Board.prototype.slideLeft = function() {
 	var temp;
 	if (this.col !== 0) {
