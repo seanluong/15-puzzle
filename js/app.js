@@ -28,7 +28,7 @@ controller("gameController", function($scope) {
 	};
 
 	$scope.newGame = function() {
-
+		$scope.board.shuffle();
 	};
 
 	$scope.showHelp = function() {

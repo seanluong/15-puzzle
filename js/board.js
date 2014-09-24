@@ -7,6 +7,23 @@ var Board = function() {
 	];
 	this.row = 0; // current row of 0
 	this.col = 0; // current col of 0
+	this.shuffle();
+};
+
+Board.prototype.shuffle = function(nsteps) {
+	var step = nsteps || 100,
+		direction;
+	while (step > 0) {
+		direction = parseInt(Math.random() * 4);
+		switch (direction) {
+			case 0: this.slideLeft(); break;
+			case 1: this.slideRight(); break;
+			case 2: this.slideUp(); break;
+			case 3: this.slideDown(); break;
+		}
+		step--;
+	}
+	this.print();
 };
 
 Board.prototype.slideLeft = function() {
