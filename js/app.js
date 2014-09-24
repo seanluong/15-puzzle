@@ -18,6 +18,7 @@ controller("gameController", function($scope) {
         		case 39: //right
         			board.slideRight();break;
         	}
+        	$scope.cells = board.getCells();
         }
 	};
 });
