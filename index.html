@@ -9,36 +9,20 @@
 			<h1>15 Puzzle</h1>
 		</div>
 
-		<div id="main">
-			<div id="row_1" class="row">
-				<div id="cell_1_1" class="cell">1</div>
-				<div id="cell_1_2" class="cell">2</div>
-				<div id="cell_1_3" class="cell">3</div>
-				<div id="cell_1_4" class="cell">4</div>
-			</div>
-			<div id="row_2" class="row">
-				<div id="cell_2_1" class="cell">5</div>
-				<div id="cell_2_2" class="cell">6</div>
-				<div id="cell_2_3" class="cell">7</div>
-				<div id="cell_2_4" class="cell">8</div>
-			</div>
-			<div id="row_3" class="row">
-				<div id="cell_3_1" class="cell">9</div>
-				<div id="cell_3_2" class="cell">10</div>
-				<div id="cell_3_3" class="cell">11</div>
-				<div id="cell_3_4" class="cell">12</div>
-			</div>
-			<div id="row_4" class="row">
-				<div id="cell_4_1" class="cell">13</div>
-				<div id="cell_4_2" class="cell">14</div>
-				<div id="cell_4_3" class="cell">15</div>
-				<div id="cell_4_4" class="cell"></div>
+		<div id="main" ng-app="myApp">
+			<div id="container" ng-controller="gameController">
+				<div ng-repeat="row in [1,2,3,4]" id="row_{{row}}" class="row">
+					<span ng-repeat="col in [1,2,3,4]" id="cell_{{row}}_{{col}}" class="cell">
+						{{(row - 1) * 4 + col}}
+					</span>
+				</div>
 			</div>
 		</div>
 
 		<div id="footer">
 			<p>Created by <a href="http://github.com/xuanluong">Xuan Luong</a></p>
 		</div>
-		<script src="app/js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+		<script src="js/app.js"></script>
 	</body>
 </html>
