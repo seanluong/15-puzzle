@@ -13,7 +13,7 @@
 			<div id="container" ng-controller="gameController">
 				<div ng-repeat="row in [1,2,3,4]" id="row_{{row}}" class="row">
 					<span ng-repeat="col in [1,2,3,4]" id="cell_{{row}}_{{col}}" class="cell">
-						{{(row - 1) * 4 + col}}
+						{{cells[row-1][col-1]}}
 					</span>
 				</div>
 			</div>
@@ -23,6 +23,7 @@
 			<p>Created by <a href="http://github.com/xuanluong">Xuan Luong</a></p>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+		<script src="js/board.js"></script>
 		<script src="js/app.js"></script>
 	</body>
 </html>
