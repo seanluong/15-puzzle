@@ -5,8 +5,8 @@ var Board = function() {
 		[8,9,10,11],
 		[12,13,14,15]
 	];
-	this.row = 3; // current row of 0
-	this.col = 3; // current col of 0
+	this.row = 0; // current row of 0
+	this.col = 0; // current col of 0
 };
 
 Board.prototype.getCells = function() {
@@ -31,7 +31,7 @@ Board.prototype.slideRight = function() {
 	if (this.col !== 3) {
 		temp = this.cells[this.row][this.col];
 		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
-		this.cells[this.row][this.col-1] = temp;
+		this.cells[this.row][this.col+1] = temp;
 		this.col += 1;
 	} else {
 		console.log("slide right has no effect.");
@@ -81,4 +81,15 @@ Board.prototype.won = function() {
 		return true;
 	}
 	return false;
+};
+
+Board.prototype.print = function() {
+	var row, col, rowStr = "";
+	for (row in this.cells) {
+		for (col in this.cells[row]) {
+			rowStr += this.cells[row][col] + ",";
+		}
+		console.log(rowStr);
+		rowStr = "";
+	}
 };
