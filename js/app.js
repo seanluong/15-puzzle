@@ -1,14 +1,17 @@
-angular.module("myApp", []).
+angular.module("myApp", ["ngAnimate"]).
 controller("gameController", function($scope) {
 	$scope.board = new Board();
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
-                    event.shiftKey;
+                    event.shiftKey,
+			src, dst;
         if (!modifiers) {
+
         	switch (event.which) {
         		case 38: //up
-        			$scope.board.slideUp();break;
+        			$scope.board.slideUp();
+        			break;
         		case 40: //down
         			$scope.board.slideDown();break;
         		case 37: //left
