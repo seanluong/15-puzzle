@@ -4,4 +4,4 @@
 
 This game consists of a 4x4 board with 15 tiles, numbered from 1 to 15. There is one empty cell that allows players to change the state of the board by swapping the empty cell with 1 of its adjacent cells. The image below shows the target state of the puzzle:
 
-![target-state](http://upload.wikimedia.org/wikipedia/commons/thumb/9/91/15-puzzle.svg/400px-15-puzzle.svg.png)
+![target-state](http://www.cse.wustl.edu/~kjg/cs123/Labs/raster/15.gif)
