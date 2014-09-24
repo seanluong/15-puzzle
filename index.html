@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
 	<head>
-		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body ng-controller="gameController" ng-keydown="handleKeyDown($event)">
 		<div id="header">
-			<h1>15 Puzzle</h1>
+			<h1>15 Puzzle<a id="source-link" href="https://github.com/xuanluong/15-puzzle">Source</a></h1>
 		</div>
 
 		<div id="main">
@@ -16,7 +16,7 @@
 			</div>
 			<div id="board-container">
 				<div id="board">
-					<div ng-repeat="row in [0,1,2,3]" id="row_{{row}}" class="row">
+					<div ng-repeat="row in [0,1,2,3]" id="row_{{row}}" class="my-row">
 						<div ng-repeat="col in [0,1,2,3]" id="cell_{{row}}_{{col}}" 
 						ng-class="getCellClass(row,col)" ng-bind-template="{{getCellHTML(row, col)}}">
 						</div>
@@ -26,7 +26,9 @@
 		</div>
 
 		<div id="footer">
-			<p>Created by <a href="http://github.com/xuanluong">Xuan Luong</a></p>
+			<div id="author">
+				Created by <a href="http://github.com/xuanluong">Xuan Luong</a>.
+			</div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-animate.js"></script>

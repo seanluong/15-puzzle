@@ -34,9 +34,9 @@ controller("gameController", function($scope) {
 	$scope.getCellClass = function(row, col) {
 		var value = $scope.board.cells[row][col];
 		if (value === 0) {
-			return "zero-cell";
+			return "my-zero-cell";
 		} else {
-			return "cell";
+			return "my-cell";
 		}
 	};
 

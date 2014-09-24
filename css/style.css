@@ -24,9 +24,14 @@ body {
 
 #footer {
 	margin-bottom: 10px;
+	margin-top: 20px;
 }
 
-.cell {
+#author {
+	text-align: justify;
+}
+
+.my-cell {
 	text-align: center;
 	width: 106.25px;
 	height: 106.25px;
@@ -39,7 +44,7 @@ body {
 	line-height: 116.25px;
 }
 
-.zero-cell {
+.my-zero-cell {
 	width: 106.25px;
 	height: 106.25px;
 	margin-right: 15px;
