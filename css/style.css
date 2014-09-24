@@ -11,6 +11,10 @@ body {
 	width: 500px;
 	height: 500px;
 	position: relative;
+	background: #5E64A0;
+	border-radius: 6px;
+	padding: 15px;
+	box-sizing: border-box;
 }
 
 #container {
@@ -30,7 +34,9 @@ body {
 	margin-bottom: 15px;
 	float: left;
 	border-radius: 3px;
-	background: rgba(238, 228, 218, 0.35);
+	background: rgba(230, 230, 230, 0.85);
+	font-size: 55px;
+	line-height: 116.25px;
 }
 
 .zero-cell {
