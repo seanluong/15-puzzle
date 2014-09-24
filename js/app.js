@@ -21,4 +21,12 @@ controller("gameController", function($scope) {
         	$scope.cells = board.getCells();
         }
 	};
+
+	$scope.getCellClass = function(value) {
+		if (value === 0) {
+			return "zero-cell";
+		} else {
+			return "cell";
+		}
+	};
 });
