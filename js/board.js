@@ -23,6 +23,7 @@ Board.prototype.slideLeft = function() {
 	} else {
 		console.log("slide left has no effect.");
 	}
+	return this;
 };
 
 Board.prototype.slideRight = function() {
@@ -35,6 +36,7 @@ Board.prototype.slideRight = function() {
 	} else {
 		console.log("slide right has no effect.");
 	}
+	return this;
 };
 
 Board.prototype.slideUp = function() {
@@ -47,6 +49,7 @@ Board.prototype.slideUp = function() {
 	} else {
 		console.log("slide up has no effect.");
 	}
+	return this;
 };
 
 Board.prototype.slideDown = function() {
@@ -59,4 +62,5 @@ Board.prototype.slideDown = function() {
 	} else {
 		console.log("slide down has no effect.");
 	}
+	return this;
 };
