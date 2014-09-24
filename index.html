@@ -6,14 +6,16 @@
 	</head>
 	<body ng-controller="gameController" ng-keydown="handleKeyDown($event)">
 		<div id="header">
-			<h1>15 Puzzle
-			</h1>
+			<h1>15 Puzzle</h1>
+			<span id="clock">00:00:00</span>
 		</div>
 
 		<div id="main">
 			<div id="controls">
-				<button ng-click="newGame()">New Game</button>
-				<button ng-click="showHelp()">Help</button>
+				<span id="summary">
+					Move the empty and return the board to its initial state.
+				</span>
+				<button id="new-game" class="btn btn-primary right" ng-click="newGame()">New Game</button>
 			</div>
 			<div id="board-container">
 				<div id="board">
