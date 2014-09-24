@@ -19,7 +19,44 @@ Board.prototype.slideLeft = function() {
 		temp = this.cells[this.row][this.col];
 		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
 		this.cells[this.row][this.col-1] = temp;
+		this.col -= 1;
 	} else {
 		console.log("slide left has no effect.");
+	}
+};
+
+Board.prototype.slideRight = function() {
+	var temp;
+	if (this.col !== 3) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
+		this.cells[this.row][this.col-1] = temp;
+		this.col += 1;
+	} else {
+		console.log("slide right has no effect.");
+	}
+};
+
+Board.prototype.slideUp = function() {
+	var temp;
+	if (this.row !== 0) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
+		this.cells[this.row-1][this.col] = temp;
+		this.row -= 1;
+	} else {
+		console.log("slide up has no effect.");
+	}
+};
+
+Board.prototype.slideDown = function() {
+	var temp;
+	if (this.row !== 3) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
+		this.cells[this.row+1][this.col] = temp;
+		this.row += 1;
+	} else {
+		console.log("slide down has no effect.");
 	}
 };
