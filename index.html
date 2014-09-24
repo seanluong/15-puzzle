@@ -10,14 +10,20 @@
 		</div>
 
 		<div id="main">
-			<div id="container">
-				<div ng-repeat="row in [0,1,2,3]" id="row_{{row}}" class="row">
-					<div ng-repeat="col in [0,1,2,3]" id="cell_{{row}}_{{col}}" 
-					ng-class="getCellClass(cells[row][col])">
-						{{cells[row][col]}}
+			<div id="controls">
+				<button>New Game</button>
+				<button>Help</button>
+			</div>
+			<div id="board-container">
+				<div id="board">
+					<div ng-repeat="row in [0,1,2,3]" id="row_{{row}}" class="row">
+						<div ng-repeat="col in [0,1,2,3]" id="cell_{{row}}_{{col}}" 
+						ng-class="getCellClass(cells[row][col])">
+							{{cells[row][col]}}
+						</div>
 					</div>
 				</div>
-			</div>
+			</div>			
 		</div>
 
 		<div id="footer">

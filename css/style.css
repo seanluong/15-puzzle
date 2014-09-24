@@ -7,7 +7,7 @@ body {
 	text-align: center;
 }
 
-#main {
+#board-container {
 	width: 500px;
 	height: 500px;
 	position: relative;
@@ -17,7 +17,7 @@ body {
 	box-sizing: border-box;
 }
 
-#container {
+#board {
 	position: absolute;
 	z-index: 1;
 }
