@@ -34,7 +34,7 @@ body {
 	margin-bottom: 15px;
 	float: left;
 	border-radius: 3px;
-	background: rgba(230, 230, 230, 0.85);
+	background: rgba(230, 230, 230, 0.9);
 	font-size: 55px;
 	line-height: 116.25px;
 }
@@ -46,5 +46,5 @@ body {
 	margin-bottom: 15px;
 	float: left;
 	border-radius: 3px;
-	background: black;
+	background: rgba(230, 230, 230, 0.2);
 }

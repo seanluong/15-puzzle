@@ -19,7 +19,17 @@ controller("gameController", function($scope) {
         }
 	};
 
-	$scope.getCellClass = function(value) {
+	$scope.getCellHTML = function(row, col) {
+		var value = $scope.board.cells[row][col];
+		if (value !== 0) {
+			return value;
+		} else {
+			return "";
+		}
+	};
+
+	$scope.getCellClass = function(row, col) {
+		var value = $scope.board.cells[row][col];
 		if (value === 0) {
 			return "zero-cell";
 		} else {

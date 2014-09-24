@@ -18,8 +18,7 @@
 				<div id="board">
 					<div ng-repeat="row in [0,1,2,3]" id="row_{{row}}" class="row">
 						<div ng-repeat="col in [0,1,2,3]" id="cell_{{row}}_{{col}}" 
-						ng-class="getCellClass(board.cells[row][col])">
-							{{board.cells[row][col]}}
+						ng-class="getCellClass(row,col)" ng-bind-template="{{getCellHTML(row, col)}}">
 						</div>
 					</div>
 				</div>
