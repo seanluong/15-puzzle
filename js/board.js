@@ -7,7 +7,7 @@ var Board = function() {
 	];
 	this.row = 0; // current row of 0
 	this.col = 0; // current col of 0
-	this.shuffle();
+	// this.shuffle();
 };
 
 Board.prototype.shuffle = function(nsteps) {
