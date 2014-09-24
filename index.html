@@ -12,13 +12,13 @@
 		<div id="main">
 			<div id="container">
 				<div ng-repeat="row in [1,2,3,4]" id="row_{{row}}" class="row">
-					<span ng-repeat="col in [1,2,3,4]" id="cell_{{row}}_{{col}}" class="cell">
+					<div ng-repeat="col in [1,2,3,4]" id="cell_{{row}}_{{col}}" class="cell">
 						{{cells[row-1][col-1]}}
-					</span>
+					</div>
 				</div>
 			</div>
 		</div>
-
+		
 		<div id="footer">
 			<p>Created by <a href="http://github.com/xuanluong">Xuan Luong</a></p>
 		</div>
