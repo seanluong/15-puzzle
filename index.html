@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
 	<head>
-		<link rel="apple-touch-icon" href="images/favicon.png" />
-		<link rel="apple-touch-icon" sizes="72x72" href="images/favicon.png"/>  
-		<link rel="apple-touch-icon" sizes="114x114" href="images/favicon.png"/>  
-		
-		<link rel="shortcut icon" href="images/favicon.png" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-
+		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="HandheldFriendly" content="True">
 		<meta name="MobileOptimized" content="320">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui" />
+		<meta name="viewport" content="width=device-width" />
+	
+		<link rel="apple-touch-icon" href="images/favicon.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="images/favicon.png"/>  
+		<link rel="apple-touch-icon" sizes="114x114" href="images/favicon.png"/>  
+		<link rel="icon" sizes="192x192" href="images/favicon.png">
+		<link rel="icon" sizes="128x128" href="images/favicon.png">
+		<link rel="shortcut icon" href="images/favicon.png" />
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body ng-controller="gameController" ng-keydown="handleKeyDown($event)">
 		<div id="header">
