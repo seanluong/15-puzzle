@@ -7,20 +7,34 @@ controller("gameController", function($scope) {
                     event.shiftKey,
 			src, dst;
         if (!modifiers) {
-
         	switch (event.which) {
         		case 38: //up
+        			event.preventDefault();
         			$scope.board.slideUp();
         			break;
         		case 40: //down
-        			$scope.board.slideDown();break;
+        			event.preventDefault();
+        			$scope.board.slideDown();
+        			break;
         		case 37: //left
-        			$scope.board.slideLeft();break;
+        			event.preventDefault();
+        			$scope.board.slideLeft();
+        			break;
         		case 39: //right
-        			$scope.board.slideRight();break;
+        			event.preventDefault();
+        			$scope.board.slideRight();
+        			break;
+        	}
+        	if ($scope.board.won() === true) {
+        		$scope.$emit("won", {});
         	}
         }
 	};
+
+	$scope.$on("won", function(event, args) {
+		event.stopPropagation();
+		console.log("Game won. Event handled.");
+	});
 
 	$scope.getCellHTML = function(row, col) {
 		var value = $scope.board.cells[row][col];

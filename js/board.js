@@ -1,12 +1,18 @@
 var Board = function() {
 	this.cells = [
-		[0,1,2,3],
-		[4,5,6,7],
-		[8,9,10,11],
-		[12,13,14,15]
+		[1,2,3,4],
+		[5,6,7,8],
+		[9,10,11,12],
+		[13,14,15,0]
 	];
-	this.row = 0; // current row of 0
-	this.col = 0; // current col of 0
+	this.row = 3; // current row of 0
+	this.col = 3; // current col of 0
+	this.target = [
+		[1,2,3,4],
+		[5,6,7,8],
+		[9,10,11,12],
+		[13,14,15,0]
+	];
 	// this.shuffle();
 };
 
@@ -79,21 +85,14 @@ Board.prototype.slideDown = function() {
 };
 
 Board.prototype.won = function() {
-	var index = [0,1,2,3],
-		row, col;
-	if (this.cells[3][3] === 0) {
-		for (row in index) {
-			for (col in index) {
-				if (row !== 3 && col !== 3) {
-					if (this.cells[row][col] != row * 4 + col) {
-						return false;
-					}
-				}
+	for (row in this.cells) {
+		for (col in this.cells[row]) {
+			if (this.cells[row][col] !== this.target[row][col]) {
+				return false;
 			}
 		}
-		return true;
 	}
-	return false;
+	return true;
 };
 
 Board.prototype.print = function() {
