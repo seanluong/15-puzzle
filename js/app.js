@@ -91,21 +91,18 @@ Working on angular-bootstrap modal dialog
 			}
 		});
 
-		modalInstance.result.then(function (selectedItem) {
-			$scope.selected = selectedItem;
+		modalInstance.result.then(function () {
+			$scope.newGame();
+		}, function() {
+			$scope.newGame();
 		});
+
+		console.log(modalInstance.dismiss);
 	};
 });
 
-var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
-
-	$scope.items = items;
-	
-	$scope.ok = function () {
-		$modalInstance.close();
-	};
-
-	$scope.cancel = function () {
-		$modalInstance.dismiss('cancel');
+var ModalInstanceCtrl = function ($scope, $modalInstance) {
+	$scope.restart = function() {
+		$modalInstance.close({});
 	};
 };
