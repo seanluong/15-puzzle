@@ -1,6 +1,15 @@
 angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
-controller("gameController", function($scope, $modal) {
+controller("gameController", function($scope, $modal, $interval) {
 	$scope.board = new Board();
+
+	$scope.duration = 0;
+	var durationUpdater = $interval(function(){
+		$scope.duration += 1;
+	}, 1000);
+
+	$scope.$on('$destroy', function() {
+      $interval.cancel(durationUpdater);
+    });
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
