@@ -122,7 +122,7 @@ directive("ngTimePassed", function($interval) {
 			timePassed += 1;
 			seconds = timePassed;
 			hours = Math.floor(seconds / 3600);
-			seconds %= 60;
+			seconds %= 3600;
 			minutes = Math.floor(seconds / 60);
 			seconds %= 60;
 			element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
