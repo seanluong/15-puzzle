@@ -1,15 +1,6 @@
 angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
-controller("gameController", function($scope, $modal, $interval) {
+controller("myController", function($scope, $modal) {
 	$scope.board = new Board();
-
-	$scope.duration = 0;
-	var durationUpdater = $interval(function(){
-		$scope.duration += 1;
-	}, 1000);
-
-	$scope.$on('$destroy', function() {
-      $interval.cancel(durationUpdater);
-    });
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
@@ -112,6 +103,44 @@ controller("gameController", function($scope, $modal, $interval) {
 			$scope.newGame();
 		});
 	};
+}).
+directive("ngTimePassed", function($interval) {
+	var timePassed = 0;
+	function link(scope, element, attrs) {
+		var timeoutId;
+
+		function pad(amount) {
+			if (amount < 10) {
+				return "0" + amount;
+			} else {
+				return "" + amount;
+			}
+		}
+
+		function update() {
+			var seconds, minutes, hours, temp;
+			timePassed += 1;
+			seconds = timePassed;
+			hours = Math.floor(seconds / 3600);
+			seconds %= 60;
+			minutes = Math.floor(seconds / 60);
+			seconds %= 60;
+			element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
+		}
+		scope.$watch(attrs.ngTimePassed, function(value) {
+			update();
+		});
+		element.on('$destroy', function() {
+			$interval.cancel(timeoutId);
+		});
+		timeoutId = $interval(function() {
+			update();
+		}, 1000);
+    }
+
+    return {
+      link: link
+    };
 });
 
 var GuideModelInstanceCtrl = function($scope, $modalInstance) {

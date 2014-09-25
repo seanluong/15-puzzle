@@ -15,11 +15,11 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
-	<body ng-controller="gameController" ng-keydown="handleKeyDown($event)">
+	<body ng-controller="myController" ng-keydown="handleKeyDown($event)">
 		<div id="header">
 			<h1 id="title">15 Puzzle</h1>
 			<h2 id="stats">
-				<span class="label label-default" id="clock" ng-bind="duration"></span>
+				<span class="label label-default" id="clock" ng-time-passed></span>
 				<span class="label label-default" id="best-time">NA</span>
 			</h2>
 		</div>
