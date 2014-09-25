@@ -37,7 +37,6 @@ controller("gameController", function($scope, $modal) {
 	$scope.$on("board-change", function(event, args) {
 		event.stopPropagation();
 		if ($scope.board.won() === true) {
-			$scope.board.locked = true;
 			$scope.$emit("game-won", {});
 		}
 	});
@@ -68,11 +67,19 @@ controller("gameController", function($scope, $modal) {
 
 	$scope.newGame = function() {
 		$scope.board.shuffle();
-		$scope.board.locked = false;
+		$scope.resume();
 	};
 
 	$scope.showHelp = function() {
 
+	};
+
+	$scope.pause = function() {
+		$scope.board.locked = true;
+	};
+
+	$scope.resume = function() {
+		$scope.board.locked = false;
 	};
 
 	/*
@@ -90,14 +97,12 @@ Working on angular-bootstrap modal dialog
 				}
 			}
 		});
-
+		$scope.pause();
 		modalInstance.result.then(function () {
 			$scope.newGame();
 		}, function() {
 			$scope.newGame();
 		});
-
-		console.log(modalInstance.dismiss);
 	};
 });
 
