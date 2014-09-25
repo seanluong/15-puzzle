@@ -52,8 +52,17 @@ body {
 }
 
 #footer a img {
-	height: 35px;
+	height: 30px;
 	display: inline;
+}
+
+#share {
+	text-align: center;
+}
+
+#share a img {
+	height: 30px;
+	display: inline;	
 }
 
 #author {
