@@ -88,7 +88,7 @@ Working on angular-bootstrap modal dialog
 	
 	$scope.handleGameWon = function(size) {
 		var modalInstance = $modal.open({
-			templateUrl: 'game-won',
+			templateUrl: 'template/won.html',
 			controller: ModalInstanceCtrl,
 			size: size,
 			resolve: {
