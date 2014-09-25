@@ -11,23 +11,35 @@ body {
 
 #header {
 	text-align: center;
+	margin-bottom: 25px;
+	vertical-align: bottom;
+}
+
+#title {
+	font-weight: bolder;
+	float: left;
+}
+
+#stats {
+	float: right;
 }
 
 #controls {
-	margin-bottom: 25px;
 	font-size: 18px;
+	margin-bottom: 25px;
 }
 
 #new-game {
 	font-size: 20px;
 	line-height: 42px;
-	/*float: right;*/
+	float: right;
 }
 
 #summary {
 	float: left;
 	width: 70%;
 	font-size: 20px;
+	margin-bottom: 25px;
 }
 
 #board-container {
@@ -38,7 +50,7 @@ body {
 	border-radius: 6px;
 	padding: 15px;
 	box-sizing: border-box;
-	/*margin-top: 40px;*/
+	clear: both;
 }
 
 #board {
@@ -66,7 +78,8 @@ body {
 }
 
 #author {
-	text-align: justify;
+	text-align: center;
+	font-weight: bold;
 }
 
 .my-cell {
