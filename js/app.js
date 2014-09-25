@@ -7,7 +7,7 @@ controller("gameController", function($scope) {
                     event.shiftKey,
 			src, dst;
         if (!modifiers) {
-
+        	event.preventDefault();
         	switch (event.which) {
         		case 38: //up
         			$scope.board.slideUp();
