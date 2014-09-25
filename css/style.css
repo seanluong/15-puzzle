@@ -104,3 +104,11 @@ body {
 	border-radius: 3px;
 	background: rgba(204, 138, 138, 1);
 }
+
+#guide-content div {
+	text-align: center;
+}
+
+#guide-content div img {
+	width: 150px;
+}

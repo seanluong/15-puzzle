@@ -82,20 +82,19 @@ controller("gameController", function($scope, $modal) {
 		$scope.board.locked = false;
 	};
 
-	/*
-Working on angular-bootstrap modal dialog
-	*/
+	$scope.guide = function() {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/guide.html',
+			controller: GuideModelInstanceCtrl
+		});
+		$scope.pause();
+	};
 	
 	$scope.handleGameWon = function(size) {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/won.html',
-			controller: ModalInstanceCtrl,
-			size: size,
-			resolve: {
-				items: function () {
-					// return $scope.items;
-				}
-			}
+			controller: GameWonModelInstanceCtrl,
+			size: size
 		});
 		$scope.pause();
 		modalInstance.result.then(function () {
@@ -106,8 +105,14 @@ Working on angular-bootstrap modal dialog
 	};
 });
 
-var ModalInstanceCtrl = function ($scope, $modalInstance) {
-	$scope.restart = function() {
+var GuideModelInstanceCtrl = function($scope, $modalInstance) {
+	$scope.ok = function() {
+		$modalInstance.dismiss("done");
+	}
+};
+
+var GameWonModelInstanceCtrl = function ($scope, $modalInstance) {
+	$scope.ok = function() {
 		$modalInstance.close({});
 	};
 };
