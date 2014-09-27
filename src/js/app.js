@@ -79,7 +79,6 @@ controller("myController", function($scope, $modal, $timeout, $interval) {
 		$timeout(function() {
 			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
 		},0,true);
-		// $scope.board.shuffle();
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
 		$scope.resume();		
