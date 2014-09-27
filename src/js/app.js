@@ -1,6 +1,7 @@
 angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
 controller("myController", function($scope, $modal) {
-	$scope.board = new Board();
+	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
@@ -38,6 +39,9 @@ controller("myController", function($scope, $modal) {
 		event.stopPropagation();
 		if ($scope.board.won() === true) {
 			$scope.$emit("game-won", {});
+		} else {
+			console.log(JSON.stringify($scope.board));
+			localStorage.setItem("board", JSON.stringify($scope.board));
 		}
 	});
 
@@ -66,8 +70,10 @@ controller("myController", function($scope, $modal) {
 	};
 
 	$scope.newGame = function() {
-		$scope.board.shuffle();
-		$scope.resume();
+		$scope.timePassed = 0;
+		// $scope.board.shuffle();
+		$scope.board = new Board();
+		$scope.resume();		
 	};
 
 	$scope.showHelp = function() {
@@ -87,7 +93,7 @@ controller("myController", function($scope, $modal) {
 			templateUrl: 'template/guide.html',
 			controller: GuideModelInstanceCtrl
 		});
-		$scope.pause();
+		// $scope.pause();
 	};
 	
 	$scope.handleGameWon = function(size) {
@@ -105,7 +111,6 @@ controller("myController", function($scope, $modal) {
 	};
 }).
 directive("ngTimePassed", function($interval) {
-	var timePassed = 0;
 	function link(scope, element, attrs) {
 		var timeoutId;
 
@@ -118,14 +123,17 @@ directive("ngTimePassed", function($interval) {
 		}
 
 		function update() {
-			var seconds, minutes, hours, temp;
-			timePassed += 1;
-			seconds = timePassed;
-			hours = Math.floor(seconds / 3600);
-			seconds %= 3600;
-			minutes = Math.floor(seconds / 60);
-			seconds %= 60;
-			element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
+			if (!scope.board.locked) {
+				var seconds, minutes, hours, temp;
+				scope.timePassed += 1;
+				seconds = scope.timePassed;
+				hours = Math.floor(seconds / 3600);
+				seconds %= 3600;
+				minutes = Math.floor(seconds / 60);
+				seconds %= 60;
+				element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
+				localStorage.setItem("timePassed", scope.timePassed);
+			}
 		}
 		scope.$watch(attrs.ngTimePassed, function(value) {
 			update();

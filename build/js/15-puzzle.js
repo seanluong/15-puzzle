@@ -28,7 +28,8 @@
 }());
 ;angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
 controller("myController", function($scope, $modal) {
-	$scope.board = new Board();
+	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
@@ -66,6 +67,9 @@ controller("myController", function($scope, $modal) {
 		event.stopPropagation();
 		if ($scope.board.won() === true) {
 			$scope.$emit("game-won", {});
+		} else {
+			console.log(JSON.stringify($scope.board));
+			localStorage.setItem("board", JSON.stringify($scope.board));
 		}
 	});
 
@@ -94,8 +98,10 @@ controller("myController", function($scope, $modal) {
 	};
 
 	$scope.newGame = function() {
-		$scope.board.shuffle();
-		$scope.resume();
+		$scope.timePassed = 0;
+		// $scope.board.shuffle();
+		$scope.board = new Board();
+		$scope.resume();		
 	};
 
 	$scope.showHelp = function() {
@@ -115,7 +121,7 @@ controller("myController", function($scope, $modal) {
 			templateUrl: 'template/guide.html',
 			controller: GuideModelInstanceCtrl
 		});
-		$scope.pause();
+		// $scope.pause();
 	};
 	
 	$scope.handleGameWon = function(size) {
@@ -133,7 +139,6 @@ controller("myController", function($scope, $modal) {
 	};
 }).
 directive("ngTimePassed", function($interval) {
-	var timePassed = 0;
 	function link(scope, element, attrs) {
 		var timeoutId;
 
@@ -146,14 +151,17 @@ directive("ngTimePassed", function($interval) {
 		}
 
 		function update() {
-			var seconds, minutes, hours, temp;
-			timePassed += 1;
-			seconds = timePassed;
-			hours = Math.floor(seconds / 3600);
-			seconds %= 3600;
-			minutes = Math.floor(seconds / 60);
-			seconds %= 60;
-			element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
+			if (!scope.board.locked) {
+				var seconds, minutes, hours, temp;
+				scope.timePassed += 1;
+				seconds = scope.timePassed;
+				hours = Math.floor(seconds / 3600);
+				seconds %= 3600;
+				minutes = Math.floor(seconds / 60);
+				seconds %= 60;
+				element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
+				localStorage.setItem("timePassed", scope.timePassed);
+			}
 		}
 		scope.$watch(attrs.ngTimePassed, function(value) {
 			update();
@@ -182,23 +190,31 @@ var GameWonModelInstanceCtrl = function ($scope, $modalInstance) {
 		$modalInstance.close({});
 	};
 };
-;var Board = function() {
-	this.cells = [
-		[1,2,3,4],
-		[5,6,7,8],
-		[9,10,11,12],
-		[13,14,15,0]
-	];
-	this.row = 3; // current row of 0
-	this.col = 3; // current col of 0
-	this.target = [
-		[1,2,3,4],
-		[5,6,7,8],
-		[9,10,11,12],
-		[13,14,15,0]
-	];
-	this.locked = false;
-	// this.shuffle();
+;var Board = function(board) {
+	if (board) {
+		this.cells = board.cells;
+		this.row = board.row;
+		this.col = board.col;
+		this.target = board.target;
+		this.locked = board.locked;
+	} else {
+		this.cells = [
+			[1,2,3,4],
+			[5,6,7,8],
+			[9,10,11,12],
+			[13,14,15,0]
+		];
+		this.row = 3; // current row of 0
+		this.col = 3; // current col of 0
+		this.target = [
+			[1,2,3,4],
+			[5,6,7,8],
+			[9,10,11,12],
+			[13,14,15,0]
+		];
+		this.locked = false;
+		// this.shuffle();
+	}
 };
 
 Board.prototype.shuffle = function(nsteps) {
@@ -224,8 +240,6 @@ Board.prototype.slideLeft = function() {
 		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
 		this.cells[this.row][this.col-1] = temp;
 		this.col -= 1;
-	} else {
-		console.log("slide left has no effect.");
 	}
 	return this;
 };
@@ -237,8 +251,6 @@ Board.prototype.slideRight = function() {
 		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
 		this.cells[this.row][this.col+1] = temp;
 		this.col += 1;
-	} else {
-		console.log("slide right has no effect.");
 	}
 	return this;
 };
@@ -250,8 +262,6 @@ Board.prototype.slideUp = function() {
 		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
 		this.cells[this.row-1][this.col] = temp;
 		this.row -= 1;
-	} else {
-		console.log("slide up has no effect.");
 	}
 	return this;
 };
@@ -263,8 +273,6 @@ Board.prototype.slideDown = function() {
 		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
 		this.cells[this.row+1][this.col] = temp;
 		this.row += 1;
-	} else {
-		console.log("slide down has no effect.");
 	}
 	return this;
 };

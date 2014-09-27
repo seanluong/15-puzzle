@@ -1,20 +1,28 @@
-var Board = function() {
-	this.cells = [
-		[1,2,3,4],
-		[5,6,7,8],
-		[9,10,11,12],
-		[13,14,15,0]
-	];
-	this.row = 3; // current row of 0
-	this.col = 3; // current col of 0
-	this.target = [
-		[1,2,3,4],
-		[5,6,7,8],
-		[9,10,11,12],
-		[13,14,15,0]
-	];
-	this.locked = false;
-	// this.shuffle();
+var Board = function(board) {
+	if (board) {
+		this.cells = board.cells;
+		this.row = board.row;
+		this.col = board.col;
+		this.target = board.target;
+		this.locked = board.locked;
+	} else {
+		this.cells = [
+			[1,2,3,4],
+			[5,6,7,8],
+			[9,10,11,12],
+			[13,14,15,0]
+		];
+		this.row = 3; // current row of 0
+		this.col = 3; // current col of 0
+		this.target = [
+			[1,2,3,4],
+			[5,6,7,8],
+			[9,10,11,12],
+			[13,14,15,0]
+		];
+		this.locked = false;
+		// this.shuffle();
+	}
 };
 
 Board.prototype.shuffle = function(nsteps) {
@@ -40,8 +48,6 @@ Board.prototype.slideLeft = function() {
 		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
 		this.cells[this.row][this.col-1] = temp;
 		this.col -= 1;
-	} else {
-		console.log("slide left has no effect.");
 	}
 	return this;
 };
@@ -53,8 +59,6 @@ Board.prototype.slideRight = function() {
 		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
 		this.cells[this.row][this.col+1] = temp;
 		this.col += 1;
-	} else {
-		console.log("slide right has no effect.");
 	}
 	return this;
 };
@@ -66,8 +70,6 @@ Board.prototype.slideUp = function() {
 		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
 		this.cells[this.row-1][this.col] = temp;
 		this.row -= 1;
-	} else {
-		console.log("slide up has no effect.");
 	}
 	return this;
 };
@@ -79,8 +81,6 @@ Board.prototype.slideDown = function() {
 		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
 		this.cells[this.row+1][this.col] = temp;
 		this.row += 1;
-	} else {
-		console.log("slide down has no effect.");
 	}
 	return this;
 };
