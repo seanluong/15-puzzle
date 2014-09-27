@@ -36,6 +36,7 @@
 			</div>
 			<div id="board-container">
 				<div id="board">
+					<div id="zero-tile"></div>
 					<div ng-repeat="row in [0,1,2,3]" class="my-row">
 						<div ng-repeat="col in [0,1,2,3]" class="my-cell">
 						{{getCellHTML(row, col)}}
@@ -60,7 +61,7 @@
 			</div>
 		</div>
 
-		
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-animate.js"></script>
 		<script src="lib/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
