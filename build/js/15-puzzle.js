@@ -26,8 +26,116 @@
     };
   }
 }());
-;angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
-controller("myController", function($scope, $modal, $timeout, $interval) {
+;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
+;var Board = function(board) {
+	if (board) {
+		this.cells = board.cells;
+		this.row = board.row;
+		this.col = board.col;
+		this.target = board.target;
+		this.locked = board.locked;
+	} else {
+		this.cells = [
+			[1,2,3,4],
+			[5,6,7,8],
+			[9,10,11,12],
+			[13,14,15,0]
+		];
+		this.row = 3; // current row of 0
+		this.col = 3; // current col of 0
+		this.target = [
+			[1,2,3,4],
+			[5,6,7,8],
+			[9,10,11,12],
+			[13,14,15,0]
+		];
+		this.locked = false;
+		// this.shuffle();
+	}
+};
+
+Board.prototype.shuffle = function(nsteps) {
+	var step = nsteps || 100,
+		direction;
+	while (step > 0) {
+		direction = parseInt(Math.random() * 4);
+		switch (direction) {
+			case 0: this.slideLeft(); break;
+			case 1: this.slideRight(); break;
+			case 2: this.slideUp(); break;
+			case 3: this.slideDown(); break;
+		}
+		step--;
+	}
+};
+
+Board.prototype.slideLeft = function() {
+	var temp;
+	if (this.col !== 0) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
+		this.cells[this.row][this.col-1] = temp;
+		this.col -= 1;
+	}
+	return this;
+};
+
+Board.prototype.slideRight = function() {
+	var temp;
+	if (this.col !== 3) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
+		this.cells[this.row][this.col+1] = temp;
+		this.col += 1;
+	}
+	return this;
+};
+
+Board.prototype.slideUp = function() {
+	var temp;
+	if (this.row !== 0) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
+		this.cells[this.row-1][this.col] = temp;
+		this.row -= 1;
+	}
+	return this;
+};
+
+Board.prototype.slideDown = function() {
+	var temp;
+	if (this.row !== 3) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
+		this.cells[this.row+1][this.col] = temp;
+		this.row += 1;
+	}
+	return this;
+};
+
+Board.prototype.won = function() {
+	var row, col;
+	for (row in this.cells) {
+		for (col in this.cells[row]) {
+			if (this.cells[row][col] !== this.target[row][col]) {
+				return false;
+			}
+		}
+	}
+	return true;
+};;var GuideModalInstanceCtrl = function($scope, $modalInstance) {
+	$scope.ok = function() {
+		$modalInstance.dismiss("done");
+	};
+};
+
+var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
+	$scope.ok = function() {
+		$modalInstance.close({});
+	};
+};
+
+myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
@@ -150,8 +258,7 @@ controller("myController", function($scope, $modal, $timeout, $interval) {
 			$scope.newGame();
 		});
 	};
-}).
-filter('duration', function() {
+});;myApp.filter('duration', function() {
 
 	function pad(amount) {
 		if (amount > 9) {
@@ -182,112 +289,3 @@ filter('duration', function() {
 		}
     };
 });
-
-var GuideModalInstanceCtrl = function($scope, $modalInstance) {
-	$scope.ok = function() {
-		$modalInstance.dismiss("done");
-	};
-};
-
-var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
-	$scope.ok = function() {
-		$modalInstance.close({});
-	};
-};
-;var Board = function(board) {
-	if (board) {
-		this.cells = board.cells;
-		this.row = board.row;
-		this.col = board.col;
-		this.target = board.target;
-		this.locked = board.locked;
-	} else {
-		this.cells = [
-			[1,2,3,4],
-			[5,6,7,8],
-			[9,10,11,12],
-			[13,14,15,0]
-		];
-		this.row = 3; // current row of 0
-		this.col = 3; // current col of 0
-		this.target = [
-			[1,2,3,4],
-			[5,6,7,8],
-			[9,10,11,12],
-			[13,14,15,0]
-		];
-		this.locked = false;
-		// this.shuffle();
-	}
-};
-
-Board.prototype.shuffle = function(nsteps) {
-	var step = nsteps || 100,
-		direction;
-	while (step > 0) {
-		direction = parseInt(Math.random() * 4);
-		switch (direction) {
-			case 0: this.slideLeft(); break;
-			case 1: this.slideRight(); break;
-			case 2: this.slideUp(); break;
-			case 3: this.slideDown(); break;
-		}
-		step--;
-	}
-};
-
-Board.prototype.slideLeft = function() {
-	var temp;
-	if (this.col !== 0) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
-		this.cells[this.row][this.col-1] = temp;
-		this.col -= 1;
-	}
-	return this;
-};
-
-Board.prototype.slideRight = function() {
-	var temp;
-	if (this.col !== 3) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
-		this.cells[this.row][this.col+1] = temp;
-		this.col += 1;
-	}
-	return this;
-};
-
-Board.prototype.slideUp = function() {
-	var temp;
-	if (this.row !== 0) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
-		this.cells[this.row-1][this.col] = temp;
-		this.row -= 1;
-	}
-	return this;
-};
-
-Board.prototype.slideDown = function() {
-	var temp;
-	if (this.row !== 3) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
-		this.cells[this.row+1][this.col] = temp;
-		this.row += 1;
-	}
-	return this;
-};
-
-Board.prototype.won = function() {
-	var row, col;
-	for (row in this.cells) {
-		for (col in this.cells[row]) {
-			if (this.cells[row][col] !== this.target[row][col]) {
-				return false;
-			}
-		}
-	}
-	return true;
-};
