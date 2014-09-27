@@ -2,7 +2,7 @@ angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
 controller("myController", function($scope, $modal, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || -1;
+	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
@@ -108,8 +108,10 @@ controller("myController", function($scope, $modal, $timeout) {
 			size: size
 		});
 		$scope.pause();
-		if ($scope.timePassed < parseInt(localStorage.getItem("bestTime"))) {
+		var bestTime = localStorage.getItem("bestTime");
+		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
 			localStorage.setItem("bestTime", $scope.timePassed);
+			console.log(localStorage.getItem("bestTime"));
 		}
 		modalInstance.result.then(function () {
 			$scope.newGame();
