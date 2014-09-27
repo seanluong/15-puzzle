@@ -19,8 +19,8 @@
 		<div id="header">
 			<h1 id="title">15 Puzzle</h1>
 			<h2 id="stats">
-				<span class="label label-default" id="clock" ng-time-passed></span>
-				<span class="label label-default" id="best-time">{{bestTime}}</span>
+				<span class="label label-default" id="clock">{{timePassed | duration}}</span>
+				<span class="label label-default" id="best-time">{{bestTime | duration}}</span>
 			</h2>
 		</div>
 
