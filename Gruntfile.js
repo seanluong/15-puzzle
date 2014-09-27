@@ -2,13 +2,25 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 	    pkg: grunt.file.readJSON('package.json'),
+	    concat: {
+			options: {
+				// define a string to put between each file in the concatenated output
+				separator: ';'
+			},
+			dist: {
+				// the files to concatenate
+				src: ['src/js/*.js'],
+				// the location of the resulting JS file
+				dest: 'build/js/<%= pkg.name %>.js'
+			}
+		},
 	    uglify: {
 			options: {
 				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
 			},
 			build: {
-		    	src: 'src/<%= pkg.name %>.<%= pkg.version %>.js',
-				dest: 'build/<%= pkg.name %>.min.js'
+		    	src: 'src/js/concat/*.js',
+				dest: 'build/js/<%= pkg.name %>.min.js'
 		    }
 		},
 		cssmin: {
@@ -17,13 +29,13 @@ module.exports = function(grunt) {
 				  banner: '/* My minified css file */'
 				},
 				files: {
-				  'build/<%= pkg.name %>.min.css': 'src/*.css'
+				  'build/css/style.min.css': 'src/css/*.css'
 				}
 			}
 		},
 		jshint: {
 			// define the files to lint
-			files: ['gruntfile.js', 'js/app.js', 'js/board.js'],
+			files: ['gruntfile.js', 'src/js/*.js'],
 			// configure JSHint (documented at http://www.jshint.com/docs/)
 			options: {
 			  // more options here if you want to override JSHint defaults
@@ -44,10 +56,11 @@ module.exports = function(grunt) {
 		    }
 		}
 	});
-
+	
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-qunit');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-  	grunt.registerTask('default', ['jshint']);
+  	grunt.registerTask('default', ['jshint','concat','cssmin']);
 };
