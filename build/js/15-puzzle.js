@@ -27,9 +27,10 @@
   }
 }());
 ;angular.module("myApp", ["ngAnimate", 'ui.bootstrap']).
-controller("myController", function($scope, $modal) {
+controller("myController", function($scope, $modal, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
+	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || -1;
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
@@ -99,8 +100,12 @@ controller("myController", function($scope, $modal) {
 
 	$scope.newGame = function() {
 		$scope.timePassed = 0;
+		$timeout(function() {
+			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
+		},0,true);
 		// $scope.board.shuffle();
 		$scope.board = new Board();
+		localStorage.setItem("board", JSON.stringify($scope.board));
 		$scope.resume();		
 	};
 
@@ -119,7 +124,7 @@ controller("myController", function($scope, $modal) {
 	$scope.guide = function() {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/guide.html',
-			controller: GuideModelInstanceCtrl
+			controller: GuideModalInstanceCtrl
 		});
 		// $scope.pause();
 	};
@@ -127,10 +132,13 @@ controller("myController", function($scope, $modal) {
 	$scope.handleGameWon = function(size) {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/won.html',
-			controller: GameWonModelInstanceCtrl,
+			controller: GameWonModalInstanceCtrl,
 			size: size
 		});
 		$scope.pause();
+		if ($scope.timePassed < parseInt(localStorage.getItem("bestTime"))) {
+			localStorage.setItem("bestTime", $scope.timePassed);
+		}
 		modalInstance.result.then(function () {
 			$scope.newGame();
 		}, function() {
@@ -150,16 +158,26 @@ directive("ngTimePassed", function($interval) {
 			}
 		}
 
+		function parseTime(time) {
+			var seconds, minutes, hours;
+			seconds = time;
+			hours = Math.floor(seconds / 3600);
+			seconds %= 3600;
+			minutes = Math.floor(seconds / 60);
+			seconds %= 60;
+			return {
+				seconds: seconds,
+				minutes: minutes,
+				hours: hours
+			};
+		}
+
 		function update() {
 			if (!scope.board.locked) {
-				var seconds, minutes, hours, temp;
+				var time;
 				scope.timePassed += 1;
-				seconds = scope.timePassed;
-				hours = Math.floor(seconds / 3600);
-				seconds %= 3600;
-				minutes = Math.floor(seconds / 60);
-				seconds %= 60;
-				element.text(pad(hours) + ":" + pad(minutes) + ":" + pad(seconds));
+				time = parseTime(scope.timePassed);
+				element.text(pad(time.hours) + ":" + pad(time.minutes) + ":" + pad(time.seconds));
 				localStorage.setItem("timePassed", scope.timePassed);
 			}
 		}
@@ -179,13 +197,13 @@ directive("ngTimePassed", function($interval) {
     };
 });
 
-var GuideModelInstanceCtrl = function($scope, $modalInstance) {
+var GuideModalInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");
 	};
 };
 
-var GameWonModelInstanceCtrl = function ($scope, $modalInstance) {
+var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.close({});
 	};
