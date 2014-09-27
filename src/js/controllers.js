@@ -17,6 +17,7 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 
 	$interval(function() {
 		$scope.timePassed += 1;
+		localStorage.setItem("timePassed", $scope.timePassed);
 	},1000,0,true);
 
 	$scope.handleKeyDown = function(event) {
