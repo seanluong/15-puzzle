@@ -10,20 +10,22 @@ var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	};
 };
 
-myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
+var myController = function($scope, $modal, $timeout, $interval) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
-	$interval(function() {
+	var timeoutId = $interval(function() {
 		$scope.timePassed += 1;
 		localStorage.setItem("timePassed", $scope.timePassed);
 	},1000,0,true);
 
+	$scope.$on("$destroy", function() {
+		$interval.cancel(timeoutId);
+	});
+
 	$scope.handleKeyDown = function(event) {
-		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
-                    event.shiftKey,
-			src, dst;
+		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
         if (!modifiers) {
         	if (!$scope.board.locked) {
         		switch (event.which) {
@@ -47,6 +49,7 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 	        			$scope.board.slideRight();
 	        			$scope.$emit("board-change", {});
 	        			break;
+	        		default: break;
 	        	}
         	}
         }
@@ -57,14 +60,12 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 		if ($scope.board.won() === true) {
 			$scope.$emit("game-won", {});
 		} else {
-			console.log(JSON.stringify($scope.board));
 			localStorage.setItem("board", JSON.stringify($scope.board));
 		}
 	});
 
 	$scope.$on("game-won", function(event, args) {
 		event.stopPropagation();
-		console.log("Game won. Event handled.");
 		$scope.handleGameWon();
 	});
 
@@ -76,16 +77,7 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 			return "";
 		}
 	};
-
-	$scope.getCellClass = function(row, col) {
-		var value = $scope.board.cells[row][col];
-		if (value === 0) {
-			return "my-zero-cell";
-		} else {
-			return "my-cell";
-		}
-	};
-
+	
 	$scope.newGame = function() {
 		$scope.timePassed = 0;
 		$timeout(function() {
@@ -126,7 +118,6 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 		var bestTime = localStorage.getItem("bestTime");
 		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
 			localStorage.setItem("bestTime", $scope.timePassed);
-			console.log(localStorage.getItem("bestTime"));
 		}
 		modalInstance.result.then(function () {
 			$scope.newGame();
@@ -134,4 +125,4 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 			$scope.newGame();
 		});
 	};
-});
+};

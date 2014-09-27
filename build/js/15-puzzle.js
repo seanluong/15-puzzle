@@ -1,33 +1,4 @@
-(function () {
-  var lastTime = 0;
-  var vendors = ['webkit', 'moz'];
-  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
-      window[vendors[x] + 'CancelRequestAnimationFrame'];
-  }
-
-  if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function (callback) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function () {
-        callback(currTime + timeToCall);
-      },
-      timeToCall);
-      lastTime = currTime + timeToCall;
-      return id;
-    };
-  }
-
-  if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = function (id) {
-      clearTimeout(id);
-    };
-  }
-}());
-;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
-;var Board = function(board) {
+var Board = function(board) {
 	if (board) {
 		this.cells = board.cells;
 		this.row = board.row;
@@ -135,20 +106,22 @@ var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	};
 };
 
-myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
+var myController = function($scope, $modal, $timeout, $interval) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
-	$interval(function() {
+	var timeoutId = $interval(function() {
 		$scope.timePassed += 1;
 		localStorage.setItem("timePassed", $scope.timePassed);
 	},1000,0,true);
 
+	$scope.$on("$destroy", function() {
+		$interval.cancel(timeoutId);
+	});
+
 	$scope.handleKeyDown = function(event) {
-		var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
-                    event.shiftKey,
-			src, dst;
+		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
         if (!modifiers) {
         	if (!$scope.board.locked) {
         		switch (event.which) {
@@ -172,6 +145,7 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 	        			$scope.board.slideRight();
 	        			$scope.$emit("board-change", {});
 	        			break;
+	        		default: break;
 	        	}
         	}
         }
@@ -182,14 +156,12 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 		if ($scope.board.won() === true) {
 			$scope.$emit("game-won", {});
 		} else {
-			console.log(JSON.stringify($scope.board));
 			localStorage.setItem("board", JSON.stringify($scope.board));
 		}
 	});
 
 	$scope.$on("game-won", function(event, args) {
 		event.stopPropagation();
-		console.log("Game won. Event handled.");
 		$scope.handleGameWon();
 	});
 
@@ -201,16 +173,7 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 			return "";
 		}
 	};
-
-	$scope.getCellClass = function(row, col) {
-		var value = $scope.board.cells[row][col];
-		if (value === 0) {
-			return "my-zero-cell";
-		} else {
-			return "my-cell";
-		}
-	};
-
+	
 	$scope.newGame = function() {
 		$scope.timePassed = 0;
 		$timeout(function() {
@@ -251,7 +214,6 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 		var bestTime = localStorage.getItem("bestTime");
 		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
 			localStorage.setItem("bestTime", $scope.timePassed);
-			console.log(localStorage.getItem("bestTime"));
 		}
 		modalInstance.result.then(function () {
 			$scope.newGame();
@@ -259,7 +221,7 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 			$scope.newGame();
 		});
 	};
-});;myApp.filter('duration', function() {
+};;var durationFilter = function() {
 
 	function pad(amount) {
 		if (amount > 9) {
@@ -289,4 +251,79 @@ myApp.controller("myController", function($scope, $modal, $timeout, $interval) {
 			return formatTime(parseInt(input));
 		}
     };
-});
+};;var directionMap = {
+	up: [-1,0],
+	down: [1,0],
+	left: [0,-1],
+	right: [0,1]
+};
+
+var ngBoardAnimate = function($animate) {
+
+	function move(row, col, dir) {
+		var dst = [row,col],
+			src = [row - dir[0], col - dir[1]];
+		if (dst[0] !== src[0] || dst[1] !== src[1]) {
+
+		}
+		console.log(src, dst);
+	}
+
+	return function(scope, element, attrs) {
+		element.on("keydown", function(event) {
+			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+        	if (!modifiers) {
+				switch (event.which) {
+	        		case 38: //up
+	        			event.preventDefault();
+	        			move(scope.board.row, scope.board.col, directionMap.up);
+	        			break;
+	        		case 40: //down
+	        			event.preventDefault();
+	        			move(scope.board.row, scope.board.col, directionMap.down);
+	        			break;
+	        		case 37: //left
+	        			event.preventDefault();
+	        			move(scope.board.row, scope.board.col, directionMap.left);
+	        			break;
+	        		case 39: //right
+	        			event.preventDefault();
+	        			move(scope.board.row, scope.board.col, directionMap.right);
+	        			break;
+	        		default: break;
+	        	}
+			}
+		});
+	};
+};;(function () {
+  var lastTime = 0;
+  var vendors = ['webkit', 'moz'];
+  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
+      window[vendors[x] + 'CancelRequestAnimationFrame'];
+  }
+
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = function (callback) {
+      var currTime = new Date().getTime();
+      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+      var id = window.setTimeout(function () {
+        callback(currTime + timeToCall);
+      },
+      timeToCall);
+      lastTime = currTime + timeToCall;
+      return id;
+    };
+  }
+
+  if (!window.cancelAnimationFrame) {
+    window.cancelAnimationFrame = function (id) {
+      clearTimeout(id);
+    };
+  }
+}());
+;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
+myApp.controller("myController", myController);
+myApp.filter("duration", durationFilter);
+myApp.directive('ngBoardAnimate', ['$animate', ngBoardAnimate]);

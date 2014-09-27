@@ -1,4 +1,4 @@
-myApp.filter('duration', function() {
+var durationFilter = function() {
 
 	function pad(amount) {
 		if (amount > 9) {
@@ -28,4 +28,4 @@ myApp.filter('duration', function() {
 			return formatTime(parseInt(input));
 		}
     };
-});
+};
