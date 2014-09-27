@@ -146,7 +146,7 @@ directive("ngTimePassed", function($interval) {
 var GuideModelInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");
-	}
+	};
 };
 
 var GameWonModelInstanceCtrl = function ($scope, $modalInstance) {

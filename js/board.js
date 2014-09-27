@@ -86,6 +86,7 @@ Board.prototype.slideDown = function() {
 };
 
 Board.prototype.won = function() {
+	var row, col;
 	for (row in this.cells) {
 		for (col in this.cells[row]) {
 			if (this.cells[row][col] !== this.target[row][col]) {
