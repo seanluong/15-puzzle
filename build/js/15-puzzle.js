@@ -107,7 +107,6 @@ controller("myController", function($scope, $modal, $timeout, $interval) {
 		$timeout(function() {
 			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
 		},0,true);
-		// $scope.board.shuffle();
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
 		$scope.resume();		
@@ -157,7 +156,7 @@ filter('duration', function() {
 	function pad(amount) {
 		if (amount > 9) {
 			return amount;
-		} else if (amount > 0) {
+		} else if (amount >= 0) {
 			return "0" + amount;
 		} else {
 			return "--";
@@ -235,7 +234,6 @@ Board.prototype.shuffle = function(nsteps) {
 		}
 		step--;
 	}
-	this.print();
 };
 
 Board.prototype.slideLeft = function() {
@@ -292,15 +290,4 @@ Board.prototype.won = function() {
 		}
 	}
 	return true;
-};
-
-Board.prototype.print = function() {
-	var row, col, rowStr = "";
-	for (row in this.cells) {
-		for (col in this.cells[row]) {
-			rowStr += this.cells[row][col] + ",";
-		}
-		console.log(rowStr);
-		rowStr = "";
-	}
 };
