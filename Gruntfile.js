@@ -50,7 +50,8 @@ module.exports = function(grunt) {
 			all: {
 				options: {
 					urls: [
-						'http://localhost:8888/test/js/test.html'
+						'http://localhost:8888/test/js/test.html',
+						'http://localhost:8888/test/js/testBoard.html'
 					]
 				}
 		    }

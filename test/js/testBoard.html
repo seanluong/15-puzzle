@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Testing freshsliderjs</title>
+		<link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.15.0.css">
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+		<script src="//code.jquery.com/qunit/qunit-1.15.0.js"></script>
+		<script src="/src/js/board.js"></script>
+		<script>
+		var board;
+		QUnit.module("Test Board sliding functions", {
+			setup: function() {
+				board = new Board();
+				board.cells = [
+					[7,1,2,3],
+					[4,5,6,9],
+					[8,0,10,11],
+					[12,13,14,15]
+				],
+				board.row = 2,
+				board.col = 1,
+				board.locked = false;
+			},
+			teardown: function() {
+
+			}
+		})
+
+		QUnit.test("Test Board.prototype.slideLeft", function( assert ) {
+			board.slideLeft();
+			assert.equal(board.row, 2, "The empty cell should be on the same row.");
+			assert.equal(board.col, 0, "The empty cell should be one column to the left.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[0,8,10,11],
+					[12,13,14,15]
+			], "The board is changed.");
+
+			board.slideLeft();
+			assert.equal(board.row, 2, "The empty cell should be on the same row.");
+			assert.equal(board.col, 0, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[0,8,10,11],
+					[12,13,14,15]
+			], "The board is changed.");
+		});
+
+		QUnit.test("Test Board.prototype.slideDown", function( assert ) {
+			board.slideDown();
+			assert.equal(board.row, 3, "The empty cell should be one row lower.");
+			assert.equal(board.col, 1, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[8,13,10,11],
+					[12,0,14,15]
+			], "The board is changed.");
+
+			board.slideDown();
+			assert.equal(board.row, 3, "The empty cell should be on the same row.");
+			assert.equal(board.col, 1, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[8,13,10,11],
+					[12,0,14,15]
+			], "The board is changed.");
+		});
+
+		QUnit.test("Test Board.prototype.slideUp", function( assert ) {
+			board.slideUp();
+			assert.equal(board.row, 1, "The empty cell should be one row higher.");
+			assert.equal(board.col, 1, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,0,6,9],
+					[8,5,10,11],
+					[12,13,14,15]
+			], "The board is changed.");
+
+			board.slideUp();
+			assert.equal(board.row, 0, "The empty cell should be one row higher.");
+			assert.equal(board.col, 1, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,0,2,3],
+					[4,1,6,9],
+					[8,5,10,11],
+					[12,13,14,15]
+			], "The board is changed.");
+
+			board.slideUp();
+			assert.equal(board.row, 0, "The empty cell should be on the same row.");
+			assert.equal(board.col, 1, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,0,2,3],
+					[4,1,6,9],
+					[8,5,10,11],
+					[12,13,14,15]
+			], "The board is changed.");
+		});
+
+		QUnit.test("Test Board.prototype.slideRight", function( assert ) {
+			board.slideRight();
+			assert.equal(board.row, 2, "The empty cell should be on the same row.");
+			assert.equal(board.col, 2, "The empty cell should be one row to the right.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[8,10,0,11],
+					[12,13,14,15]
+			], "The board is changed.");
+
+			board.slideRight();
+			assert.equal(board.row, 2, "The empty cell should be on the same row.");
+			assert.equal(board.col, 3, "The empty cell should be one row to the right.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[8,10,11,0],
+					[12,13,14,15]
+			], "The board is changed.");
+
+			board.slideRight();
+			assert.equal(board.row, 2, "The empty cell should be on the same row.");
+			assert.equal(board.col, 3, "The empty cell should be on the same column.");
+			assert.equal(board.locked, false, "The board should still be not locked.");
+			assert.deepEqual(board.cells, [
+					[7,1,2,3],
+					[4,5,6,9],
+					[8,10,11,0],
+					[12,13,14,15]
+			], "The board is changed.");
+		});
+
+		</script>
+	</body>
+</html>
