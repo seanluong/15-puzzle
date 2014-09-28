@@ -12,14 +12,20 @@ var ngBoardAnimate = function($document) {
 			margin = 12,
 			gap = size + margin,
 			tile = element.find("#zero-tile"),
-			lastRow = scope.board.row,
-			lastCol = scope.board.col,
-			y = lastRow * (size + margin), 
-			x = lastCol * (size + margin);
+			lastRow, lastCol, y, x;
 
-		tile.css({
-			"margin-top": y + "px",
-			"margin-left": x + "px"
+		
+
+		tile.on("update", function() {
+			console.log("Updating");
+			lastRow = scope.board.row;
+			lastCol = scope.board.col;
+			y = lastRow * (size + margin); 
+			x = lastCol * (size + margin);
+			tile.css({
+				"margin-top": y + "px",
+				"margin-left": x + "px"
+			});
 		});
 
 		function move(row, col, dir) {
@@ -27,16 +33,14 @@ var ngBoardAnimate = function($document) {
 				src = [row - dir[0], col - dir[1]];
 			lastRow = scope.board.row;
 			lastCol = scope.board.col;
-			console.log(src, dst);
 			if (dst[0] !== src[0] || dst[1] !== src[1]) {
-				y += dir[0] * gap;
-				x += dir[1] * gap;
+				y += dir[0] * (size + margin);
+				x += dir[1] * (size + margin);
 				tile.css({
 					"margin-top": y + "px",
 					"margin-left": x + "px"
 				});
 			}
-			
 		}
 
 		$document.on("keydown", function(event) {

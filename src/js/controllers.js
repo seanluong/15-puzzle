@@ -10,7 +10,7 @@ var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	};
 };
 
-var myController = function($scope, $modal, $timeout, $interval) {
+var myController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
@@ -22,6 +22,10 @@ var myController = function($scope, $modal, $timeout, $interval) {
 
 	$scope.$on("$destroy", function() {
 		$interval.cancel(timeoutId);
+	});
+
+	$document.ready(function() {
+		$document.find("#zero-tile").trigger("update");
 	});
 
 	$scope.handleKeyDown = function(event) {
@@ -77,7 +81,7 @@ var myController = function($scope, $modal, $timeout, $interval) {
 			return "";
 		}
 	};
-	
+
 	$scope.newGame = function() {
 		$scope.timePassed = 0;
 		$timeout(function() {
@@ -85,6 +89,7 @@ var myController = function($scope, $modal, $timeout, $interval) {
 		},0,true);
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
+		$document.find("#zero-tile").trigger("update");
 		$scope.resume();		
 	};
 
