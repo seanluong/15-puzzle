@@ -13,9 +13,9 @@
 		<link rel="shortcut icon" href="favicon.png" />
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="src/css/style.css">
+		<link rel="stylesheet" type="text/css" href="build/css/style.min.css">
 	</head>
-	<body ng-controller="myController" ng-keydown="handleKeyDown($event)">
+	<body ng-controller="myController" ng-keydown="handleKeyDown($event)" ng-board-animate>
 		<div id="header">
 			<h1 id="title">15 Puzzle</h1>
 			<h2 id="stats">
@@ -36,9 +36,10 @@
 			</div>
 			<div id="board-container">
 				<div id="board">
-					<div ng-repeat="row in [0,1,2,3]" id="row_{{row}}" class="my-row">
-						<div ng-repeat="col in [0,1,2,3]" id="cell_{{row}}_{{col}}" 
-						ng-class="getCellClass(row,col)" ng-bind-template="{{getCellHTML(row, col)}}">
+					<div id="zero-tile" ></div>
+					<div ng-repeat="row in [0,1,2,3]" class="my-row">
+						<div ng-repeat="col in [0,1,2,3]" class="my-cell">
+						{{getCellHTML(row, col)}}
 						</div>
 					</div>
 				</div>
@@ -60,12 +61,10 @@
 			</div>
 		</div>
 
-		
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-animate.js"></script>
 		<script src="lib/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
-		<script src="src/js/animframe_polyfill.js"></script>
-		<script src="src/js/board.js"></script>
-		<script src="src/js/app.js"></script>
+		<script src="build/js/15-puzzle.js"></script>
 	</body>
 </html>

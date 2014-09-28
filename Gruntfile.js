@@ -9,7 +9,14 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				// the files to concatenate
-				src: ['src/js/*.js'],
+				src: [
+					'src/js/board.js',
+					'src/js/controllers.js',
+					'src/js/filters.js',
+					'src/js/directives.js',
+					'src/js/animframe_polyfill.js',
+					'src/js/app.js'
+				],
 				// the location of the resulting JS file
 				dest: 'build/js/<%= pkg.name %>.js'
 			}

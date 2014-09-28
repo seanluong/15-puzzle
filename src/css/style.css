@@ -52,7 +52,7 @@ body {
 	position: relative;
 	background: #7C0909;
 	border-radius: 6px;
-	padding: 15px;
+	padding: 12px;
 	box-sizing: border-box;
 	clear: both;
 }
@@ -92,10 +92,10 @@ body {
 
 .my-cell {
 	text-align: center;
-	width: 106.25px;
-	height: 106.25px;
-	margin-right: 15px;
-	margin-bottom: 15px;
+	width: 110px;
+	height: 110px;
+	margin-right: 12px;
+	margin-bottom: 12px;
 	float: left;
 	border-radius: 3px;
 	background: rgba(255, 255, 255, 1.0);
@@ -103,14 +103,18 @@ body {
 	line-height: 116.25px;
 }
 
-.my-zero-cell {
-	width: 106.25px;
-	height: 106.25px;
-	margin-right: 15px;
-	margin-bottom: 15px;
+#zero-tile {
+	position: absolute;
+	text-align: center;
+	width: 110px;
+	height: 110px;
+	margin-right: 12px;
+	margin-bottom: 12px;
 	float: left;
 	border-radius: 3px;
 	background: rgba(204, 138, 138, 1);
+	line-height: 116.25px;
+	z-index: 9999;
 }
 
 #guide-content div {

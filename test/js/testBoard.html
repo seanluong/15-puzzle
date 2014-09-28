@@ -12,6 +12,27 @@
 		<script src="/src/js/board.js"></script>
 		<script>
 		var board;
+		QUnit.module("Test Board won condition", {
+			setup: function() {
+				board = new Board();
+			},
+			teardown: function() {}
+		});
+
+		QUnit.test("Test Board.prototype.won", function (assert) {
+			board.cells = [
+				[1,2,3,4],
+				[5,6,7,8],
+				[9,10,11,12],
+				[13,14,15,0]
+			];
+			assert.equal(board.won(), true, "This game is won");
+			board.cells[0] = [3,1,2,4];
+			assert.equal(board.won(), false, "This game is still on-going");
+			board.cells[1] = [7,6,8,5];
+			assert.equal(board.won(), false, "This game is still on-going");
+		});
+
 		QUnit.module("Test Board sliding functions", {
 			setup: function() {
 				board = new Board();
@@ -25,9 +46,7 @@
 				board.col = 1,
 				board.locked = false;
 			},
-			teardown: function() {
-
-			}
+			teardown: function() { }
 		})
 
 		QUnit.test("Test Board.prototype.slideLeft", function( assert ) {

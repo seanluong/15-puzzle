@@ -38,7 +38,6 @@ Board.prototype.shuffle = function(nsteps) {
 		}
 		step--;
 	}
-	this.print();
 };
 
 Board.prototype.slideLeft = function() {
@@ -95,15 +94,4 @@ Board.prototype.won = function() {
 		}
 	}
 	return true;
-};
-
-Board.prototype.print = function() {
-	var row, col, rowStr = "";
-	for (row in this.cells) {
-		for (col in this.cells[row]) {
-			rowStr += this.cells[row][col] + ",";
-		}
-		console.log(rowStr);
-		rowStr = "";
-	}
 };
