@@ -24,9 +24,34 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		$interval.cancel(timeoutId);
 	});
 
+	var key2dir = {
+		38: "up",
+		40: "down",
+		37: "left",
+		39: "right"
+	};
+
+	function moveZeroTile(direction) {
+		if (direction == "up") {
+			$scope.board.slideUp();
+		} else if (direction == "down") {
+			$scope.board.slideDown();
+		} else if (direction == "left") {
+			$scope.board.slideLeft();
+		} else {
+			$scope.board.slideRight();
+		}
+		$scope.$emit("board-change");
+	}
+
 	$document.ready(function() {
 		$scope.$emit("init");
 	});
+
+	$scope.swipe = function(event) {
+		event.preventDefault();
+		moveZeroTile(event.gesture.direction);
+	};
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
@@ -34,24 +59,11 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
         	if (!$scope.board.locked) {
         		switch (event.which) {
 	        		case 38: //up
-	        			event.preventDefault();
-	        			$scope.board.slideUp();
-	        			$scope.$emit("board-change");
-	        			break;
 	        		case 40: //down
-	        			event.preventDefault();
-	        			$scope.board.slideDown();
-	        			$scope.$emit("board-change");
-	        			break;
 	        		case 37: //left
-	        			event.preventDefault();
-	        			$scope.board.slideLeft();
-	        			$scope.$emit("board-change");
-	        			break;
 	        		case 39: //right
 	        			event.preventDefault();
-	        			$scope.board.slideRight();
-	        			$scope.$emit("board-change");
+	        			moveZeroTile(key2dir[event.which]);
 	        			break;
 	        		default: break;
 	        	}
