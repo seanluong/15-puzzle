@@ -25,7 +25,6 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	});
 
 	$document.ready(function() {
-		console.log("Here");
 		$scope.$emit("init");
 	});
 

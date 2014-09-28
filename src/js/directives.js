@@ -1,4 +1,4 @@
-var ngZeroTile = function() {
+var ngZeroTile = function($interval) {
 
 	return function(scope, element, attrs) {
 		var size = 110,
@@ -13,21 +13,19 @@ var ngZeroTile = function() {
 			"margin-left": x + "px"
 		});
 
-		function move() {
-			window.requestAnimationFrame(move);
-			repaint();
-		}
-
-		function repaint() {
+		function repaint(timeoutId) {
 			if (oldY < y) {
-				oldY++;
+				oldY += 2;
 			} else if (oldY > y) {
-				oldY--;
+				oldY -= 2;
 			} else {
 				if (oldX < x) {
-					oldX++;
+					oldX += 2;
 				} else if (oldX > x) {
-					oldX--;
+					oldX -= 2;
+				} else {
+					console.log("Here: " + timeoutId);
+					$interval.cancel(timeoutId);
 				}
 			}			
 			element.css({
@@ -52,7 +50,9 @@ var ngZeroTile = function() {
 			event.stopPropagation();
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			move();
+			var timeoutId = $interval(function() {
+				repaint(timeoutId);
+			},5,0,true);
 		});
 	};
 };

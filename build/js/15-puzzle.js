@@ -121,7 +121,6 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	});
 
 	$document.ready(function() {
-		console.log("Here");
 		$scope.$emit("init");
 	});
 
@@ -258,7 +257,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			return formatTime(parseInt(input));
 		}
     };
-};;var ngZeroTile = function() {
+};;var ngZeroTile = function($interval) {
 
 	return function(scope, element, attrs) {
 		var size = 110,
@@ -273,21 +272,19 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			"margin-left": x + "px"
 		});
 
-		function move() {
-			window.requestAnimationFrame(move);
-			repaint();
-		}
-
-		function repaint() {
+		function repaint(timeoutId) {
 			if (oldY < y) {
-				oldY++;
+				oldY += 2;
 			} else if (oldY > y) {
-				oldY--;
+				oldY -= 2;
 			} else {
 				if (oldX < x) {
-					oldX++;
+					oldX += 2;
 				} else if (oldX > x) {
-					oldX--;
+					oldX -= 2;
+				} else {
+					console.log("Here: " + timeoutId);
+					$interval.cancel(timeoutId);
 				}
 			}			
 			element.css({
@@ -312,7 +309,9 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			event.stopPropagation();
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			move();
+			var timeoutId = $interval(function() {
+				repaint(timeoutId);
+			},5,0,true);
 		});
 	};
 };;(function () {
@@ -346,4 +345,4 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 ;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
 myApp.controller("myController", myController);
 myApp.filter("duration", durationFilter);
-myApp.directive('ngZeroTile', ngZeroTile);
+myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
