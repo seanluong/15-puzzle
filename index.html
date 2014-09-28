@@ -15,7 +15,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="build/css/style.min.css">
 	</head>
-	<body ng-controller="myController" ng-keydown="handleKeyDown($event)" ng-board-animate>
+	<body ng-controller="myController" ng-keydown="handleKeyDown($event)">
 		<div id="header">
 			<h1 id="title">15 Puzzle</h1>
 			<h2 id="stats">
@@ -36,7 +36,7 @@
 			</div>
 			<div id="board-container">
 				<div id="board">
-					<div id="zero-tile" ></div>
+					<div id="zero-tile" ng-zero-tile ></div>
 					<div ng-repeat="row in [0,1,2,3]" class="my-row">
 						<div ng-repeat="col in [0,1,2,3]" class="my-cell">
 						{{getCellHTML(row, col)}}

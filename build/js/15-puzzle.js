@@ -258,21 +258,20 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			return formatTime(parseInt(input));
 		}
     };
-};;var ngBoardAnimate = function() {
+};;var ngZeroTile = function() {
 
 	return function(scope, element, attrs) {
 		var size = 110,
 			margin = 12,
 			gap = size + margin,
-			tile = element.find("#zero-tile"),
 			lastRow, lastCol, y, x;
 
-		tile.on("update", function() {
+		element.on("update", function() {
 			lastRow = scope.board.row;
 			lastCol = scope.board.col;
 			y = lastRow * (size + margin); 
 			x = lastCol * (size + margin);
-			tile.css({
+			element.css({
 				"margin-top": y + "px",
 				"margin-left": x + "px"
 			});
@@ -309,4 +308,4 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 ;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
 myApp.controller("myController", myController);
 myApp.filter("duration", durationFilter);
-myApp.directive('ngBoardAnimate', ngBoardAnimate);
+myApp.directive('ngZeroTile', ngZeroTile);
