@@ -31,7 +31,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		39: "right"
 	};
 
-	function moveZeroTile(direction) {
+	function moveZeroTile(direction, duration) {
 		if (direction == "up") {
 			$scope.board.slideUp();
 		} else if (direction == "down") {
@@ -41,7 +41,9 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		} else {
 			$scope.board.slideRight();
 		}
-		$scope.$emit("board-change");
+		$scope.$emit("board-change", {
+			duration: duration
+		});
 	}
 
 	$document.ready(function() {
@@ -50,7 +52,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 
 	$scope.swipe = function(event) {
 		event.preventDefault();
-		moveZeroTile(event.gesture.direction);
+		moveZeroTile(event.gesture.direction, 50);
 	};
 
 	$scope.handleKeyDown = function(event) {
@@ -63,7 +65,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	        		case 37: //left
 	        		case 39: //right
 	        			event.preventDefault();
-	        			moveZeroTile(key2dir[event.which]);
+	        			moveZeroTile(key2dir[event.which], 10);
 	        			break;
 	        		default: break;
 	        	}
@@ -123,7 +125,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			templateUrl: 'template/guide.html',
 			controller: GuideModalInstanceCtrl
 		});
-		// $scope.pause();
+		$scope.pause();
 	};
 	
 	$scope.handleGameWon = function(size) {

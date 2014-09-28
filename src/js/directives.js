@@ -23,16 +23,17 @@ var ngZeroTile = function() {
 			});
 		});
 
-		scope.$on("update", function(event, data) {
+		scope.$on("update", function(event, args) {
 			event.stopPropagation();
 			dy = scope.board.row * (size + margin) - y;
 			dx = scope.board.col * (size + margin) - x;
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
+			console.log(args.duration);
 			element.animate({
 				"margin-top": y + "px",
 				"margin-left": x + "px"
-			}, 20, "linear");
+			}, args.duration, "linear");
 		});
 	};
 };

@@ -127,7 +127,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		39: "right"
 	};
 
-	function moveZeroTile(direction) {
+	function moveZeroTile(direction, duration) {
 		if (direction == "up") {
 			$scope.board.slideUp();
 		} else if (direction == "down") {
@@ -137,7 +137,9 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		} else {
 			$scope.board.slideRight();
 		}
-		$scope.$emit("board-change");
+		$scope.$emit("board-change", {
+			duration: duration
+		});
 	}
 
 	$document.ready(function() {
@@ -146,7 +148,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 
 	$scope.swipe = function(event) {
 		event.preventDefault();
-		moveZeroTile(event.gesture.direction);
+		moveZeroTile(event.gesture.direction, 50);
 	};
 
 	$scope.handleKeyDown = function(event) {
@@ -159,7 +161,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	        		case 37: //left
 	        		case 39: //right
 	        			event.preventDefault();
-	        			moveZeroTile(key2dir[event.which]);
+	        			moveZeroTile(key2dir[event.which], 10);
 	        			break;
 	        		default: break;
 	        	}
@@ -219,7 +221,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			templateUrl: 'template/guide.html',
 			controller: GuideModalInstanceCtrl
 		});
-		// $scope.pause();
+		$scope.pause();
 	};
 	
 	$scope.handleGameWon = function(size) {
@@ -294,16 +296,17 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			});
 		});
 
-		scope.$on("update", function(event, data) {
+		scope.$on("update", function(event, args) {
 			event.stopPropagation();
 			dy = scope.board.row * (size + margin) - y;
 			dx = scope.board.col * (size + margin) - x;
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
+			console.log(args.duration);
 			element.animate({
 				"margin-top": y + "px",
 				"margin-left": x + "px"
-			}, 20, "linear");
+			}, args.duration, "linear");
 		});
 	};
 };;var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap"]);
