@@ -26,7 +26,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 
 	$document.ready(function() {
 		console.log("Here");
-		$scope.$emit("update");
+		$scope.$emit("init");
 	});
 
 	$scope.handleKeyDown = function(event) {
@@ -91,7 +91,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		},0,true);
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
-		$scope.$emit("update");
+		$scope.$emit("init");
 		$scope.resume();		
 	};
 

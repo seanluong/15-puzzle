@@ -23,17 +23,30 @@ var ngZeroTile = function() {
 				oldY++;
 			} else if (oldY > y) {
 				oldY--;
-			}
-			if (oldX < x) {
-				oldX++;
-			} else if (oldX > x) {
-				oldX--;
-			}
+			} else {
+				if (oldX < x) {
+					oldX++;
+				} else if (oldX > x) {
+					oldX--;
+				}
+			}			
 			element.css({
 				"margin-top": oldY + "px",
 				"margin-left": oldX + "px"
 			});
 		}
+
+		scope.$on("init", function(event) {
+			event.stopPropagation();
+			y = scope.board.row * (size + margin); 
+			x = scope.board.col * (size + margin);
+			oldX = x;
+			oldY = y;
+			element.css({
+				"margin-top": y + "px",
+				"margin-left": x + "px"
+			});
+		});
 
 		scope.$on("update", function(event) {
 			event.stopPropagation();
