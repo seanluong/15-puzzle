@@ -1,4 +1,4 @@
-var ngZeroTile = function($interval) {
+var ngZeroTile = function() {
 
 	return function(scope, element, attrs) {
 		var size = 110,
@@ -6,53 +6,33 @@ var ngZeroTile = function($interval) {
 			gap = size + margin,
 			y = scope.board.row * (size + margin), 
 			x = scope.board.col * (size + margin),
-			oldY = y, oldX = x;
+			dy, dx;
 
 		element.css({
 			"margin-top": y + "px",
 			"margin-left": x + "px"
 		});
 
-		function repaint(timeoutId) {
-			if (oldY < y) {
-				oldY += 2;
-			} else if (oldY > y) {
-				oldY -= 2;
-			} else {
-				if (oldX < x) {
-					oldX += 2;
-				} else if (oldX > x) {
-					oldX -= 2;
-				} else {
-					console.log("Here: " + timeoutId);
-					$interval.cancel(timeoutId);
-				}
-			}			
-			element.css({
-				"margin-top": oldY + "px",
-				"margin-left": oldX + "px"
-			});
-		}
-
 		scope.$on("init", function(event) {
 			event.stopPropagation();
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			oldX = x;
-			oldY = y;
 			element.css({
 				"margin-top": y + "px",
 				"margin-left": x + "px"
 			});
 		});
 
-		scope.$on("update", function(event) {
+		scope.$on("update", function(event, data) {
 			event.stopPropagation();
+			dy = scope.board.row * (size + margin) - y;
+			dx = scope.board.col * (size + margin) - x;
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			var timeoutId = $interval(function() {
-				repaint(timeoutId);
-			},5,0,true);
+			element.animate({
+				"margin-top": y + "px",
+				"margin-left": x + "px"
+			}, 20, "linear");
 		});
 	};
 };

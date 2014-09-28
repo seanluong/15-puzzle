@@ -132,22 +132,22 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	        		case 38: //up
 	        			event.preventDefault();
 	        			$scope.board.slideUp();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		case 40: //down
 	        			event.preventDefault();
 	        			$scope.board.slideDown();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		case 37: //left
 	        			event.preventDefault();
 	        			$scope.board.slideLeft();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		case 39: //right
 	        			event.preventDefault();
 	        			$scope.board.slideRight();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		default: break;
 	        	}
@@ -161,7 +161,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			$scope.$emit("game-won", {});
 		} else {
 			localStorage.setItem("board", JSON.stringify($scope.board));
-			$scope.$emit("update");
+			$scope.$emit("update", args);
 		}
 	});
 
@@ -257,7 +257,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			return formatTime(parseInt(input));
 		}
     };
-};;var ngZeroTile = function($interval) {
+};;var ngZeroTile = function() {
 
 	return function(scope, element, attrs) {
 		var size = 110,
@@ -265,84 +265,36 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			gap = size + margin,
 			y = scope.board.row * (size + margin), 
 			x = scope.board.col * (size + margin),
-			oldY = y, oldX = x;
+			dy, dx;
 
 		element.css({
 			"margin-top": y + "px",
 			"margin-left": x + "px"
 		});
 
-		function repaint(timeoutId) {
-			if (oldY < y) {
-				oldY += 2;
-			} else if (oldY > y) {
-				oldY -= 2;
-			} else {
-				if (oldX < x) {
-					oldX += 2;
-				} else if (oldX > x) {
-					oldX -= 2;
-				} else {
-					console.log("Here: " + timeoutId);
-					$interval.cancel(timeoutId);
-				}
-			}			
-			element.css({
-				"margin-top": oldY + "px",
-				"margin-left": oldX + "px"
-			});
-		}
-
 		scope.$on("init", function(event) {
 			event.stopPropagation();
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			oldX = x;
-			oldY = y;
 			element.css({
 				"margin-top": y + "px",
 				"margin-left": x + "px"
 			});
 		});
 
-		scope.$on("update", function(event) {
+		scope.$on("update", function(event, data) {
 			event.stopPropagation();
+			dy = scope.board.row * (size + margin) - y;
+			dx = scope.board.col * (size + margin) - x;
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			var timeoutId = $interval(function() {
-				repaint(timeoutId);
-			},5,0,true);
+			element.animate({
+				"margin-top": y + "px",
+				"margin-left": x + "px"
+			}, 20, "linear");
 		});
 	};
-};;(function () {
-  var lastTime = 0;
-  var vendors = ['webkit', 'moz'];
-  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
-      window[vendors[x] + 'CancelRequestAnimationFrame'];
-  }
-
-  if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function (callback) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function () {
-        callback(currTime + timeToCall);
-      },
-      timeToCall);
-      lastTime = currTime + timeToCall;
-      return id;
-    };
-  }
-
-  if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = function (id) {
-      clearTimeout(id);
-    };
-  }
-}());
-;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
+};;var myApp = angular.module("myApp", ["ngAnimate", 'ui.bootstrap']);
 myApp.controller("myController", myController);
 myApp.filter("duration", durationFilter);
 myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);

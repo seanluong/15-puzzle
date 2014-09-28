@@ -36,22 +36,22 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	        		case 38: //up
 	        			event.preventDefault();
 	        			$scope.board.slideUp();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		case 40: //down
 	        			event.preventDefault();
 	        			$scope.board.slideDown();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		case 37: //left
 	        			event.preventDefault();
 	        			$scope.board.slideLeft();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		case 39: //right
 	        			event.preventDefault();
 	        			$scope.board.slideRight();
-	        			$scope.$emit("board-change", {});
+	        			$scope.$emit("board-change");
 	        			break;
 	        		default: break;
 	        	}
@@ -65,7 +65,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			$scope.$emit("game-won", {});
 		} else {
 			localStorage.setItem("board", JSON.stringify($scope.board));
-			$scope.$emit("update");
+			$scope.$emit("update", args);
 		}
 	});
 
