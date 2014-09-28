@@ -28,11 +28,15 @@
 			<div id="controls">
 				<div id="summary">
 					Rearrange the board to reach the target state. 
-					<a href="#" ng-click="guide()">Guide.</a>
 				</div>
-				<button id="new-game" class="btn btn-primary right" ng-click="newGame()">
-					New Game
-				</button>
+				<div id="buttons">
+					<button class="btn btn-danger" ng-click="guide()">
+						Guide
+					</button>
+					<button id="new-game" class="btn btn-danger" ng-click="newGame()">
+						New Game
+					</button>
+				</div>
 			</div>
 			<div id="board-container">
 				<div id="board">

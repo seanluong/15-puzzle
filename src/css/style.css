@@ -26,6 +26,10 @@ body {
 	float: right;
 }
 
+#main {
+	clear: both;
+}
+
 #controls {
 	font-size: 18px;
 	margin-bottom: 25px;
@@ -33,17 +37,21 @@ body {
 	margin-right: 15px;
 }
 
-#new-game {
-	font-size: 20px;
-	line-height: 42px;
+#summary {
+	float: left;
+	width: 60%;
+	font-size: 18px;
+	margin-bottom: 15px;
+}
+
+#buttons {
 	float: right;
 }
 
-#summary {
-	float: left;
-	width: 70%;
-	font-size: 20px;
-	margin-bottom: 15px;
+#buttons button {
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 38px;
 }
 
 #board-container {
