@@ -14,7 +14,7 @@ This game consists of a 4x4 board with 15 tiles, numbered from 1 to 15. There is
 
 ### Screenshot
 
-![target-state](https://github.com/xuanluong/15-puzzle/blob/master/images/target-state.png)
+![screeshot](https://raw.githubusercontent.com/xuanluong/15-puzzle/master/screenshot.png)
 
 ## Development
 
