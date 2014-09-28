@@ -25,7 +25,8 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	});
 
 	$document.ready(function() {
-		$document.find("#zero-tile").trigger("update");
+		$scope.zeroTile = $document.find("#zero-tile");
+		$scope.zeroTile.trigger("update");
 	});
 
 	$scope.handleKeyDown = function(event) {
@@ -65,6 +66,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			$scope.$emit("game-won", {});
 		} else {
 			localStorage.setItem("board", JSON.stringify($scope.board));
+			$scope.zeroTile.trigger("update");
 		}
 	});
 
@@ -89,7 +91,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		},0,true);
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
-		$document.find("#zero-tile").trigger("update");
+		$scope.zeroTile.trigger("update");
 		$scope.resume();		
 	};
 
