@@ -121,8 +121,8 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	});
 
 	$document.ready(function() {
-		$scope.zeroTile = $document.find("#zero-tile");
-		$scope.zeroTile.trigger("update");
+		console.log("Here");
+		$scope.$emit("update");
 	});
 
 	$scope.handleKeyDown = function(event) {
@@ -162,7 +162,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			$scope.$emit("game-won", {});
 		} else {
 			localStorage.setItem("board", JSON.stringify($scope.board));
-			$scope.zeroTile.trigger("update");
+			$scope.$emit("update");
 		}
 	});
 
@@ -187,7 +187,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		},0,true);
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
-		$scope.zeroTile.trigger("update");
+		$scope.$emit("update");
 		$scope.resume();		
 	};
 
@@ -264,9 +264,17 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		var size = 110,
 			margin = 12,
 			gap = size + margin,
-			lastRow, lastCol, y, x;
+			lastRow = scope.board.row, 
+			lastCol = scope.board.col, 
+			y = lastRow * (size + margin), 
+			x = lastCol * (size + margin);
+		element.css({
+			"margin-top": y + "px",
+			"margin-left": x + "px"
+		});
 
-		element.on("update", function() {
+		scope.$on("update", function(event) {
+			event.stopPropagation();
 			lastRow = scope.board.row;
 			lastCol = scope.board.col;
 			y = lastRow * (size + margin); 
