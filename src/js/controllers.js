@@ -108,10 +108,6 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 		$scope.resume();		
 	};
 
-	$scope.showHelp = function() {
-
-	};
-
 	$scope.pause = function() {
 		$scope.board.locked = true;
 	};

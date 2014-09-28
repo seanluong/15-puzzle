@@ -14,7 +14,6 @@ module.exports = function(grunt) {
 					'src/js/controllers.js',
 					'src/js/filters.js',
 					'src/js/directives.js',
-					'src/js/animframe_polyfill.js',
 					'src/js/app.js'
 				],
 				// the location of the resulting JS file
