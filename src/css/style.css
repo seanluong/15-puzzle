@@ -1,7 +1,15 @@
+html {
+	margin: 0px;
+	padding: 0px;
+}
+
 body {
-	width: 500px;
-	margin: 0 auto;
 	background: #F7EFB7;
+}
+
+#game-container {
+	width: 500px;
+	margin: 0px auto;
 }
 
 #source-img {
@@ -14,7 +22,6 @@ body {
 	vertical-align: top;
 	margin-left: 15px;
 	margin-right: 15px;
-	margin-bottom: -15px;
 }
 
 #title {

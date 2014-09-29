@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html ng-app="myApp" >
 	<head>
-		<meta itemprop="name" content="15 Puzzle">
-		<meta itemprop="description" content="The 15-puzzle is a sliding puzzle that consists of a frame of numbered square tiles in random order with one tile missing. It is called the 15-puzzle for the number of tiles and the number of spaces. The object of the puzzle is to place the tiles in order by making sliding moves that use the empty space.">
-		<meta itemprop="image" content="screenshot.png">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0.7" />
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="640">
+		<meta name="viewport" content="width=640, user-scalable=false, initial-scal=1.0, 
+		maximum-scale=1">
+		<meta property="og:title" content="15 Puzzle">
+		<meta property="og:site_name" content="15 Puzzle">
+		<meta property="og:description" content="Move the empty cell to reach the target state and solve the 15 Puzzle!">
+		<meta property="og:image" content="favicon.png">
+
 		<link rel="apple-touch-icon" href="images/favicon.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="favicon.png"/>  
 		<link rel="apple-touch-icon" sizes="114x114" href="favicon.png"/>  
@@ -14,66 +19,70 @@
 		<link rel="icon" sizes="128x128" href="favicon.png">
 		<link rel="shortcut icon" href="favicon.png" />
 		
+		<title>15 Puzzle</title>
+
 		<link rel="stylesheet" href="build/css/bootstrap.min.css">
 		<link rel="stylesheet" href="build/css/style.min.css">
 	</head>
 	<body ng-controller="myController" ng-keydown="handleKeyDown($event)">
-		<div id="header">
-			<h1 id="title">15 Puzzle</h1>
-			<h2 id="stats">
-				<span class="label label-default" id="clock">{{timePassed | duration}}</span>
-				<span class="label label-default" id="best-time">{{bestTime | duration}}</span>
-			</h2>
-		</div>
-
-		<div id="main">
-			<div id="controls">
-				<div id="summary">
-					Rearrange the board to reach the target state. 
-				</div>
-				<div id="buttons">
-					<button class="btn btn-danger" ng-click="guide()">
-						Guide
-					</button>
-					<button id="new-game" class="btn btn-danger" ng-click="newGame()">
-						New Game
-					</button>
-				</div>
+		<div id="game-container">
+			<div id="header">
+				<h1 id="title">15 Puzzle</h1>
+				<h2 id="stats">
+					<span class="label label-default" id="clock">{{timePassed | duration}}</span>
+					<span class="label label-default" id="best-time">{{bestTime | duration}}</span>
+				</h2>
 			</div>
-			<div id="board-container">
-				<div id="board">
-					<div id="zero-tile" ng-zero-tile hm-swipe="swipe($event)" ></div>
-					<div ng-repeat="row in [0,1,2,3]" class="my-row">
-						<div ng-repeat="col in [0,1,2,3]" class="my-cell">
-						{{getCellHTML(row, col)}}
-						</div>
+
+			<div id="main">
+				<div id="controls">
+					<div id="summary">
+						Rearrange the board to reach the target state. 
+					</div>
+					<div id="buttons">
+						<button class="btn btn-danger" ng-click="guide()">
+							Guide
+						</button>
+						<button id="new-game" class="btn btn-danger" ng-click="newGame()">
+							New Game
+						</button>
 					</div>
 				</div>
-			</div>			
-		</div>
-
-		<div id="footer">
-			<div id="share-social">
-				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://xuanluong.github.io/15-puzzle/" data-via="xuanluong" data-hashtags="15-puzzle">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-				 <div gplus class="g-plus" data-size="medium" data-annotation="bubble" 
-				 data-href='http://xuanluong.github.io/15-puzzle' data-action='share'></div>
+				<div id="board-container">
+					<div id="board">
+						<div id="zero-tile" ng-zero-tile hm-swipe="swipe($event)" ></div>
+						<div ng-repeat="row in [0,1,2,3]" class="my-row">
+							<div ng-repeat="col in [0,1,2,3]" class="my-cell">
+							{{getCellHTML(row, col)}}
+							</div>
+						</div>
+					</div>
+				</div>			
 			</div>
-			<div id="author">
-				Created by 
-				<a href="https://twitter.com/xuanluong">Xuan Luong</a>.
-				Source code hosted on
-				<a href="https://github.com/xuanluong">GitHub
-					<img src="images/github.png" class="img-responsive" alt="Github">
-				</a>
-			</div>
-		</div>
 
-		<script src="//apis.google.com/js/platform.js" async defer></script>
-		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-		<script src="lib/js/gestures.min.js"></script>
-		<script src="build/js/15-puzzle.js"></script>
+			<div id="footer">
+				<div id="share-social">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://xuanluong.github.io/15-puzzle/" data-via="xuanluong" data-hashtags="15-puzzle">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					 <div gplus class="g-plus" data-size="medium" data-annotation="bubble" 
+					 data-href='http://xuanluong.github.io/15-puzzle' data-action='share'></div>
+				</div>
+				<div id="author">
+					Created by 
+					<a href="https://twitter.com/xuanluong">Xuan Luong</a>.
+					Source code hosted on
+					<a href="https://github.com/xuanluong">GitHub
+						<img src="images/github.png" class="img-responsive" alt="Github">
+					</a>
+				</div>
+			</div>
+
+			<script src="//apis.google.com/js/platform.js" async defer></script>
+			<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+			<script src="lib/js/gestures.min.js"></script>
+			<script src="build/js/15-puzzle.js"></script>
+		</div>
 	</body>
 </html>
