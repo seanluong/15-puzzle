@@ -20,15 +20,6 @@ module.exports = function(grunt) {
 				dest: 'build/js/<%= pkg.name %>.js'
 			}
 		},
-	    uglify: {
-			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-			},
-			build: {
-		    	src: 'src/js/concat/*.js',
-				dest: 'build/js/<%= pkg.name %>.min.js'
-		    }
-		},
 		cssmin: {
 			add_banner: {
 				options: {
