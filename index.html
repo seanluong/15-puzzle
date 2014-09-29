@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="myApp" manifest="cache.manifest">
+<html ng-app="myApp"
+	itemscope itemtype="http://schema.org/Product">
 	<head>
+		<meta itemprop="name" content="15 Puzzle">
+		<meta itemprop="description" content="The 15-puzzle is a sliding puzzle that consists of a frame of numbered square tiles in random order with one tile missing. It is called the 15-puzzle for the number of tiles and the number of spaces. The object of the puzzle is to place the tiles in order by making sliding moves that use the empty space.">
+		<meta itemprop="image" content="https://raw.githubusercontent.com/xuanluong/15-puzzle/master/screenshot.png">
+
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0.7" />
@@ -12,6 +17,7 @@
 		<link rel="icon" sizes="128x128" href="favicon.png">
 		<link rel="shortcut icon" href="favicon.png" />
 
+		<link rel="stylesheet" href="lib/css/angular-socialshare.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="build/css/style.min.css">
 	</head>
@@ -52,9 +58,12 @@
 
 		<div id="footer">
 			<div id="share-social">
-				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://xuanluong.github.io/15-puzzle/" data-text="Check-out 15 Puzzle, an interesting sliding puzzle game" data-hashtags="15-puzzle">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-				<div class="g-plus" data-action="share" data-annotation="bubble" data-href="http://xuanluong.github.io/15-puzzle/"></div>
+				<a twitter data-lang="en" data-count='horizontal' 
+				data-url='http://xuanluong.github.io/15-puzzle' 
+				data-via='15-puzzle' data-size="medium" 
+				data-text='Checkout this nice 15 Puzzle game!' ></a>
+				 <div gplus class="g-plus" data-size="medium" data-annotation="bubble" 
+				 data-href='http://xuanluong.github.io/15-puzzle' data-action='share'></div>
 			</div>
 			<div id="author">
 				Created by 
@@ -69,6 +78,8 @@
 		<script src="//apis.google.com/js/platform.js" async defer></script>
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+		<script src="lib/js/angular-socialshare.min.js"></script>
+		<script src="//platform.twitter.com/widgets.js"></script>
 		<script src="lib/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
 		<script src="lib/js/gestures.min.js"></script>
 		<script src="build/js/15-puzzle.js"></script>

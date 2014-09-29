@@ -76,12 +76,12 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 
 	$scope.$on("board-change", function(event, args) {
 		event.stopPropagation();
-		if ($scope.board.won() === true) {
+		// if ($scope.board.won() === true) {
 			$scope.$emit("game-won", {});
-		} else {
-			localStorage.setItem("board", JSON.stringify($scope.board));
-			$scope.$emit("move", args);
-		}
+		// } else {
+		// 	localStorage.setItem("board", JSON.stringify($scope.board));
+		// 	$scope.$emit("move", args);
+		// }
 	});
 
 	$scope.$on("game-won", function(event, args) {
@@ -138,10 +138,10 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			size: size
 		});
 		$scope.pause();
-		var bestTime = localStorage.getItem("bestTime");
-		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-			localStorage.setItem("bestTime", $scope.timePassed);
-		}
+		// var bestTime = localStorage.getItem("bestTime");
+		// if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
+		// 	localStorage.setItem("bestTime", $scope.timePassed);
+		// }
 		modalInstance.result.then(function () {
 			$scope.newGame();
 		}, function() {
