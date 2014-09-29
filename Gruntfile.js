@@ -35,7 +35,8 @@ module.exports = function(grunt) {
 				  banner: '/* My minified css file */'
 				},
 				files: {
-				  'build/css/style.min.css': 'src/css/*.css'
+				  'build/css/style.min.css': 'src/css/style.css',
+				  'build/css/bootstrap.min.css': 'lib/css/bootstrap.css'
 				}
 			}
 		},
