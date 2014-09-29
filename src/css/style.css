@@ -1,10 +1,12 @@
 html {
 	margin: 0px;
 	padding: 0px;
+	overflow: hidden;
 }
 
 body {
 	background: #F7EFB7;
+	overflow: auto;
 }
 
 #game-container {
