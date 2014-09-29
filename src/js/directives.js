@@ -23,7 +23,7 @@ var ngZeroTile = function() {
 			});
 		});
 
-		scope.$on("update", function(event, args) {
+		scope.$on("move", function(event, args) {
 			event.stopPropagation();
 			dy = scope.board.row * (size + margin) - y;
 			dx = scope.board.col * (size + margin) - x;

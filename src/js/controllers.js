@@ -58,6 +58,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
         if (!modifiers) {
+        	console.log($scope.board.locked);
         	if (!$scope.board.locked) {
         		switch (event.which) {
 	        		case 38: //up
@@ -79,7 +80,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			$scope.$emit("game-won", {});
 		} else {
 			localStorage.setItem("board", JSON.stringify($scope.board));
-			$scope.$emit("update", args);
+			$scope.$emit("move", args);
 		}
 	});
 
@@ -122,11 +123,17 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			controller: GuideModalInstanceCtrl
 		});
 		$scope.pause();
+		modalInstance.result.then(function () {
+			// $scope.resume();
+		}, function() {
+			$scope.resume();
+		});
 	};
 	
 	$scope.handleGameWon = function(size) {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/won.html',
+			scope: $scope,
 			controller: GameWonModalInstanceCtrl,
 			size: size
 		});
