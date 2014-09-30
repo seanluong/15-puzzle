@@ -9,8 +9,10 @@ This game consists of a 4x4 board with 15 tiles, numbered from 1 to 15. There is
 ![target-state](https://github.com/xuanluong/15-puzzle/blob/master/images/target-state.png)
 ### How to play?
 
-+ **PCs/Laptops**: move the empty cell by pressing **UP**/**DOWN**/**LEFT**/**RIGHT** key
-+ **Mobile devices**: move the empty cell by swiping it up/down/left/right. (*coming soon*)
++ **PC**: press **UP**/**DOWN**/**LEFT**/**RIGHT** key to move the empty cell
++ **Mobile**: swipe the board to move the empty cell
+
+The empty cell is moved in the reverse direction of the key pressed/swipe.
 
 ### Screenshot
 
