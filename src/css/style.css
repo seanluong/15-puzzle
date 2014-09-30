@@ -149,3 +149,7 @@ body {
 .modal-header {
 	text-align: center;
 }
+
+#explanation ul li span {
+	font-weight: bolder;
+}
