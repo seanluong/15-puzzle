@@ -44,6 +44,7 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 
 var mainController = function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 	$scope.swipe = function(event) {
 		event.preventDefault();
@@ -79,7 +80,6 @@ var mainController = function($scope, $document, $timeout) {
 				}
 			}
 			$document.find(".tile").trigger("move", {
-				direction: direction,
 				duration: duration,
 				movedTile: movedTile,
 				value: value
@@ -141,7 +141,7 @@ var bodyController = function($scope, $modal, $document) {
     		event.preventDefault();
 			$scope.$broadcast("keydown", {
 				direction: key2dir[event.which],
-				duration: 10
+				duration: 75
 			});
         }
 	};

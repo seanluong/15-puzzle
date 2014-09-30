@@ -43,14 +43,7 @@
 			<div id="main" ng-controller="mainController">				
 				<div id="board-container">
 					<div id="board">
-						<div ng-repeat="row in [0,1,2,3]">
-							<div ng-repeat="col in [0,1,2,3]" class="my-row">
-								<div class="tile" ng-tile data-ng-row="{{row}}" data-ng-col="{{col}}"
-								hm-swipe="swipe($event)" >
-								{{board.cells[row][col]}}
-								</div>
-							</div>
-						</div>
+						<div class="tile" ng-tile ng-repeat="value in series" hm-swipe="swipe($event)">{{value}}</div>
 					</div>
 				</div>			
 			</div>

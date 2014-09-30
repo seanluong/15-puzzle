@@ -30,8 +30,13 @@ Board.prototype.getLeft = function() {
 		return null;
 	} else {
 		return {
-			row: this.row,
-			col: this.col-1
+			myTile: {
+				drow:0, dcol:1
+			},
+			zeroTile: {
+				drow:0, dcol:-1
+			},
+			row: this.row, col: this.col-1
 		};
 	}
 };
@@ -41,8 +46,13 @@ Board.prototype.getRight = function() {
 		return null;
 	} else {
 		return {
-			row: this.row,
-			col: this.col+1
+			myTile: {
+				drow:0, dcol:-1
+			},
+			zeroTile: {
+				drow:0, dcol:1
+			},
+			row: this.row, col: this.col+1
 		};
 	}
 };
@@ -52,8 +62,13 @@ Board.prototype.getUp = function() {
 		return null;
 	} else {
 		return {
-			row: this.row-1,
-			col: this.col
+			myTile: {
+				drow:+1, dcol:0
+			},
+			zeroTile: {
+				drow:-1, dcol:0
+			},
+			row: this.row-1, col: this.col
 		};
 	}
 };
@@ -63,8 +78,13 @@ Board.prototype.getDown = function() {
 		return null;
 	} else {
 		return {
-			row: this.row+1,
-			col: this.col
+			myTile: {
+				drow:-1, dcol:0
+			},
+			zeroTile: {
+				drow:+1, dcol:0
+			},
+			row: this.row+1, col: this.col
 		};
 	}
 };

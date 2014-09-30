@@ -30,8 +30,13 @@ Board.prototype.getLeft = function() {
 		return null;
 	} else {
 		return {
-			row: this.row,
-			col: this.col-1
+			myTile: {
+				drow:0, dcol:1
+			},
+			zeroTile: {
+				drow:0, dcol:-1
+			},
+			row: this.row, col: this.col-1
 		};
 	}
 };
@@ -41,8 +46,13 @@ Board.prototype.getRight = function() {
 		return null;
 	} else {
 		return {
-			row: this.row,
-			col: this.col+1
+			myTile: {
+				drow:0, dcol:-1
+			},
+			zeroTile: {
+				drow:0, dcol:1
+			},
+			row: this.row, col: this.col+1
 		};
 	}
 };
@@ -52,8 +62,13 @@ Board.prototype.getUp = function() {
 		return null;
 	} else {
 		return {
-			row: this.row-1,
-			col: this.col
+			myTile: {
+				drow:+1, dcol:0
+			},
+			zeroTile: {
+				drow:-1, dcol:0
+			},
+			row: this.row-1, col: this.col
 		};
 	}
 };
@@ -63,8 +78,13 @@ Board.prototype.getDown = function() {
 		return null;
 	} else {
 		return {
-			row: this.row+1,
-			col: this.col
+			myTile: {
+				drow:-1, dcol:0
+			},
+			zeroTile: {
+				drow:+1, dcol:0
+			},
+			row: this.row+1, col: this.col
 		};
 	}
 };
@@ -184,6 +204,7 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 
 var mainController = function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 	$scope.swipe = function(event) {
 		event.preventDefault();
@@ -219,7 +240,6 @@ var mainController = function($scope, $document, $timeout) {
 				}
 			}
 			$document.find(".tile").trigger("move", {
-				direction: direction,
 				duration: duration,
 				movedTile: movedTile,
 				value: value
@@ -281,7 +301,7 @@ var bodyController = function($scope, $modal, $document) {
     		event.preventDefault();
 			$scope.$broadcast("keydown", {
 				direction: key2dir[event.which],
-				duration: 10
+				duration: 75
 			});
         }
 	};
@@ -387,38 +407,64 @@ var ngTile = function() {
 	return function (scope, element, attrs) {
 		var size = 110,
 			margin = 12,
-			gap = size + margin,
-			row = parseInt(attrs.ngRow),
-			col = parseInt(attrs.ngCol);
+			gap = size + margin;
+
+		function findCoor(cells, value) {
+			var row, col;
+			for (row in [0,1,2,3]) {
+				for (col in [0,1,2,3]) {
+					if (cells[row][col] === value) {
+						return {
+							y: row * gap + margin,
+							x: col * gap + margin
+						};
+					}
+				}
+			}
+		}
 
 		element.on("init", function() {
-			var value = scope.board.cells[row][col];
+			var value = parseInt(element.text()) || 0,
+				coor = findCoor(scope.board.cells, value),
+				y = coor.y,
+				x = coor.x;
+			element.css({
+				"left": x + "px",
+				"top": y + "px"
+			});
 			if (value === 0) {
 				element.attr({
-					"class": "tile zero-tile",
+					"class": "tile zero-tile"
 				});
 				element.text("");
 			} else {
 				element.attr({
-					"class": "tile my-tile",
+					"class":"tile my-tile"
 				});
 				element.text(value);
 			}
 		});
 
 		element.on("move", function(event, args) {
-			var value = parseInt(element.text()) || 0;
+			var value = parseInt(element.text()) || 0,
+				y, x, coor;
 			if (args.movedTile) {
 				if (args.value === value) {
-					element.attr({
-						"class": "tile zero-tile"
-					});
-					element.text("");
+					coor = findCoor(scope.board.cells, 0);
+					y = args.movedTile.myTile.drow * gap + coor.y;
+					x = args.movedTile.myTile.dcol * gap + coor.x;
+					element.animate({
+						"left": x + "px",
+						"top": y + "px"
+					},args.duration);
 				} else if (value === 0) {
-					element.attr({
-						"class": "tile my-tile"
+					coor = findCoor(scope.board.cells, args.value);
+					y = args.movedTile.zeroTile.drow * gap + coor.y;
+					x = args.movedTile.zeroTile.dcol * gap + coor.x;
+					element.css({
+						"left": x + "px",
+						"top": y + "px"
 					});
-					element.text(args.value);
 				}
 			}
 		});

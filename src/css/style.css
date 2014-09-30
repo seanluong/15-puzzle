@@ -71,7 +71,6 @@ body {
 }
 
 #board {
-	position: absolute;
 	z-index: 1;
 }
 
@@ -116,6 +115,11 @@ body {
 	float: left;
 }
 
+.tile {
+	display: inline-block;
+	position: absolute;
+}
+
 .my-tile {
 	text-align: center;
 	width: 110px;
@@ -126,7 +130,7 @@ body {
 	background: rgba(255, 255, 255, 1.0);
 	font-size: 55px;
 	line-height: 116.25px;
-	z-index: 9999;
+	z-index: 100;
 }
 
 .zero-tile {
@@ -137,7 +141,6 @@ body {
 	margin-bottom: 12px;
 	border-radius: 3px;
 	background: rgba(204, 138, 138, 1);
-	line-height: 116.25px;
 }
 
 .guide-trigger {
