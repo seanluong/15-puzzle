@@ -106,7 +106,7 @@ var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	};
 };
 
-var headerController = function($scope, $interval, $timeout) {
+var headerController = function($scope, $interval, $timeout, $modal) {
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
@@ -132,9 +132,29 @@ var headerController = function($scope, $interval, $timeout) {
 			localStorage.setItem("bestTime", $scope.timePassed);
 		}
 	});
+
+	$scope.guide = function() {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/guide.html',
+			controller: GuideModalInstanceCtrl,
+			size: "sm"
+		});
+		$scope.$parent.$broadcast("pause");
+		modalInstance.result.then(function () {
+			$scope.$parent.$broadcast("resume");
+		}, function() {
+			$scope.$parent.$broadcast("resume");
+		});
+	};
+
+	$scope.newGame = function() {
+		$scope.$emit("new-game");
+	};
 };
 
-var bodyController = function($scope, $modal, $timeout, $interval, $document) {
+// var mainController = function
+
+var bodyController = function($scope, $modal, $document) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));	
 
 	var key2dir = {
@@ -209,34 +229,31 @@ var bodyController = function($scope, $modal, $timeout, $interval, $document) {
 		}
 	};
 
-	$scope.newGame = function() {
-		$scope.$broadcast("new-game");
+	$scope.$on("new-game", function() {
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
 		$scope.$emit("init");
-		$scope.resume();		
-	};
+		$scope.resume();	
+	});
+
+	$scope.$on("pause", function(event) {
+		// $scope.$broadcast("pause");
+		console.log("Locking .......");
+		$scope.pause();
+	});
+
+	$scope.$on("resume", function(event) {
+		// $scope.$broadcast("resum");
+		$scope.resume();
+	});
 
 	$scope.pause = function() {
+		console.log("Locking ...");
 		$scope.board.locked = true;
 	};
 
 	$scope.resume = function() {
 		$scope.board.locked = false;
-	};
-
-	$scope.guide = function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/guide.html',
-			controller: GuideModalInstanceCtrl,
-			size: "sm"
-		});
-		$scope.pause();
-		modalInstance.result.then(function () {
-			$scope.resume();
-		}, function() {
-			$scope.resume();
-		});
 	};
 	
 	$scope.handleGameWon = function(size) {
@@ -324,6 +341,7 @@ var bodyController = function($scope, $modal, $timeout, $interval, $document) {
 // bind controllers
 myApp.controller("bodyController", bodyController);
 myApp.controller("headerController", headerController);
+// myApp.controller("mainController", mainController);
 
 // bind filters
 myApp.filter("duration", durationFilter);

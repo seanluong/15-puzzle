@@ -38,20 +38,13 @@ body {
 	font-size: 20px;
 }
 
-#main {
-	clear: both;
-}
-
-#controls {
-	font-size: 18px;
-	margin-bottom: 25px;
-}
-
 #summary {
 	float: left;
-	width: 60%;
+	width: 75%;
 	font-size: 18px;
-	margin-bottom: 15px;
+	font-weight: bolder;
+	margin-bottom: 25px;
+	margin-top: 15px;
 }
 
 #buttons {
