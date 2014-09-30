@@ -279,7 +279,6 @@ var bodyController = function($scope, $modal, $document) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
         if (!modifiers && key2dir[event.which]) {
     		event.preventDefault();
-			console.log(key2dir[event.which]);
 			$scope.$broadcast("keydown", {
 				direction: key2dir[event.which],
 				duration: 10
@@ -392,20 +391,6 @@ var ngTile = function() {
 			row = parseInt(attrs.ngRow),
 			col = parseInt(attrs.ngCol);
 
-			
-			// y = row * (size + margin), 
-			// x = col * (size + margin),
-			// dy, dx;
-		// element.css({
-		// 	"margin-top": "0px",
-		// 	"margin-left": "0px"
-		// });
-		
-		
-		// element.text(scope.board[row][col]);
-
-		// console.log(row, col);
-
 		element.on("init", function() {
 			var value = scope.board.cells[row][col];
 			if (value === 0) {
@@ -425,28 +410,17 @@ var ngTile = function() {
 			var value = parseInt(element.text()) || 0;
 			if (args.movedTile) {
 				if (args.value === value) {
-					console.log(args);
 					element.attr({
-						"class": "tile zero-tile",
-						// "data-ng-value": 0
+						"class": "tile zero-tile"
 					});
 					element.text("");
 				} else if (value === 0) {
 					element.attr({
-						"class": "tile my-tile",
-						// "data-ng-value": args.value,
+						"class": "tile my-tile"
 					});
 					element.text(args.value);
 				}
 			}
-			// dy = scope.board.row * (size + margin) - y;
-			// dx = scope.board.col * (size + margin) - x;
-			// y = scope.board.row * (size + margin); 
-			// x = scope.board.col * (size + margin);
-			// element.animate({
-			// 	"margin-top": y + "px",
-			// 	"margin-left": x + "px"
-			// }, args.duration, "linear");
 		});
 	};
 
