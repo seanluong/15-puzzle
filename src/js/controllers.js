@@ -52,77 +52,39 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 	};
 
 	$scope.newGame = function() {
-		$scope.$emit("new-game");
+		$scope.$parent.$broadcast("new-game");
 	};
 };
 
-// var mainController = function
-
-var bodyController = function($scope, $modal, $document) {
-	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));	
-
-	var key2dir = {
-		38: "up",
-		40: "down",
-		37: "left",
-		39: "right"
-	};
-
-	function moveZeroTile(direction, duration) {
-		if (direction == "up") {
-			$scope.board.slideUp();
-		} else if (direction == "down") {
-			$scope.board.slideDown();
-		} else if (direction == "left") {
-			$scope.board.slideLeft();
-		} else {
-			$scope.board.slideRight();
-		}
-		$scope.$emit("board-change", {
-			duration: duration
-		});
-	}
-
-	$document.ready(function() {
-		$scope.$emit("init");
-	});
+var mainController = function($scope) {
+	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 
 	$scope.swipe = function(event) {
 		event.preventDefault();
 		moveZeroTile(event.gesture.direction, 50);
 	};
 
-	$scope.handleKeyDown = function(event) {
-		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
-        if (!modifiers) {
-        	if (!$scope.board.locked) {
-        		switch (event.which) {
-	        		case 38: //up
-	        		case 40: //down
-	        		case 37: //left
-	        		case 39: //right
-	        			event.preventDefault();
-	        			moveZeroTile(key2dir[event.which], 10);
-	        			break;
-	        		default: break;
-	        	}
-        	}
-        }
-	};
-
-	$scope.$on("board-change", function(event, args) {
-		event.stopPropagation();
-		if ($scope.board.won() === true) {
-			$scope.$broadcast("game-won");
-		} else {
-			localStorage.setItem("board", JSON.stringify($scope.board));
-			$scope.$emit("move", args);
+	function moveZeroTile(direction, duration) {
+		if (!$scope.board.locked) {
+			if (direction == "up") {
+				$scope.board.slideUp();
+			} else if (direction == "down") {
+				$scope.board.slideDown();
+			} else if (direction == "left") {
+				$scope.board.slideLeft();
+			} else {
+				$scope.board.slideRight();
+			}
+			$scope.$emit("move", {
+					duration: duration
+				});
+			if ($scope.board.won() === true) {
+				$scope.$parent.$broadcast("game-won");
+			} else {
+				localStorage.setItem("board", JSON.stringify($scope.board));
+			}
 		}
-	});
-
-	$scope.$on("game-won", function(event) {
-		$scope.handleGameWon();
-	});
+	}
 
 	$scope.getCellHTML = function(row, col) {
 		var value = $scope.board.cells[row][col];
@@ -137,41 +99,57 @@ var bodyController = function($scope, $modal, $document) {
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
 		$scope.$emit("init");
-		$scope.resume();	
 	});
 
-	$scope.$on("pause", function(event) {
-		// $scope.$broadcast("pause");
-		console.log("Locking .......");
-		$scope.pause();
+	$scope.$on("keydown", function(event, args) {
+		moveZeroTile(args.direction, args.duration);
 	});
 
-	$scope.$on("resume", function(event) {
-		// $scope.$broadcast("resume");
-		$scope.resume();
-	});
-
-	$scope.pause = function() {
-		console.log("Locking ...");
+	$scope.$on("pause", function() {
 		$scope.board.locked = true;
+	});
+
+	$scope.$on("resume", function() {
+		$scope.board.locked = false;
+	});
+};
+
+var bodyController = function($scope, $modal, $document) {
+
+	var key2dir = {
+		38: "up",
+		40: "down",
+		37: "left",
+		39: "right"
 	};
 
-	$scope.resume = function() {
-		$scope.board.locked = false;
+	$document.ready(function() {
+		$scope.$emit("init");
+	});
+
+	$scope.handleKeyDown = function(event) {
+		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+        if (!modifiers && key2dir[event.which]) {
+    		event.preventDefault();
+			console.log(key2dir[event.which]);
+			$scope.$broadcast("keydown", {
+				direction: key2dir[event.which],
+				duration: 10
+			});
+        }
 	};
-	
-	$scope.handleGameWon = function(size) {
+
+	$scope.$on("game-won", function(event) {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/won.html',
 			scope: $scope,
-			controller: GameWonModalInstanceCtrl,
-			size: size
+			controller: GameWonModalInstanceCtrl
 		});
-		$scope.pause();
+		$scope.$broadcast("pause");
 		modalInstance.result.then(function () {
-			$scope.newGame();
+			$scope.$broadcast("new-game");
 		}, function() {
-			$scope.newGame();
+			$scope.$broadcast("new-game");
 		});
-	};
+	});
 };

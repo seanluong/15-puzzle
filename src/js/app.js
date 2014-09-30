@@ -2,7 +2,7 @@ var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap"]);
 // bind controllers
 myApp.controller("bodyController", bodyController);
 myApp.controller("headerController", headerController);
-// myApp.controller("mainController", mainController);
+myApp.controller("mainController", mainController);
 
 // bind filters
 myApp.filter("duration", durationFilter);
