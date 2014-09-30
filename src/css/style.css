@@ -144,7 +144,7 @@ body {
 	z-index: 9999;
 }
 
-#guide-trigger {
+.guide-trigger {
 	font-weight: bold;
 }
 

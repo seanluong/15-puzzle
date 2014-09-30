@@ -5,8 +5,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="HandheldFriendly" content="True">
 		<meta name="MobileOptimized" content="640">
-		<meta name="viewport" content="width=640, user-scalable=false, initial-scal=1.0, 
-		maximum-scale=1">
+		<meta name="viewport" content="width=640, user-scalable=false, initial-scale=0.5">
 		<meta property="og:title" content="15 Puzzle">
 		<meta property="og:site_name" content="15 Puzzle">
 		<meta property="og:description" content="Move the empty cell to reach the target state and solve the 15 Puzzle!">
@@ -37,7 +36,7 @@
 			<div id="main">
 				<div id="controls">
 					<div id="summary">
-						Rearrange the board to reach the target state. 
+						Rearrange the board to reach the <button ng-click="guide()" class="btn btn-success guide-trigger">target</button> state. 
 					</div>
 					<div id="buttons">
 						<button id="new-game" class="btn btn-danger" ng-click="newGame()">
@@ -75,7 +74,7 @@
 			    			<span>Mobile device(s)</span>: swipe the empty cell.
 			    		</li>
 			    		<li>
-			    			Try to reach the <button id="guide-trigger" ng-click="guide()" class="btn btn-danger">TARGET</button> board state.
+			    			Try to reach the <button ng-click="guide()" class="btn btn-success guide-trigger">target</button> board state.
 			    		</li>
 			    	</ul>
 			    </div>

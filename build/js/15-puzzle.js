@@ -318,5 +318,5 @@ myApp.controller("myController", myController);
 myApp.filter("duration", durationFilter);
 myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
 $(document).bind('touchmove', function(e) {
-		e.preventDefault();
+		// e.preventDefault();
 });
