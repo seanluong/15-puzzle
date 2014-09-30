@@ -10,11 +10,8 @@ var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	};
 };
 
-var myController = function($scope, $modal, $timeout, $interval, $document) {
-	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+var headerController = function($scope, $interval) {
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
-
 	var timeoutId = $interval(function() {
 		$scope.timePassed += 1;
 		localStorage.setItem("timePassed", $scope.timePassed);
@@ -23,6 +20,22 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.$on("$destroy", function() {
 		$interval.cancel(timeoutId);
 	});
+
+	$scope.$on("new-game", function() {
+		$scope.timePassed = 0;
+	});
+
+	$scope.$on("game-won", function() {
+		var bestTime = localStorage.getItem("bestTime");
+		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
+			localStorage.setItem("bestTime", $scope.timePassed);
+		}
+	});
+};
+
+var bodyController = function($scope, $modal, $timeout, $interval, $document) {
+	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));	
+	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
 	var key2dir = {
 		38: "up",
@@ -58,7 +71,6 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
         if (!modifiers) {
-        	console.log($scope.board.locked);
         	if (!$scope.board.locked) {
         		switch (event.which) {
 	        		case 38: //up
@@ -77,15 +89,14 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.$on("board-change", function(event, args) {
 		event.stopPropagation();
 		if ($scope.board.won() === true) {
-			$scope.$emit("game-won", {});
+			$scope.$broadcast("game-won");
 		} else {
 			localStorage.setItem("board", JSON.stringify($scope.board));
 			$scope.$emit("move", args);
 		}
 	});
 
-	$scope.$on("game-won", function(event, args) {
-		event.stopPropagation();
+	$scope.$on("game-won", function(event) {
 		$scope.handleGameWon();
 	});
 
@@ -99,7 +110,7 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	};
 
 	$scope.newGame = function() {
-		$scope.timePassed = 0;
+		$scope.$broadcast("new-game");
 		$timeout(function() {
 			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
 		},0,true);
@@ -139,10 +150,6 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 			size: size
 		});
 		$scope.pause();
-		var bestTime = localStorage.getItem("bestTime");
-		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-			localStorage.setItem("bestTime", $scope.timePassed);
-		}
 		modalInstance.result.then(function () {
 			$scope.newGame();
 		}, function() {

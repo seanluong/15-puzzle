@@ -29,7 +29,6 @@ var ngZeroTile = function() {
 			dx = scope.board.col * (size + margin) - x;
 			y = scope.board.row * (size + margin); 
 			x = scope.board.col * (size + margin);
-			console.log(args.duration);
 			element.animate({
 				"margin-top": y + "px",
 				"margin-left": x + "px"
