@@ -37,20 +37,6 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 		}
 	});
 
-	$scope.guide = function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/guide.html',
-			controller: GuideModalInstanceCtrl,
-			size: "sm"
-		});
-		$scope.$parent.$broadcast("pause");
-		modalInstance.result.then(function () {
-			$scope.$parent.$broadcast("resume");
-		}, function() {
-			$scope.$parent.$broadcast("resume");
-		});
-	};
-
 	$scope.newGame = function() {
 		$scope.$parent.$broadcast("new-game");
 	};
@@ -137,6 +123,20 @@ var bodyController = function($scope, $modal, $document) {
 				duration: 10
 			});
         }
+	};
+
+	$scope.guide = function() {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/guide.html',
+			controller: GuideModalInstanceCtrl,
+			size: "sm"
+		});
+		$scope.$broadcast("pause");
+		modalInstance.result.then(function () {
+			$scope.$broadcast("resume");
+		}, function() {
+			$scope.$broadcast("resume");
+		});
 	};
 
 	$scope.$on("game-won", function(event) {
