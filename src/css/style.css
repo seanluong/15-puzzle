@@ -6,6 +6,8 @@ html {
 body {
 	background: #F7EFB7;
 	margin: 80px 0px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 #game-container {
@@ -41,7 +43,7 @@ body {
 #summary {
 	float: left;
 	width: 75%;
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: bolder;
 	margin-bottom: 25px;
 	margin-top: 15px;
@@ -106,7 +108,7 @@ body {
 .footer-section-header {
 	margin-top: 5px;
 	margin-bottom: 5px;
-	font-size: 18px;
+	font-size: 22px;
 	font-weight: bold;
 }
 
@@ -140,6 +142,7 @@ body {
 
 .guide-trigger {
 	font-weight: bold;
+	font-size: 16px;
 }
 
 #guide-content {
@@ -148,6 +151,10 @@ body {
 
 .modal-header {
 	text-align: center;
+}
+
+#explanation ul li {
+	font-size: 18px;
 }
 
 #explanation ul li span {
