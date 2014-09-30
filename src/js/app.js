@@ -9,8 +9,9 @@ myApp.filter("duration", durationFilter);
 
 // bind directives
 myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
+myApp.directive('ngTile', ["$interval", ngTile]);
 
 
 $("#board-container").on('touchmove', function(e) {
-		e.preventDefault();
+	e.preventDefault();
 });

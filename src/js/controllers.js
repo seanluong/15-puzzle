@@ -42,7 +42,7 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 	};
 };
 
-var mainController = function($scope) {
+var mainController = function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 
 	$scope.swipe = function(event) {
@@ -52,18 +52,38 @@ var mainController = function($scope) {
 
 	function moveZeroTile(direction, duration) {
 		if (!$scope.board.locked) {
+			var movedTile, value;
 			if (direction == "up") {
-				$scope.board.slideUp();
+				movedTile = $scope.board.getDown();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideDown();	
+				}
 			} else if (direction == "down") {
-				$scope.board.slideDown();
+				movedTile = $scope.board.getUp();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideUp();	
+				}
 			} else if (direction == "left") {
-				$scope.board.slideLeft();
+				movedTile = $scope.board.getRight();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideRight();	
+				}
 			} else {
-				$scope.board.slideRight();
+				movedTile = $scope.board.getLeft();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideLeft();	
+				}
 			}
-			$scope.$emit("move", {
-					duration: duration
-				});
+			$document.find(".tile").trigger("move", {
+				direction: direction,
+				duration: duration,
+				movedTile: movedTile,
+				value: value
+			});
 			if ($scope.board.won() === true) {
 				$scope.$parent.$broadcast("game-won");
 			} else {
@@ -72,10 +92,10 @@ var mainController = function($scope) {
 		}
 	}
 
-	$scope.getCellHTML = function(row, col) {
+	$scope.getCellClass = function(row, col) {
 		var value = $scope.board.cells[row][col];
 		if (value !== 0) {
-			return value;
+			return "my-cell";
 		} else {
 			return "";
 		}
@@ -84,7 +104,9 @@ var mainController = function($scope) {
 	$scope.$on("new-game", function() {
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
-		$scope.$emit("init");
+		$timeout(function() {
+			$document.find(".tile").trigger("init");
+		},0,true);
 	});
 
 	$scope.$on("keydown", function(event, args) {
@@ -110,14 +132,13 @@ var bodyController = function($scope, $modal, $document) {
 	};
 
 	$document.ready(function() {
-		$scope.$emit("init");
+		$document.find(".tile").trigger("init");
 	});
 
 	$scope.handleKeyDown = function(event) {
 		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
         if (!modifiers && key2dir[event.which]) {
     		event.preventDefault();
-			console.log(key2dir[event.which]);
 			$scope.$broadcast("keydown", {
 				direction: key2dir[event.which],
 				duration: 10

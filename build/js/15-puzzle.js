@@ -25,6 +25,50 @@ var Board = function(board) {
 	}
 };
 
+Board.prototype.getLeft = function() {
+	if (this.col <= 0) {
+		return null;
+	} else {
+		return {
+			row: this.row,
+			col: this.col-1
+		};
+	}
+};
+
+Board.prototype.getRight = function() {
+	if (this.col >= 3) {
+		return null;
+	} else {
+		return {
+			row: this.row,
+			col: this.col+1
+		};
+	}
+};
+
+Board.prototype.getUp = function() {
+	if (this.row <= 0) {
+		return null;
+	} else {
+		return {
+			row: this.row-1,
+			col: this.col
+		};
+	}
+};
+
+Board.prototype.getDown = function() {
+	if (this.row >= 3) {
+		return null;
+	} else {
+		return {
+			row: this.row+1,
+			col: this.col
+		};
+	}
+};
+
 Board.prototype.shuffle = function(nsteps) {
 	var step = nsteps || 100,
 		direction;
@@ -138,7 +182,7 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 	};
 };
 
-var mainController = function($scope) {
+var mainController = function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 
 	$scope.swipe = function(event) {
@@ -148,18 +192,38 @@ var mainController = function($scope) {
 
 	function moveZeroTile(direction, duration) {
 		if (!$scope.board.locked) {
+			var movedTile, value;
 			if (direction == "up") {
-				$scope.board.slideUp();
+				movedTile = $scope.board.getDown();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideDown();	
+				}
 			} else if (direction == "down") {
-				$scope.board.slideDown();
+				movedTile = $scope.board.getUp();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideUp();	
+				}
 			} else if (direction == "left") {
-				$scope.board.slideLeft();
+				movedTile = $scope.board.getRight();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideRight();	
+				}
 			} else {
-				$scope.board.slideRight();
+				movedTile = $scope.board.getLeft();
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slideLeft();	
+				}
 			}
-			$scope.$emit("move", {
-					duration: duration
-				});
+			$document.find(".tile").trigger("move", {
+				direction: direction,
+				duration: duration,
+				movedTile: movedTile,
+				value: value
+			});
 			if ($scope.board.won() === true) {
 				$scope.$parent.$broadcast("game-won");
 			} else {
@@ -168,10 +232,10 @@ var mainController = function($scope) {
 		}
 	}
 
-	$scope.getCellHTML = function(row, col) {
+	$scope.getCellClass = function(row, col) {
 		var value = $scope.board.cells[row][col];
 		if (value !== 0) {
-			return value;
+			return "my-cell";
 		} else {
 			return "";
 		}
@@ -180,7 +244,9 @@ var mainController = function($scope) {
 	$scope.$on("new-game", function() {
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
-		$scope.$emit("init");
+		$timeout(function() {
+			$document.find(".tile").trigger("init");
+		},0,true);
 	});
 
 	$scope.$on("keydown", function(event, args) {
@@ -206,7 +272,7 @@ var bodyController = function($scope, $modal, $document) {
 	};
 
 	$document.ready(function() {
-		$scope.$emit("init");
+		$document.find(".tile").trigger("init");
 	});
 
 	$scope.handleKeyDown = function(event) {
@@ -315,6 +381,75 @@ var bodyController = function($scope, $modal, $document) {
 			}, args.duration, "linear");
 		});
 	};
+};
+
+var ngTile = function() {
+
+	return function (scope, element, attrs) {
+		var size = 110,
+			margin = 12,
+			gap = size + margin,
+			row = parseInt(attrs.ngRow),
+			col = parseInt(attrs.ngCol);
+
+			
+			// y = row * (size + margin), 
+			// x = col * (size + margin),
+			// dy, dx;
+		// element.css({
+		// 	"margin-top": "0px",
+		// 	"margin-left": "0px"
+		// });
+		
+		
+		// element.text(scope.board[row][col]);
+
+		// console.log(row, col);
+
+		element.on("init", function() {
+			var value = scope.board.cells[row][col];
+			if (value === 0) {
+				element.attr({
+					"class": "tile zero-tile",
+				});
+				element.text("");
+			} else {
+				element.attr({
+					"class": "tile my-tile",
+				});
+				element.text(value);
+			}
+		});
+
+		element.on("move", function(event, args) {
+			var value = parseInt(element.text()) || 0;
+			if (args.movedTile) {
+				if (args.value === value) {
+					console.log(args);
+					element.attr({
+						"class": "tile zero-tile",
+						// "data-ng-value": 0
+					});
+					element.text("");
+				} else if (value === 0) {
+					element.attr({
+						"class": "tile my-tile",
+						// "data-ng-value": args.value,
+					});
+					element.text(args.value);
+				}
+			}
+			// dy = scope.board.row * (size + margin) - y;
+			// dx = scope.board.col * (size + margin) - x;
+			// y = scope.board.row * (size + margin); 
+			// x = scope.board.col * (size + margin);
+			// element.animate({
+			// 	"margin-top": y + "px",
+			// 	"margin-left": x + "px"
+			// }, args.duration, "linear");
+		});
+	};
+
 };;var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap"]);
 // bind controllers
 myApp.controller("bodyController", bodyController);
@@ -326,8 +461,9 @@ myApp.filter("duration", durationFilter);
 
 // bind directives
 myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
+myApp.directive('ngTile', ["$interval", ngTile]);
 
 
 $("#board-container").on('touchmove', function(e) {
-		e.preventDefault();
+	e.preventDefault();
 });

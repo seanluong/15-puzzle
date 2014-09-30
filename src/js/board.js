@@ -25,6 +25,50 @@ var Board = function(board) {
 	}
 };
 
+Board.prototype.getLeft = function() {
+	if (this.col <= 0) {
+		return null;
+	} else {
+		return {
+			row: this.row,
+			col: this.col-1
+		};
+	}
+};
+
+Board.prototype.getRight = function() {
+	if (this.col >= 3) {
+		return null;
+	} else {
+		return {
+			row: this.row,
+			col: this.col+1
+		};
+	}
+};
+
+Board.prototype.getUp = function() {
+	if (this.row <= 0) {
+		return null;
+	} else {
+		return {
+			row: this.row-1,
+			col: this.col
+		};
+	}
+};
+
+Board.prototype.getDown = function() {
+	if (this.row >= 3) {
+		return null;
+	} else {
+		return {
+			row: this.row+1,
+			col: this.col
+		};
+	}
+};
+
 Board.prototype.shuffle = function(nsteps) {
 	var step = nsteps || 100,
 		direction;
