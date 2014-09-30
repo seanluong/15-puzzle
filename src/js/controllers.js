@@ -120,11 +120,12 @@ var myController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.guide = function() {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/guide.html',
-			controller: GuideModalInstanceCtrl
+			controller: GuideModalInstanceCtrl,
+			size: "sm"
 		});
 		$scope.pause();
 		modalInstance.result.then(function () {
-			// $scope.resume();
+			$scope.resume();
 		}, function() {
 			$scope.resume();
 		});

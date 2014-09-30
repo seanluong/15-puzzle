@@ -40,9 +40,6 @@
 						Rearrange the board to reach the target state. 
 					</div>
 					<div id="buttons">
-						<button class="btn btn-danger" ng-click="guide()">
-							Guide
-						</button>
 						<button id="new-game" class="btn btn-danger" ng-click="newGame()">
 							New Game
 						</button>
@@ -67,22 +64,38 @@
 					 <div gplus class="g-plus" data-size="medium" data-annotation="bubble" 
 					 data-href='http://xuanluong.github.io/15-puzzle' data-action='share'></div>
 				</div>
-				<div id="author">
-					Created by 
-					<a href="https://twitter.com/xuanluong">Xuan Luong</a>.
-					Source code hosted on
-					<a href="https://github.com/xuanluong">GitHub
-						<img src="images/github.png" class="img-responsive" alt="Github">
-					</a>
+				
+				<div id="explanation">
+			    	<span class="footer-section-header">HOW TO PLAY</span>
+			    	<ul>
+			    		<li>
+			    			<span>PCs/Laptop(s)</span>: press UP/DOWN/LEFT/RIGHT to move the empty cell.
+			    		</li>
+			    		<li>
+			    			<span>Mobile device(s)</span>: swipe the empty cell.
+			    		</li>
+			    		<li>
+			    			Try to reach the <button id="guide-trigger" ng-click="guide()" class="btn btn-danger">TARGET</button> board state.
+			    		</li>
+			    	</ul>
+			    </div>
+
+			    <div id="author">
+			    	<span class="footer-section-header">AUTHOR</span>
+			    	<p>
+		    			Created by <a href="https://twitter.com/xuanluong">Xuan Luong</a>. 
+		    			Code hosted on <a href="https://github.com/xuanluong">GitHub <img src="images/github.png" class="img-responsive" alt="Github"></a>
+			    	</p>
 				</div>
 			</div>
-
-			<script src="//apis.google.com/js/platform.js" async defer></script>
-			<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-			<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-			<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-			<script src="lib/js/gestures.min.js"></script>
-			<script src="build/js/15-puzzle.js"></script>
 		</div>
+
+		<script src="//apis.google.com/js/platform.js" async defer></script>
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+		<script src="lib/js/gestures.min.js"></script>
+		<script src="build/js/15-puzzle.js"></script>
+		
 	</body>
 </html>
