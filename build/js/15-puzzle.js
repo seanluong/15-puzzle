@@ -106,8 +106,10 @@ var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	};
 };
 
-var headerController = function($scope, $interval) {
+var headerController = function($scope, $interval, $timeout) {
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
+	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
+
 	var timeoutId = $interval(function() {
 		$scope.timePassed += 1;
 		localStorage.setItem("timePassed", $scope.timePassed);
@@ -119,6 +121,9 @@ var headerController = function($scope, $interval) {
 
 	$scope.$on("new-game", function() {
 		$scope.timePassed = 0;
+		$timeout(function() {
+			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
+		},0,true);
 	});
 
 	$scope.$on("game-won", function() {
@@ -131,7 +136,6 @@ var headerController = function($scope, $interval) {
 
 var bodyController = function($scope, $modal, $timeout, $interval, $document) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));	
-	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
 	var key2dir = {
 		38: "up",
@@ -207,9 +211,6 @@ var bodyController = function($scope, $modal, $timeout, $interval, $document) {
 
 	$scope.newGame = function() {
 		$scope.$broadcast("new-game");
-		$timeout(function() {
-			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
-		},0,true);
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
 		$scope.$emit("init");
