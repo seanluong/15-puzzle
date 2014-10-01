@@ -1,6 +1,6 @@
 {
   "name": "15-puzzle",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "An interesting sliding puzzle game. Try it!",
   "repository": {
     "type": "git",
