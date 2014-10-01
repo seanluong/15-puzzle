@@ -23,6 +23,8 @@ body {
 #header {
 	vertical-align: top;
 	line-height: 0px;
+	padding-right: 15px;
+	padding-left: 15px;
 }
 
 #title {
@@ -43,7 +45,7 @@ body {
 #summary {
 	float: left;
 	width: 75%;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: bolder;
 	margin-bottom: 25px;
 	margin-top: 15px;
