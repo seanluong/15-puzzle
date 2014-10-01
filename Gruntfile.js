@@ -16,13 +16,6 @@ module.exports = function(grunt) {
 				],
 				dest: 'build/js/<%= pkg.name %>.js'
 		    },
-		    js_lib: {
-		      	src: [
-		      		'bower_components/jquery/dist/jquery.min.js',
-		      		'bower_components/angular/angular.min.js',
-		      	],
-		      	dest: 'build/js/15-puzzle.lib.min.js',
-		    },
 		},
 		cssmin: {
 			add_banner: {
