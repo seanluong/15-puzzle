@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -470,7 +470,7 @@ var ngTile = function() {
 		});
 	};
 
-};;var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap"]);
+};;var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"]);
 // bind controllers
 myApp.controller("bodyController", bodyController);
 myApp.controller("headerController", headerController);

@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap"]);
+var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"]);
 // bind controllers
 myApp.controller("bodyController", bodyController);
 myApp.controller("headerController", headerController);

@@ -91,6 +91,11 @@ body {
 	text-align: center;
 }
 
+#share {
+	margin: 15px 0px;
+	text-align: center;
+}
+
 #author {
 	margin-top: 5px;
 	margin-bottom: 5px;
