@@ -324,7 +324,7 @@ var bodyController = function($scope, $modal, $document) {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/won.html',
 			scope: $scope,
-			controller: GameWonModalInstanceCtrl
+			controller: GameWonModalInstanceCtrl,
 		});
 		$scope.$broadcast("pause");
 		modalInstance.result.then(function () {
