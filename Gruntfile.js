@@ -4,7 +4,8 @@ module.exports = function(grunt) {
 	    pkg: grunt.file.readJSON('package.json'),
 	    concat: {
 			options: {
-				separator: '\n'
+				separator: '\n',
+				stripBanners: true
 			},
 			js: {
 		      	src: [
@@ -16,15 +17,32 @@ module.exports = function(grunt) {
 				],
 				dest: 'build/js/<%= pkg.name %>.js'
 		    },
+		    js_lib: {
+		      	src: [
+		      		"lib/js/jquery.min.js",
+					"lib/js/widgets.min.js",
+		      		"lib/js/angular.min.js",
+		      		"lib/js/ui-bootstrap-tpls.min.js",
+		      		"lib/js/gestures.min.js",
+					"lib/js/angular-socialshare.min.js",
+		      	],
+		      	dest: 'build/js/<%= pkg.name %>.lib.min.js',
+		    },
+		    css: {
+		    	src: [
+		    		'lib/css/bootstrap.css',
+		    		'src/css/style.css'
+		    	],
+		    	dest: 'build/css/<%= pkg.name %>.css'
+		    }
 		},
 		cssmin: {
 			add_banner: {
-				options: {
-				  banner: '/* My minified css file */'
-				},
 				files: {
-				  'build/css/style.min.css': 'src/css/style.css',
-				  'build/css/bootstrap.min.css': 'lib/css/bootstrap.css'
+					'build/css/<%= pkg.name %>.min.css': [
+						'lib/css/angular-socialshare.min.css',
+						'build/css/<%= pkg.name %>.css'
+					]
 				}
 			}
 		},
