@@ -4,21 +4,25 @@ module.exports = function(grunt) {
 	    pkg: grunt.file.readJSON('package.json'),
 	    concat: {
 			options: {
-				// define a string to put between each file in the concatenated output
-				separator: ';'
+				separator: '\n'
 			},
-			dist: {
-				// the files to concatenate
-				src: [
+			js: {
+		      	src: [
 					'src/js/board.js',
 					'src/js/controllers.js',
 					'src/js/filters.js',
 					'src/js/directives.js',
 					'src/js/app.js'
 				],
-				// the location of the resulting JS file
 				dest: 'build/js/<%= pkg.name %>.js'
-			}
+		    },
+		    js_lib: {
+		      	src: [
+		      		'bower_components/jquery/dist/jquery.min.js',
+		      		'bower_components/angular/angular.min.js',
+		      	],
+		      	dest: 'build/js/15-puzzle.lib.min.js',
+		    },
 		},
 		cssmin: {
 			add_banner: {
@@ -32,11 +36,8 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			// define the files to lint
 			files: ['gruntfile.js', 'src/js/*.js'],
-			// configure JSHint (documented at http://www.jshint.com/docs/)
 			options: {
-			  // more options here if you want to override JSHint defaults
 				globals: {
 					jQuery: true,
 					console: true,
