@@ -23,10 +23,11 @@ The empty cell is moved in the reverse direction of the key pressed/swipe.
 The implementation makes use of the following libraries:
 + [AngularJS](https://angularjs.org/)
 + [angular-gestures](https://github.com/wzr1337/angular-gestures)
++ [angular-socialshare](https://github.com/djds4rce/angular-socialshare)
 + [UI Bootstrap](http://angular-ui.github.io/bootstrap/) for `AngularJS`
 + [jQuery](http://jquery.com/)
 
-Besides, [Grunt](http://gruntjs.com/) and some of its modules (`jshint`, `cssmin`, `concat`, `uglify`, `qunit`) are used to help automating the development process. To use `Grunt`, we need [NodeJS](http://nodejs.org/)
+Besides, [Grunt](http://gruntjs.com/) and some of its modules (`jshint`, `cssmin`, `concat`, `qunit`) are used to help automating the development process. To use `Grunt`, we need [NodeJS](http://nodejs.org/)
 
 ## Contribution
 
