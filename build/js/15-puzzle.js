@@ -158,7 +158,8 @@ Board.prototype.won = function() {
 		}
 	}
 	return true;
-};;var GuideModalInstanceCtrl = function($scope, $modalInstance) {
+};
+var GuideModalInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");
 	};
@@ -333,7 +334,8 @@ var bodyController = function($scope, $modal, $document) {
 			$scope.$broadcast("new-game");
 		});
 	});
-};;var durationFilter = function() {
+};
+var durationFilter = function() {
 
 	function pad(amount) {
 		if (amount > 9) {
@@ -363,7 +365,8 @@ var bodyController = function($scope, $modal, $document) {
 			return formatTime(parseInt(input));
 		}
     };
-};;var ngZeroTile = function() {
+};
+var ngZeroTile = function() {
 
 	return function(scope, element, attrs) {
 		var size = 110,
@@ -470,20 +473,14 @@ var ngTile = function() {
 		});
 	};
 
-};;var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"]);
-// bind controllers
+};
+var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"]);
 myApp.controller("bodyController", bodyController);
 myApp.controller("headerController", headerController);
 myApp.controller("mainController", mainController);
-
-// bind filters
 myApp.filter("duration", durationFilter);
-
-// bind directives
 myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
 myApp.directive('ngTile', ["$interval", ngTile]);
-
-
 $("#board-container").on('touchmove', function(e) {
 	e.preventDefault();
 });

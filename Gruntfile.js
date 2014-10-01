@@ -4,39 +4,51 @@ module.exports = function(grunt) {
 	    pkg: grunt.file.readJSON('package.json'),
 	    concat: {
 			options: {
-				// define a string to put between each file in the concatenated output
-				separator: ';'
+				separator: '\n',
+				stripBanners: true
 			},
-			dist: {
-				// the files to concatenate
-				src: [
+			js: {
+		      	src: [
 					'src/js/board.js',
 					'src/js/controllers.js',
 					'src/js/filters.js',
 					'src/js/directives.js',
 					'src/js/app.js'
 				],
-				// the location of the resulting JS file
 				dest: 'build/js/<%= pkg.name %>.js'
-			}
+		    },
+		    js_lib: {
+		      	src: [
+		      		"lib/js/jquery.min.js",
+					"lib/js/widgets.min.js",
+		      		"lib/js/angular.min.js",
+		      		"lib/js/ui-bootstrap-tpls.min.js",
+		      		"lib/js/gestures.min.js",
+					"lib/js/angular-socialshare.min.js",
+		      	],
+		      	dest: 'build/js/<%= pkg.name %>.lib.min.js',
+		    },
+		    css: {
+		    	src: [
+		    		'lib/css/bootstrap.css',
+		    		'src/css/style.css'
+		    	],
+		    	dest: 'build/css/<%= pkg.name %>.css'
+		    }
 		},
 		cssmin: {
 			add_banner: {
-				options: {
-				  banner: '/* My minified css file */'
-				},
 				files: {
-				  'build/css/style.min.css': 'src/css/style.css',
-				  'build/css/bootstrap.min.css': 'lib/css/bootstrap.css'
+					'build/css/<%= pkg.name %>.min.css': [
+						'lib/css/angular-socialshare.min.css',
+						'build/css/<%= pkg.name %>.css'
+					]
 				}
 			}
 		},
 		jshint: {
-			// define the files to lint
 			files: ['gruntfile.js', 'src/js/*.js'],
-			// configure JSHint (documented at http://www.jshint.com/docs/)
 			options: {
-			  // more options here if you want to override JSHint defaults
 				globals: {
 					jQuery: true,
 					console: true,
