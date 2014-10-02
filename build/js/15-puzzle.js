@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -284,7 +284,6 @@ var mainController = function($scope, $document, $timeout) {
 };
 
 var bodyController = function($scope, $modal, $document) {
-	$scope.shares = 0;
 	var key2dir = {
 		38: "up",
 		40: "down",
