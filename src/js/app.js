@@ -4,6 +4,8 @@ myApp.controller("headerController", headerController);
 myApp.controller("mainController", mainController);
 myApp.filter("duration", durationFilter);
 myApp.directive('ngTile', ["$interval", ngTile]);
-$("#board-container").on('touchmove', function(e) {
-	e.preventDefault();
+myApp.run(function() {
+	$("#board-container").on('touchmove', function(e) {
+		e.preventDefault();
+	});
 });
