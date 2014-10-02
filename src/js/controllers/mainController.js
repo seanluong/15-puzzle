@@ -1,4 +1,4 @@
-var mainController = function($scope, $document, $timeout) {
+var mainController = ["$scope", "$document", "$timeout", function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
@@ -67,4 +67,4 @@ var mainController = function($scope, $document, $timeout) {
 	$scope.$on("resume", function() {
 		$scope.board.locked = false;
 	});
-};
+}];

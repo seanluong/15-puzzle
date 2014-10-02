@@ -1,4 +1,4 @@
-var headerController = function($scope, $interval, $timeout, $modal) {
+var headerController = ["$scope", "$interval", "$timeout", function($scope, $interval, $timeout) {
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
@@ -28,4 +28,4 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 	$scope.newGame = function() {
 		$scope.$parent.$broadcast("new-game");
 	};
-};
+}];

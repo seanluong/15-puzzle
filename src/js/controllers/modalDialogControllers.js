@@ -1,10 +1,10 @@
-var GuideModalInstanceCtrl = function($scope, $modalInstance) {
+var guideModalInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");
 	};
 };
 
-var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
+var gameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.close({});
 	};

@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -159,58 +159,39 @@ Board.prototype.won = function() {
 	}
 	return true;
 };
-var bodyController = function($scope, $modal, $document) {
-	var key2dir = {
-		38: "up",
-		40: "down",
-		37: "left",
-		39: "right"
-	};
+var bodyController = ["$scope", "guideService", "gameWonService",
+	function($scope, guideService, gameWonService) {
+		var key2dir = {
+			38: "up",
+			40: "down",
+			37: "left",
+			39: "right"
+		};
 
-	$document.ready(function() {
-		$document.find(".tile").trigger("init");
-	});
+		$scope.handleKeyDown = function(event) {
+			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+	        if (!modifiers && key2dir[event.which]) {
+	    		event.preventDefault();
+				$scope.$broadcast("keydown", {
+					direction: key2dir[event.which],
+					duration: 75
+				});
+	        }
+		};
 
-	$scope.handleKeyDown = function(event) {
-		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
-        if (!modifiers && key2dir[event.which]) {
-    		event.preventDefault();
-			$scope.$broadcast("keydown", {
-				direction: key2dir[event.which],
-				duration: 75
-			});
-        }
-	};
+		$scope.guide = function() {
+			guideService($scope);
+			$scope.$broadcast("pause");
+			
+		};
 
-	$scope.guide = function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/guide.html',
-			controller: GuideModalInstanceCtrl,
-			size: "sm"
+		$scope.$on("game-won", function(event) {
+			gameWonService($scope);
+			$scope.$broadcast("pause");
 		});
-		$scope.$broadcast("pause");
-		modalInstance.result.then(function () {
-			$scope.$broadcast("resume");
-		}, function() {
-			$scope.$broadcast("resume");
-		});
-	};
-
-	$scope.$on("game-won", function(event) {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/won.html',
-			scope: $scope,
-			controller: GameWonModalInstanceCtrl,
-		});
-		$scope.$broadcast("pause");
-		modalInstance.result.then(function () {
-			$scope.$broadcast("new-game");
-		}, function() {
-			$scope.$broadcast("new-game");
-		});
-	});
-};
-var mainController = function($scope, $document, $timeout) {
+	}
+];
+var mainController = ["$scope", "$document", "$timeout", function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
@@ -279,8 +260,8 @@ var mainController = function($scope, $document, $timeout) {
 	$scope.$on("resume", function() {
 		$scope.board.locked = false;
 	});
-};
-var headerController = function($scope, $interval, $timeout, $modal) {
+}];
+var headerController = ["$scope", "$interval", "$timeout", function($scope, $interval, $timeout) {
 	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
 	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
@@ -310,14 +291,14 @@ var headerController = function($scope, $interval, $timeout, $modal) {
 	$scope.newGame = function() {
 		$scope.$parent.$broadcast("new-game");
 	};
-};
-var GuideModalInstanceCtrl = function($scope, $modalInstance) {
+}];
+var guideModalInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");
 	};
 };
 
-var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
+var gameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.close({});
 	};
@@ -409,14 +390,50 @@ var ngTile = function() {
 	};
 
 };
-var myApp = angular.module("myApp", ["angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"]);
-myApp.controller("bodyController", ["$scope", "$modal", "$document", bodyController]);
-myApp.controller("headerController", ["$scope", "$interval", "$timeout", "$modal", headerController]);
-myApp.controller("mainController", ["$scope", "$document", "$timeout", mainController]);
-myApp.filter("duration", durationFilter);
-myApp.directive('ngTile', ["$interval", ngTile]);
-myApp.run(function() {
-	$("#board-container").on('touchmove', function(e) {
-		e.preventDefault();
+var gameWonService = ["$modal", function($modal) {
+	return function($scope) {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/won.html',
+			scope: $scope,
+			controller: gameWonModalInstanceCtrl,
+		});
+		modalInstance.result.then(function () {
+			$scope.$broadcast("new-game");
+		}, function() {
+			$scope.$broadcast("new-game");
+		});
+	};	
+}];
+var guideService = ["$modal", function($modal) {
+
+	return function($scope) {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/guide.html',
+			controller: guideModalInstanceCtrl,
+			size: "sm"
+		});
+		modalInstance.result.then(function () {
+			$scope.$broadcast("resume");
+		}, function() {
+			$scope.$broadcast("resume");
+		});
+	};
+}];
+var myApp = angular.module("myApp", [
+	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"
+]).
+factory("guideService", guideService).
+factory("gameWonService", gameWonService).
+controller("bodyController", bodyController).
+controller("headerController", headerController).
+controller("mainController", mainController).
+filter("duration", durationFilter).
+directive("ngTile", ngTile).
+run(function() {
+	$(function() {
+		$("#board-container").on("touchmove", function(e) {
+			e.preventDefault();
+		});
+		$(".tile").trigger("init");
 	});
 });

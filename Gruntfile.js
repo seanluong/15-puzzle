@@ -16,6 +16,8 @@ module.exports = function(grunt) {
 					'src/js/controllers/modalDialogControllers.js',
 					'src/js/filters/durationFilter.js',
 					'src/js/directives.js',
+					'src/js/services/gameWonService.js',
+					'src/js/services/guideService.js',
 					'src/js/app.js'
 				],
 				dest: 'build/js/<%= pkg.name %>.js'
@@ -39,6 +41,18 @@ module.exports = function(grunt) {
 		    	dest: 'build/css/<%= pkg.name %>.css'
 		    }
 		},
+		uglify: {
+			options: {
+				wrap: true,
+				preserveComments: false,
+				sourceMap: true
+			},
+			js: {
+				files: {
+					'build/js/<%= pkg.name %>.min.js': ['build/js/<%= pkg.name %>.js']
+				}
+			}
+		},
 		cssmin: {
 			add_banner: {
 				files: {
@@ -50,7 +64,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			files: ['gruntfile.js', 'src/js/*.js'],
+			files: ['gruntfile.js', 'src/js/**/*.js'],
 			options: {
 				globals: {
 					jQuery: true,
@@ -75,6 +89,14 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-qunit');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	// grunt.loadNpmTasks('grunt-contrib-uglify');
-  	grunt.registerTask('default', ['jshint','qunit','concat','cssmin']);
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+  	grunt.registerTask('default', [
+  		'concat:css',
+  		'cssmin', // for CSS first
+  		'jshint', // JS coding style
+  		'qunit', // unit testing
+  		'concat:js', // app's JS
+  		'concat:js_lib', // libraries
+  		// 'uglify:js' // uglfy 15-puzzle.js
+  	]);
 };
