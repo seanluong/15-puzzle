@@ -22,6 +22,7 @@
 		<link rel="stylesheet" href="build/css/15-puzzle.min.css">
 	</head>
 	<body ng-controller="bodyController" ng-keydown="handleKeyDown($event)">
+
 		<div id="game-container">
 			<div id="header" ng-controller="headerController">
 				<h1 id="title">15 PUZZLE</h1>
@@ -90,4 +91,21 @@
 		<script src="build/js/15-puzzle.js"></script>
 		
 	</body>
+	<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '776055202450751',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 </html>
