@@ -170,3 +170,7 @@ body {
 #explanation ul li span {
 	font-weight: bolder;
 }
+
+.fb-share-button.fb_iframe_widget {
+	display: inline-flex;
+}
