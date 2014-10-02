@@ -65,9 +65,10 @@ body {
 	width: 500px;
 	height: 500px;
 	position: relative;
-	background: #7C0909;
+	background: rgba(204, 138, 138, 1);
+	border: 12px solid;
+	border-color: #7C0909;
 	border-radius: 6px;
-	padding: 12px;
 	box-sizing: border-box;
 	clear: both;
 }
@@ -118,10 +119,6 @@ body {
 	font-weight: bold;
 }
 
-.my-row {
-	float: left;
-}
-
 .tile {
 	display: inline-block;
 	position: absolute;
@@ -129,10 +126,8 @@ body {
 
 .my-tile {
 	text-align: center;
-	width: 110px;
-	height: 110px;
-	margin-right: 12px;
-	margin-bottom: 12px;
+	width: 116px;
+	height: 116px;
 	border-radius: 3px;
 	background: rgba(255, 255, 255, 1.0);
 	font-size: 55px;
@@ -142,10 +137,8 @@ body {
 
 .zero-tile {
 	text-align: center;
-	width: 110px;
-	height: 110px;
-	margin-right: 12px;
-	margin-bottom: 12px;
+	width: 116px;
+	height: 116px;
 	border-radius: 3px;
 	background: rgba(204, 138, 138, 1);
 }

@@ -365,50 +365,11 @@ var durationFilter = function() {
 		}
     };
 };
-var ngZeroTile = function() {
-
-	return function(scope, element, attrs) {
-		var size = 110,
-			margin = 12,
-			gap = size + margin,
-			y = scope.board.row * (size + margin), 
-			x = scope.board.col * (size + margin),
-			dy, dx;
-
-		element.css({
-			"margin-top": y + "px",
-			"margin-left": x + "px"
-		});
-
-		scope.$on("init", function(event) {
-			event.stopPropagation();
-			y = scope.board.row * (size + margin); 
-			x = scope.board.col * (size + margin);
-			element.css({
-				"margin-top": y + "px",
-				"margin-left": x + "px"
-			});
-		});
-
-		scope.$on("move", function(event, args) {
-			event.stopPropagation();
-			dy = scope.board.row * (size + margin) - y;
-			dx = scope.board.col * (size + margin) - x;
-			y = scope.board.row * (size + margin); 
-			x = scope.board.col * (size + margin);
-			element.animate({
-				"margin-top": y + "px",
-				"margin-left": x + "px"
-			}, args.duration, "linear");
-		});
-	};
-};
-
 var ngTile = function() {
 
 	return function (scope, element, attrs) {
-		var size = 110,
-			margin = 12,
+		var size = 116,
+			margin = 4,
 			gap = size + margin;
 
 		function findCoor(cells, value) {
@@ -417,8 +378,8 @@ var ngTile = function() {
 				for (col in [0,1,2,3]) {
 					if (cells[row][col] === value) {
 						return {
-							y: row * gap + margin,
-							x: col * gap + margin
+							y: row * gap,
+							x: col * gap
 						};
 					}
 				}
@@ -478,7 +439,6 @@ myApp.controller("bodyController", bodyController);
 myApp.controller("headerController", headerController);
 myApp.controller("mainController", mainController);
 myApp.filter("duration", durationFilter);
-myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
 myApp.directive('ngTile', ["$interval", ngTile]);
 $("#board-container").on('touchmove', function(e) {
 	e.preventDefault();
