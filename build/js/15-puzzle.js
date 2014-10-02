@@ -395,12 +395,7 @@ var ngTile = function() {
 				"left": x + "px",
 				"top": y + "px"
 			});
-			if (value === 0) {
-				element.attr({
-					"class": "tile zero-tile"
-				});
-				element.text("");
-			} else {
+			if (value !== 0) {
 				element.attr({
 					"class":"tile my-tile"
 				});
@@ -419,15 +414,7 @@ var ngTile = function() {
 					element.animate({
 						"left": x + "px",
 						"top": y + "px"
-					},args.duration);
-				} else if (value === 0) {
-					coor = findCoor(scope.board.cells, args.value);
-					y = args.movedTile.zeroTile.drow * gap + coor.y;
-					x = args.movedTile.zeroTile.dcol * gap + coor.x;
-					element.css({
-						"left": x + "px",
-						"top": y + "px"
-					});
+					}, args.duration);
 				}
 			}
 		});

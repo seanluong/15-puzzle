@@ -1018,14 +1018,6 @@ body {
 	z-index: 100;
 }
 
-.zero-tile {
-	text-align: center;
-	width: 116px;
-	height: 116px;
-	border-radius: 3px;
-	background: rgba(204, 138, 138, 1);
-}
-
 .guide-trigger {
 	font-weight: bold;
 	font-size: 16px;
