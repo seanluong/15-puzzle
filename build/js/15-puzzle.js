@@ -253,15 +253,6 @@ var mainController = function($scope, $document, $timeout) {
 		}
 	}
 
-	$scope.getCellClass = function(row, col) {
-		var value = $scope.board.cells[row][col];
-		if (value !== 0) {
-			return "my-cell";
-		} else {
-			return "";
-		}
-	};
-
 	$scope.$on("new-game", function() {
 		$scope.board = new Board();
 		localStorage.setItem("board", JSON.stringify($scope.board));
