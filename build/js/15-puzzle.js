@@ -159,50 +159,57 @@ Board.prototype.won = function() {
 	}
 	return true;
 };
-var GuideModalInstanceCtrl = function($scope, $modalInstance) {
-	$scope.ok = function() {
-		$modalInstance.dismiss("done");
+var bodyController = function($scope, $modal, $document) {
+	var key2dir = {
+		38: "up",
+		40: "down",
+		37: "left",
+		39: "right"
 	};
-};
 
-var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
-	$scope.ok = function() {
-		$modalInstance.close({});
-	};
-};
-
-var headerController = function($scope, $interval, $timeout, $modal) {
-	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
-
-	var timeoutId = $interval(function() {
-		$scope.timePassed += 1;
-		localStorage.setItem("timePassed", $scope.timePassed);
-	},1000,0,true);
-
-	$scope.$on("$destroy", function() {
-		$interval.cancel(timeoutId);
+	$document.ready(function() {
+		$document.find(".tile").trigger("init");
 	});
 
-	$scope.$on("new-game", function() {
-		$scope.timePassed = 0;
-		$timeout(function() {
-			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
-		},0,true);
-	});
-
-	$scope.$on("game-won", function() {
-		var bestTime = localStorage.getItem("bestTime");
-		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-			localStorage.setItem("bestTime", $scope.timePassed);
-		}
-	});
-
-	$scope.newGame = function() {
-		$scope.$parent.$broadcast("new-game");
+	$scope.handleKeyDown = function(event) {
+		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+        if (!modifiers && key2dir[event.which]) {
+    		event.preventDefault();
+			$scope.$broadcast("keydown", {
+				direction: key2dir[event.which],
+				duration: 75
+			});
+        }
 	};
-};
 
+	$scope.guide = function() {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/guide.html',
+			controller: GuideModalInstanceCtrl,
+			size: "sm"
+		});
+		$scope.$broadcast("pause");
+		modalInstance.result.then(function () {
+			$scope.$broadcast("resume");
+		}, function() {
+			$scope.$broadcast("resume");
+		});
+	};
+
+	$scope.$on("game-won", function(event) {
+		var modalInstance = $modal.open({
+			templateUrl: 'template/won.html',
+			scope: $scope,
+			controller: GameWonModalInstanceCtrl,
+		});
+		$scope.$broadcast("pause");
+		modalInstance.result.then(function () {
+			$scope.$broadcast("new-game");
+		}, function() {
+			$scope.$broadcast("new-game");
+		});
+	});
+};
 var mainController = function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
@@ -273,57 +280,47 @@ var mainController = function($scope, $document, $timeout) {
 		$scope.board.locked = false;
 	});
 };
+var headerController = function($scope, $interval, $timeout, $modal) {
+	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
+	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
-var bodyController = function($scope, $modal, $document) {
-	var key2dir = {
-		38: "up",
-		40: "down",
-		37: "left",
-		39: "right"
-	};
+	var timeoutId = $interval(function() {
+		$scope.timePassed += 1;
+		localStorage.setItem("timePassed", $scope.timePassed);
+	},1000,0,true);
 
-	$document.ready(function() {
-		$document.find(".tile").trigger("init");
+	$scope.$on("$destroy", function() {
+		$interval.cancel(timeoutId);
 	});
 
-	$scope.handleKeyDown = function(event) {
-		var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
-        if (!modifiers && key2dir[event.which]) {
-    		event.preventDefault();
-			$scope.$broadcast("keydown", {
-				direction: key2dir[event.which],
-				duration: 75
-			});
-        }
-	};
-
-	$scope.guide = function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/guide.html',
-			controller: GuideModalInstanceCtrl,
-			size: "sm"
-		});
-		$scope.$broadcast("pause");
-		modalInstance.result.then(function () {
-			$scope.$broadcast("resume");
-		}, function() {
-			$scope.$broadcast("resume");
-		});
-	};
-
-	$scope.$on("game-won", function(event) {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/won.html',
-			scope: $scope,
-			controller: GameWonModalInstanceCtrl,
-		});
-		$scope.$broadcast("pause");
-		modalInstance.result.then(function () {
-			$scope.$broadcast("new-game");
-		}, function() {
-			$scope.$broadcast("new-game");
-		});
+	$scope.$on("new-game", function() {
+		$scope.timePassed = 0;
+		$timeout(function() {
+			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
+		},0,true);
 	});
+
+	$scope.$on("game-won", function() {
+		var bestTime = localStorage.getItem("bestTime");
+		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
+			localStorage.setItem("bestTime", $scope.timePassed);
+		}
+	});
+
+	$scope.newGame = function() {
+		$scope.$parent.$broadcast("new-game");
+	};
+};
+var GuideModalInstanceCtrl = function($scope, $modalInstance) {
+	$scope.ok = function() {
+		$modalInstance.dismiss("done");
+	};
+};
+
+var GameWonModalInstanceCtrl = function ($scope, $modalInstance) {
+	$scope.ok = function() {
+		$modalInstance.close({});
+	};
 };
 var durationFilter = function() {
 
