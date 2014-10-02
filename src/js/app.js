@@ -8,3 +8,6 @@ myApp.directive('ngTile', ["$interval", ngTile]);
 $("#board-container").on('touchmove', function(e) {
 	e.preventDefault();
 });
+myApp.run(function($FB){
+  $FB.init('776055202450751');
+});
