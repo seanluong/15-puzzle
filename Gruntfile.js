@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 					'src/js/controllers/mainController.js',
 					'src/js/controllers/headerController.js',
 					'src/js/controllers/modalDialogControllers.js',
-					'src/js/filters.js',
+					'src/js/filters/durationFilter.js',
 					'src/js/directives.js',
 					'src/js/app.js'
 				],
