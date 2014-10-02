@@ -481,9 +481,6 @@ myApp.controller("mainController", mainController);
 myApp.filter("duration", durationFilter);
 myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
 myApp.directive('ngTile', ["$interval", ngTile]);
-myApp.run(function($FB){
-  $FB.init('776055202450751');
-});
 $("#board-container").on('touchmove', function(e) {
 	e.preventDefault();
 });
