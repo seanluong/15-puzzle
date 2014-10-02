@@ -284,7 +284,7 @@ var mainController = function($scope, $document, $timeout) {
 };
 
 var bodyController = function($scope, $modal, $document) {
-
+	$scope.shares = 0;
 	var key2dir = {
 		38: "up",
 		40: "down",
@@ -483,4 +483,7 @@ myApp.directive('ngZeroTile', ["$interval", ngZeroTile]);
 myApp.directive('ngTile', ["$interval", ngTile]);
 $("#board-container").on('touchmove', function(e) {
 	e.preventDefault();
+});
+myApp.run(function($FB){
+  $FB.init('776055202450751');
 });

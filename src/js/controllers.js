@@ -123,7 +123,7 @@ var mainController = function($scope, $document, $timeout) {
 };
 
 var bodyController = function($scope, $modal, $document) {
-
+	$scope.shares = 0;
 	var key2dir = {
 		38: "up",
 		40: "down",
