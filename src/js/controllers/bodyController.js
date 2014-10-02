@@ -1,19 +1,15 @@
-var bodyController = ["$scope", "guideService", "gameWonService",
-	function($scope, guideService, gameWonService) {
-		var key2dir = {
-			38: "up",
-			40: "down",
-			37: "left",
-			39: "right"
-		};
+var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapService",
+	function($scope, guideService, gameWonService, keyboardMapService) {
 
 		$scope.handleKeyDown = function(event) {
-			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
-	        if (!modifiers && key2dir[event.which]) {
+			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey,
+				direction = keyboardMapService(event.which),
+				duration = 75;
+	        if (!modifiers && direction) {
 	    		event.preventDefault();
 				$scope.$broadcast("keydown", {
-					direction: key2dir[event.which],
-					duration: 75
+					direction: direction,
+					duration: duration
 				});
 	        }
 		};

@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		// this.shuffle();
+		this.shuffle();
 	}
 };
 
@@ -159,22 +159,18 @@ Board.prototype.won = function() {
 	}
 	return true;
 };
-var bodyController = ["$scope", "guideService", "gameWonService",
-	function($scope, guideService, gameWonService) {
-		var key2dir = {
-			38: "up",
-			40: "down",
-			37: "left",
-			39: "right"
-		};
+var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapService",
+	function($scope, guideService, gameWonService, keyboardMapService) {
 
 		$scope.handleKeyDown = function(event) {
-			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
-	        if (!modifiers && key2dir[event.which]) {
+			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey,
+				direction = keyboardMapService(event.which),
+				duration = 75;
+	        if (!modifiers && direction) {
 	    		event.preventDefault();
 				$scope.$broadcast("keydown", {
-					direction: key2dir[event.which],
-					duration: 75
+					direction: direction,
+					duration: duration
 				});
 	        }
 		};
@@ -419,11 +415,23 @@ var guideService = ["$modal", function($modal) {
 		});
 	};
 }];
+var keyboardMapService = [	function() {
+	var key2dir = {
+		38: "up",
+		40: "down",
+		37: "left",
+		39: "right"
+	};
+	return function(whichKey) {
+		return key2dir[whichKey];
+	};
+}];
 var myApp = angular.module("myApp", [
 	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"
 ]).
 factory("guideService", guideService).
 factory("gameWonService", gameWonService).
+factory("keyboardMapService", keyboardMapService).
 controller("bodyController", bodyController).
 controller("headerController", headerController).
 controller("mainController", mainController).

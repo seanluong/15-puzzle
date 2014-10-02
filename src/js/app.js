@@ -3,6 +3,7 @@ var myApp = angular.module("myApp", [
 ]).
 factory("guideService", guideService).
 factory("gameWonService", gameWonService).
+factory("keyboardMapService", keyboardMapService).
 controller("bodyController", bodyController).
 controller("headerController", headerController).
 controller("mainController", mainController).
