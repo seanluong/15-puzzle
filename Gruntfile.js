@@ -85,7 +85,8 @@ module.exports = function(grunt) {
 				options: {
 					urls: [
 						'http://localhost:8888/test/js/test.html',
-						'http://localhost:8888/test/js/testBoard.html'
+						'http://localhost:8888/test/js/testBoard.html',
+						'http://localhost:8888/test/js/testServices.html'
 					]
 				}
 		    }
@@ -93,6 +94,7 @@ module.exports = function(grunt) {
 		connect: {
 			server: {
 				options: {
+					hostname: 'localhost',
 					port: 8888,
 					base: '.'
 				}
@@ -127,13 +129,9 @@ module.exports = function(grunt) {
 
 	// one task to rule them all!
   	grunt.registerTask('default', [
-  		'connect',
-  		'qunit', // unit testing
-  		'concat:css',
-  		'cssmin', // for CSS first
-  		'jshint', // JS coding style
-  		'concat:js', // app's JS
-  		'concat:js_lib', // libraries
+  		'unit',
+  		'js',
+  		'css'
   		// 'uglify:js' // uglfy 15-puzzle.js
   	]);
 };
