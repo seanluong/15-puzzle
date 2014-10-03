@@ -32,8 +32,6 @@
     "karma-chrome-launcher": "^0.1.5",
     "karma-firefox-launcher": "^0.1.3",
     "karma-opera-launcher": "^0.1.0",
-    "karma-qunit": "^0.1.4",
-    "karma-safari-launcher": "^0.1.1",
-    "qunitjs": "^1.15.0"
+    "karma-safari-launcher": "^0.1.1"
   }
 }

@@ -10,7 +10,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['qunit'],
+    frameworks: ['jasmine'],
 
 
     // list of files / patterns to load in the browser
@@ -23,7 +23,8 @@ module.exports = function(config) {
         'src/js/board.js',
         'src/js/app.js',
         // test scripts
-        'test/js/**/*.js'
+        'test/angular-mocks.js',
+        'test/js/test.js'
     ],
 
 
