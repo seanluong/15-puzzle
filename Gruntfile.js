@@ -108,6 +108,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 
 	// testing task
+	grunt.registerTask('unit', [
+		'connect',
+  		'qunit',
+	]);
 
 	// css minify task
 	grunt.registerTask('css', [
