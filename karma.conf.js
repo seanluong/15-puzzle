@@ -24,7 +24,7 @@ module.exports = function(config) {
         'src/js/app.js',
         // test scripts
         'test/angular-mocks.js',
-        'test/js/test.js'
+        'test/js/**/*.js'
     ],
 
 
