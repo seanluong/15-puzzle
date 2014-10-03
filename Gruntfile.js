@@ -68,13 +68,18 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			files: ['gruntfile.js', 'src/js/**/*.js'],
+			files: ['gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
 			options: {
 				globals: {
 					jQuery: true,
 					console: true,
 					module: true
 				}
+			}
+		},
+		karma: {
+			unit: {
+				configFile: "karma.conf.js"
 			}
 		}
 	});
@@ -83,10 +88,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-karma');
 
 	// testing task
 	grunt.registerTask('unit', [
-		// 'connect',
+		'karma',
   // 		'qunit',
 	]);
 
