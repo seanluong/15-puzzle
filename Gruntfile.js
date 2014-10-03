@@ -55,7 +55,10 @@ module.exports = function(grunt) {
 			}
 		},
 		cssmin: {
-			add_banner: {
+			task: {
+				options: {
+					keepSpecialComments: 0
+				},
 				files: {
 					'build/css/<%= pkg.name %>.min.css': [
 						'lib/css/angular-socialshare.min.css',
@@ -112,14 +115,19 @@ module.exports = function(grunt) {
 		'cssmin'
 	]);
 	// js-related task
+	grunt.registerTask('js', [
+		'jshint',
+		'concat:js',
+  		'concat:js_lib',
+	]);
 
 	// one task to rule them all!
   	grunt.registerTask('default', [
+  		'connect',
+  		'qunit', // unit testing
   		'concat:css',
   		'cssmin', // for CSS first
   		'jshint', // JS coding style
-  		'connect',
-  		'qunit', // unit testing
   		'concat:js', // app's JS
   		'concat:js_lib', // libraries
   		// 'uglify:js' // uglfy 15-puzzle.js
