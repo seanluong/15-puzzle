@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 					'src/js/controllers/headerController.js',
 					'src/js/controllers/modalDialogControllers.js',
 					'src/js/filters/durationFilter.js',
-					'src/js/directives.js',
+					'src/js/directives/ngTile.js',
 					'src/js/services/gameWonService.js',
 					'src/js/services/guideService.js',
 					'src/js/services/keyboardMapService.js',
