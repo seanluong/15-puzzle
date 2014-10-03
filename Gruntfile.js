@@ -76,43 +76,18 @@ module.exports = function(grunt) {
 					module: true
 				}
 			}
-		},
-		qunit: {
-			options: {
-				noGlobals: true,
-			}, 
-			all: {
-				options: {
-					urls: [
-						'http://localhost:8888/test/js/test.html',
-						'http://localhost:8888/test/js/testBoard.html',
-						'http://localhost:8888/test/js/testServices.html'
-					]
-				}
-		    }
-		},
-		connect: {
-			server: {
-				options: {
-					hostname: 'localhost',
-					port: 8888,
-					base: '.'
-				}
-			}
 		}
 	});
 	
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-qunit');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-connect');
 
 	// testing task
 	grunt.registerTask('unit', [
-		'connect',
-  		'qunit',
+		// 'connect',
+  // 		'qunit',
 	]);
 
 	// css minify task
