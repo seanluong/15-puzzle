@@ -75,6 +75,9 @@ module.exports = function(grunt) {
 			}
 		},
 		qunit: {
+			options: {
+				noGlobals: true,
+			}, 
 			all: {
 				options: {
 					urls: [
@@ -83,6 +86,14 @@ module.exports = function(grunt) {
 					]
 				}
 		    }
+		},
+		connect: {
+			server: {
+				options: {
+					port: 8888,
+					base: '.'
+				}
+			}
 		}
 	});
 	
@@ -91,10 +102,23 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-connect');
+
+	// testing task
+
+	// css minify task
+	grunt.registerTask('css', [
+		'concat:css',
+		'cssmin'
+	]);
+	// js-related task
+
+	// one task to rule them all!
   	grunt.registerTask('default', [
   		'concat:css',
   		'cssmin', // for CSS first
   		'jshint', // JS coding style
+  		'connect',
   		'qunit', // unit testing
   		'concat:js', // app's JS
   		'concat:js_lib', // libraries
