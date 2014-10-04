@@ -24,15 +24,16 @@ module.exports = function(grunt) {
 		    },
 		    js_lib: {
 		      	src: [
-		      		"lib/js/jquery.min.js",
-		      		"lib/js/angular.min.js",
+		      		"bower_components/jquery/dist/jquery.min.js",
+		      		"bower_components/angular/angular.min.js",
 		      		"lib/js/ui-bootstrap-tpls.min.js",
-		      		"lib/js/gestures.min.js",
+		      		"bower_components/angular-gestures/gestures.min.js",
 		      	],
 		      	dest: 'build/js/<%= pkg.name %>.lib.min.js',
 		    },
 		    css: {
 		    	src: [
+		    		'lib/css/angular-socialshare.min.css',
 		    		'lib/css/bootstrap.css',
 		    		'src/css/style.css'
 		    	],
