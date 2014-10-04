@@ -412,7 +412,7 @@ var guideService = ["$modal", function($modal) {
 
 	return function($scope) {
 		var modalInstance = $modal.open({
-			templateUrl: 'template/guide.html',
+			templateUrl: '/guide.html',
 			controller: guideModalInstanceCtrl,
 			size: "sm"
 		});
