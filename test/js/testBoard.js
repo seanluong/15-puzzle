@@ -27,7 +27,7 @@ describe('Unit: Test Board won condition', function() {
 	});
 });
 
-describe("Test Board sliding functions", function() {
+describe("Unit: Test Board sliding functions", function() {
 	var board;
 	beforeEach(function() {
 		board = new Board();
