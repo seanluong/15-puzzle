@@ -23,13 +23,6 @@
 	</head>
 	<body ng-controller="bodyController" ng-keydown="handleKeyDown($event)">
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=776055202450751&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 		<div id="game-container">
 			<div id="header" ng-controller="headerController">
 				<h1 id="title">15 PUZZLE</h1>
@@ -56,10 +49,9 @@
 
 			<div id="footer">
 				<div id="share-social">
-					<div class="fb-share-button" data-layout="button_count" data-href="http://xuanluong.github.io/15-puzzle/"></div>
-					 <div gplus class="g-plus" data-size="medium" data-annotation="bubble" 
-					 data-href='http://xuanluong.github.io/15-puzzle' data-action='share'></div>
-					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://xuanluong.github.io/15-puzzle/" data-text="Check this out!" data-via="xuanluong" data-hashtags="15-puzzle">Tweet</a>
+					<ng-facebook></ng-facebook>
+					<ng-g-plus></ng-g-plus>
+					<ng-twitter></ng-twitter>
 				</div>
 				
 				<div id="explanation">
@@ -77,7 +69,6 @@
 			    		</li>
 			    	</ul>
 			    </div>
-
 			    <div id="author">
 			    	<span class="footer-section-header">AUTHOR</span>
 			    	<p>
@@ -87,20 +78,6 @@
 				</div>
 			</div>
 		</div>
-
-		<script type="text/ng-template" id="/guide.html">
-<div class="modal-header">
-    <h3 class="modal-title">The Target State</h3>
-</div>
-<div class="modal-body">
-	<p id="guide-content">
-		<img src="images/target-state.png" >
-	</p>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Play on</button>
-</div>
-		</script>
 
 		<script src="build/js/15-puzzle.lib.min.js"></script>
 		<script src="build/js/15-puzzle.js"></script>

@@ -25,11 +25,9 @@ module.exports = function(grunt) {
 		    js_lib: {
 		      	src: [
 		      		"lib/js/jquery.min.js",
-					"lib/js/widgets.min.js",
 		      		"lib/js/angular.min.js",
 		      		"lib/js/ui-bootstrap-tpls.min.js",
 		      		"lib/js/gestures.min.js",
-					"lib/js/angular-socialshare.min.js",
 		      	],
 		      	dest: 'build/js/<%= pkg.name %>.lib.min.js',
 		    },

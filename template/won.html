@@ -1,8 +1,3 @@
-<script type="text/javascript">
-    $(document).ready(function() {
-       FB.XFBML.parse();
-     });
-</script>
 <link rel="stylesheet" href="build/css/15-puzzle.min.css">
 <div class="modal-header">
     <h3 class="modal-title">Congratulations!</h3>
@@ -12,14 +7,12 @@
         You did it! The 15 puzzle is solved. Let's share this with friends.
     </h3>
     <div id="share">
-        <div class="fb-share-button" data-layout="button_count" data-href="http://xuanluong.github.io/15-puzzle/" data-text="I solved the 15 puzzle game. Can you?"></div>
-        <div class="g-plus" data-action="share" data-annotation="bubble" data-href="http://xuanluong.github.io/15-puzzle/" data-text="I solved the 15 puzzle game. Can you?"></div>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://xuanluong.github.io/15-puzzle/" data-via="xuanluong" data-hashtags="15-puzzle" data-text="I solved the 15 puzzle game. Can you?">
-        Tweet</a>
+        <ng-facebook></ng-facebook>
+        <ng-g-plus></ng-g-plus>
+        <ng-twitter></ng-twitter>
     </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">New Game</button>
 </div>
 <script src="build/js/15-puzzle.lib.min.js"></script>
-<script src="//apis.google.com/js/platform.js" async defer></script>

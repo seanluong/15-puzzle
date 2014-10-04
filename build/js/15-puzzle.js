@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -336,6 +336,18 @@ var durationFilter = function() {
 };
 var myFilters = angular.module("myFilters", []).
 filter("duration", durationFilter);
+var ngFacebook = function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/facebook.html"
+	};
+};
+var ngGPlus = function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/gplus.html"
+	};
+};
 var ngTile = function() {
 
 	return function (scope, element, attrs) {
@@ -392,8 +404,17 @@ var ngTile = function() {
 	};
 
 };
+var ngTwitter = function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/twitter.html"
+	};
+};
 var myDirectives = angular.module("myDirectives", []).
-directive("ngTile", ngTile);
+directive("ngTile", ngTile).
+directive("ngFacebook", ngFacebook).
+directive("ngTwitter", ngTwitter).
+directive("ngGPlus", ngGPlus);
 var gameWonService = ["$modal", function($modal) {
 	return function($scope) {
 		var modalInstance = $modal.open({
@@ -412,7 +433,7 @@ var guideService = ["$modal", function($modal) {
 
 	return function($scope) {
 		var modalInstance = $modal.open({
-			templateUrl: '/guide.html',
+			templateUrl: 'template/guide.html',
 			controller: guideModalInstanceCtrl,
 			size: "sm"
 		});
@@ -443,7 +464,7 @@ factory("keyboardMapService", keyboardMapService).
 factory("guideService", guideService).
 factory("gameWonService", gameWonService);
 var myApp = angular.module("myApp", [
-	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare",
+	"angular-gestures","ui.bootstrap",
 	"myControllers",
 	"myFilters",
 	"myDirectives",

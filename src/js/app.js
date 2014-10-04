@@ -1,5 +1,5 @@
 var myApp = angular.module("myApp", [
-	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare",
+	"angular-gestures","ui.bootstrap",
 	"myControllers",
 	"myFilters",
 	"myDirectives",
