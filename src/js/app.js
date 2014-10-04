@@ -1,14 +1,10 @@
 var myApp = angular.module("myApp", [
-	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"
+	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare",
+	"myControllers",
+	"myFilters",
+	"myDirectives",
+	"myServices"
 ]).
-factory("guideService", guideService).
-factory("gameWonService", gameWonService).
-factory("keyboardMapService", keyboardMapService).
-controller("bodyController", bodyController).
-controller("headerController", headerController).
-controller("mainController", mainController).
-filter("duration", durationFilter).
-directive("ngTile", ngTile).
 run(function() {
 	$(function() {
 		$("#board-container").on("touchmove", function(e) {

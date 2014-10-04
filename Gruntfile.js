@@ -10,15 +10,14 @@ module.exports = function(grunt) {
 			js: {
 		      	src: [
 					'src/js/board.js',
-					'src/js/controllers/bodyController.js',
-					'src/js/controllers/mainController.js',
-					'src/js/controllers/headerController.js',
-					'src/js/controllers/modalDialogControllers.js',
-					'src/js/filters/durationFilter.js',
-					'src/js/directives/ngTile.js',
-					'src/js/services/gameWonService.js',
-					'src/js/services/guideService.js',
-					'src/js/services/keyboardMapService.js',
+					'src/js/controllers/*.js',
+					'src/js/controllers.js',
+					'src/js/filters/*.js',
+					'src/js/filters.js',
+					'src/js/directives/*.js',
+					'src/js/directives.js',
+					'src/js/services/*.js',
+					'src/js/services.js',
 					'src/js/app.js'
 				],
 				dest: 'build/js/<%= pkg.name %>.js'

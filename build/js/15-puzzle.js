@@ -187,6 +187,37 @@ var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapSe
 		});
 	}
 ];
+var headerController = ["$scope", "$interval", "$timeout", function($scope, $interval, $timeout) {
+	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
+	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
+
+	var timeoutId = $interval(function() {
+		$scope.timePassed += 1;
+		localStorage.setItem("timePassed", $scope.timePassed);
+	},1000,0,true);
+
+	$scope.$on("$destroy", function() {
+		$interval.cancel(timeoutId);
+	});
+
+	$scope.$on("new-game", function() {
+		$scope.timePassed = 0;
+		$timeout(function() {
+			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
+		},0,true);
+	});
+
+	$scope.$on("game-won", function() {
+		var bestTime = localStorage.getItem("bestTime");
+		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
+			localStorage.setItem("bestTime", $scope.timePassed);
+		}
+	});
+
+	$scope.newGame = function() {
+		$scope.$parent.$broadcast("new-game");
+	};
+}];
 var mainController = ["$scope", "$document", "$timeout", function($scope, $document, $timeout) {
 	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
@@ -257,37 +288,6 @@ var mainController = ["$scope", "$document", "$timeout", function($scope, $docum
 		$scope.board.locked = false;
 	});
 }];
-var headerController = ["$scope", "$interval", "$timeout", function($scope, $interval, $timeout) {
-	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
-
-	var timeoutId = $interval(function() {
-		$scope.timePassed += 1;
-		localStorage.setItem("timePassed", $scope.timePassed);
-	},1000,0,true);
-
-	$scope.$on("$destroy", function() {
-		$interval.cancel(timeoutId);
-	});
-
-	$scope.$on("new-game", function() {
-		$scope.timePassed = 0;
-		$timeout(function() {
-			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
-		},0,true);
-	});
-
-	$scope.$on("game-won", function() {
-		var bestTime = localStorage.getItem("bestTime");
-		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-			localStorage.setItem("bestTime", $scope.timePassed);
-		}
-	});
-
-	$scope.newGame = function() {
-		$scope.$parent.$broadcast("new-game");
-	};
-}];
 var guideModalInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");
@@ -299,6 +299,10 @@ var gameWonModalInstanceCtrl = function ($scope, $modalInstance) {
 		$modalInstance.close({});
 	};
 };
+var myControllers = angular.module("myControllers", []).
+controller("bodyController", bodyController).
+controller("headerController", headerController).
+controller("mainController", mainController);
 var durationFilter = function() {
 
 	function pad(amount) {
@@ -330,6 +334,8 @@ var durationFilter = function() {
 		}
     };
 };
+var myFilters = angular.module("myFilters", []).
+filter("duration", durationFilter);
 var ngTile = function() {
 
 	return function (scope, element, attrs) {
@@ -386,6 +392,8 @@ var ngTile = function() {
 	};
 
 };
+var myDirectives = angular.module("myDirectives", []).
+directive("ngTile", ngTile);
 var gameWonService = ["$modal", function($modal) {
 	return function($scope) {
 		var modalInstance = $modal.open({
@@ -430,17 +438,17 @@ var keyboardMapService = [	function() {
 		return key2dir[whichKey];
 	};
 }];
-var myApp = angular.module("myApp", [
-	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare"
-]).
-factory("guideService", guideService).
-factory("gameWonService", gameWonService).
+var myServices = angular.module("myServices", []).
 factory("keyboardMapService", keyboardMapService).
-controller("bodyController", bodyController).
-controller("headerController", headerController).
-controller("mainController", mainController).
-filter("duration", durationFilter).
-directive("ngTile", ngTile).
+factory("guideService", guideService).
+factory("gameWonService", gameWonService);
+var myApp = angular.module("myApp", [
+	"angular-gestures","ui.bootstrap","djds4rce.angular-socialshare",
+	"myControllers",
+	"myFilters",
+	"myDirectives",
+	"myServices"
+]).
 run(function() {
 	$(function() {
 		$("#board-container").on("touchmove", function(e) {
