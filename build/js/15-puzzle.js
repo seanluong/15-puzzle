@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		// this.shuffle();
+		this.shuffle();
 	}
 };
 
@@ -159,8 +159,8 @@ Board.prototype.won = function() {
 	}
 	return true;
 };
-var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapService",
-	function($scope, guideService, gameWonService, keyboardMapService) {
+var bodyController = ["$scope", "keyboardMapService",
+	function($scope, keyboardMapService) {
 
 		$scope.handleKeyDown = function(event) {
 			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey,
@@ -174,120 +174,120 @@ var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapSe
 				});
 	        }
 		};
+	}
+];
+var headerController = ["$scope", "$interval", "$timeout", "guideService", 
+	function($scope, $interval, $timeout, guideService) {
+		$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
+		$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
 
-		$scope.guide = function() {
-			guideService($scope);
-			$scope.$broadcast("pause");
-			
+		var timeoutId = $interval(function() {
+			$scope.timePassed += 1;
+			localStorage.setItem("timePassed", $scope.timePassed);
+		},1000,0,true);
+
+		$scope.$on("$destroy", function() {
+			$interval.cancel(timeoutId);
+		});
+
+		$scope.$on("new-game", function() {
+			$scope.timePassed = 0;
+			$timeout(function() {
+				$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
+			},0,true);
+		});
+
+		$scope.$on("game-won", function() {
+			var bestTime = localStorage.getItem("bestTime");
+			if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
+				localStorage.setItem("bestTime", $scope.timePassed);
+			}
+		});
+
+		$scope.newGame = function() {
+			$scope.$parent.$broadcast("new-game");
 		};
 
-		$scope.$on("game-won", function(event) {
-			gameWonService($scope);
-			$scope.$broadcast("pause");
+		$scope.guide = function() {
+			guideService($scope.$parent);
+			$scope.$parent.$broadcast("pause");		
+		};
+	}
+];
+var mainController = ["$scope", "$document", "$timeout", "gameWonService", 
+	function($scope, $document, $timeout, gameWonService) {
+		$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+
+		$scope.swipe = function(event) {
+			event.preventDefault();
+			moveZeroTile(event.gesture.direction, 50);
+		};
+
+		function moveZeroTile(direction, duration) {
+			if (!$scope.board.locked) {
+				var movedTile, value;
+				if (direction == "up") {
+					movedTile = $scope.board.getDown();
+					if (movedTile) {
+						value = $scope.board.cells[movedTile.row][movedTile.col];
+						$scope.board.slideDown();	
+					}
+				} else if (direction == "down") {
+					movedTile = $scope.board.getUp();
+					if (movedTile) {
+						value = $scope.board.cells[movedTile.row][movedTile.col];
+						$scope.board.slideUp();	
+					}
+				} else if (direction == "left") {
+					movedTile = $scope.board.getRight();
+					if (movedTile) {
+						value = $scope.board.cells[movedTile.row][movedTile.col];
+						$scope.board.slideRight();	
+					}
+				} else {
+					movedTile = $scope.board.getLeft();
+					if (movedTile) {
+						value = $scope.board.cells[movedTile.row][movedTile.col];
+						$scope.board.slideLeft();	
+					}
+				}
+				$document.find(".tile").trigger("move", {
+					duration: duration,
+					movedTile: movedTile,
+					value: value
+				});
+				if ($scope.board.won() === true) {
+					$scope.$parent.$broadcast("game-won");
+					$scope.$broadcast("pause");
+					gameWonService($scope.$parent);
+				} else {
+					localStorage.setItem("board", JSON.stringify($scope.board));
+				}
+			}
+		}
+
+		$scope.$on("new-game", function() {
+			$scope.board = new Board();
+			localStorage.setItem("board", JSON.stringify($scope.board));
+			$timeout(function() {
+				$document.find(".tile").trigger("init");
+			},0,true);
+		});
+
+		$scope.$on("keydown", function(event, args) {
+			moveZeroTile(args.direction, args.duration);
+		});
+
+		$scope.$on("pause", function() {
+			$scope.board.locked = true;
+		});
+
+		$scope.$on("resume", function() {
+			$scope.board.locked = false;
 		});
 	}
 ];
-var headerController = ["$scope", "$interval", "$timeout", function($scope, $interval, $timeout) {
-	$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-	$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
-
-	var timeoutId = $interval(function() {
-		$scope.timePassed += 1;
-		localStorage.setItem("timePassed", $scope.timePassed);
-	},1000,0,true);
-
-	$scope.$on("$destroy", function() {
-		$interval.cancel(timeoutId);
-	});
-
-	$scope.$on("new-game", function() {
-		$scope.timePassed = 0;
-		$timeout(function() {
-			$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
-		},0,true);
-	});
-
-	$scope.$on("game-won", function() {
-		var bestTime = localStorage.getItem("bestTime");
-		if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-			localStorage.setItem("bestTime", $scope.timePassed);
-		}
-	});
-
-	$scope.newGame = function() {
-		$scope.$parent.$broadcast("new-game");
-	};
-}];
-var mainController = ["$scope", "$document", "$timeout", function($scope, $document, $timeout) {
-	$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
-	$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-
-	$scope.swipe = function(event) {
-		event.preventDefault();
-		moveZeroTile(event.gesture.direction, 50);
-	};
-
-	function moveZeroTile(direction, duration) {
-		if (!$scope.board.locked) {
-			var movedTile, value;
-			if (direction == "up") {
-				movedTile = $scope.board.getDown();
-				if (movedTile) {
-					value = $scope.board.cells[movedTile.row][movedTile.col];
-					$scope.board.slideDown();	
-				}
-			} else if (direction == "down") {
-				movedTile = $scope.board.getUp();
-				if (movedTile) {
-					value = $scope.board.cells[movedTile.row][movedTile.col];
-					$scope.board.slideUp();	
-				}
-			} else if (direction == "left") {
-				movedTile = $scope.board.getRight();
-				if (movedTile) {
-					value = $scope.board.cells[movedTile.row][movedTile.col];
-					$scope.board.slideRight();	
-				}
-			} else {
-				movedTile = $scope.board.getLeft();
-				if (movedTile) {
-					value = $scope.board.cells[movedTile.row][movedTile.col];
-					$scope.board.slideLeft();	
-				}
-			}
-			$document.find(".tile").trigger("move", {
-				duration: duration,
-				movedTile: movedTile,
-				value: value
-			});
-			if ($scope.board.won() === true) {
-				$scope.$parent.$broadcast("game-won");
-			} else {
-				localStorage.setItem("board", JSON.stringify($scope.board));
-			}
-		}
-	}
-
-	$scope.$on("new-game", function() {
-		$scope.board = new Board();
-		localStorage.setItem("board", JSON.stringify($scope.board));
-		$timeout(function() {
-			$document.find(".tile").trigger("init");
-		},0,true);
-	});
-
-	$scope.$on("keydown", function(event, args) {
-		moveZeroTile(args.direction, args.duration);
-	});
-
-	$scope.$on("pause", function() {
-		$scope.board.locked = true;
-	});
-
-	$scope.$on("resume", function() {
-		$scope.board.locked = false;
-	});
-}];
 var guideModalInstanceCtrl = function($scope, $modalInstance) {
 	$scope.ok = function() {
 		$modalInstance.dismiss("done");

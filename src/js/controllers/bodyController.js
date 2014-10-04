@@ -1,5 +1,5 @@
-var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapService",
-	function($scope, guideService, gameWonService, keyboardMapService) {
+var bodyController = ["$scope", "keyboardMapService",
+	function($scope, keyboardMapService) {
 
 		$scope.handleKeyDown = function(event) {
 			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey,
@@ -13,16 +13,5 @@ var bodyController = ["$scope", "guideService", "gameWonService", "keyboardMapSe
 				});
 	        }
 		};
-
-		$scope.guide = function() {
-			guideService($scope);
-			$scope.$broadcast("pause");
-			
-		};
-
-		$scope.$on("game-won", function(event) {
-			gameWonService($scope);
-			$scope.$broadcast("pause");
-		});
 	}
 ];
