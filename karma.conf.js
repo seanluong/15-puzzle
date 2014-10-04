@@ -17,8 +17,12 @@ module.exports = function(config) {
     files: [
         'lib/js/**/angular.min.js',
         'src/js/controllers/*.js',
+        'src/js/controllers.js',
         'src/js/filters/*.js',
+        'src/js/filters.js',
         'src/js/services/*.js',
+        'src/js/services.js',
+        'src/js/directives/*.js',
         'src/js/directives.js',
         'src/js/board.js',
         'src/js/app.js',
