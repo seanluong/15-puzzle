@@ -21,13 +21,11 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 					movedTile = $scope.board.getLeft();
 				}
 				if (movedTile) {
-					value = $scope.board.cells[movedTile.row][movedTile.col];
 					$scope.board.slide(reverse);	
 				}
 				$document.find(".tile").trigger("move", {
 					duration: duration,
-					movedTile: movedTile,
-					value: value
+					movedTile: movedTile
 				});
 				if ($scope.board.won() === true) {
 					$scope.$parent.$broadcast("game-won");

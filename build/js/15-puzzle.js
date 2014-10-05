@@ -26,55 +26,47 @@ var Board = function(board) {
 };
 
 Board.prototype.getLeft = function() {
-	if (this.col <= 0) {
-		return null;
-	} else {
+	if (this.col > 0) {
 		return {
-			myTile: {
-				drow:0, dcol:1
-			},
-			row: this.row, col: this.col-1
+			drow:0, 
+			dcol:1,
+			value: this.cells[this.row][this.col-1]
 		};
-	}
+	} 
+	return null;
 };
 
 Board.prototype.getRight = function() {
-	if (this.col >= 3) {
-		return null;
-	} else {
+	if (this.col < 3) {
 		return {
-			myTile: {
-				drow:0, dcol:-1
-			},
-			row: this.row, col: this.col+1
+			drow:0, 
+			dcol:-1,
+			value: this.cells[this.row][this.col+1]
 		};
-	}
+	} 
+	return null;
 };
 
 Board.prototype.getUp = function() {
-	if (this.row <= 0) {
-		return null;
-	} else {
+	if (this.row > 0) {
 		return {
-			myTile: {
-				drow:+1, dcol:0
-			},
-			row: this.row-1, col: this.col
+			drow:+1, 
+			dcol:0,
+			value: this.cells[this.row-1][this.col]
 		};
 	}
+	return null;
 };
 
 Board.prototype.getDown = function() {
-	if (this.row >= 3) {
-		return null;
-	} else {
+	if (this.row < 3) {
 		return {
-			myTile: {
-				drow:-1, dcol:0
-			},
-			row: this.row+1, col: this.col
+			drow:-1, 
+			dcol:0,
+			value: this.cells[this.row+1][this.col]
 		};
-	}
+	} 
+	return null;
 };
 
 Board.prototype.shuffle = function(nsteps) {
@@ -263,13 +255,11 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 					movedTile = $scope.board.getLeft();
 				}
 				if (movedTile) {
-					value = $scope.board.cells[movedTile.row][movedTile.col];
 					$scope.board.slide(reverse);	
 				}
 				$document.find(".tile").trigger("move", {
 					duration: duration,
-					movedTile: movedTile,
-					value: value
+					movedTile: movedTile
 				});
 				if ($scope.board.won() === true) {
 					$scope.$parent.$broadcast("game-won");
@@ -427,10 +417,10 @@ var ngTile = function() {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
 			if (args.movedTile) {
-				if (args.value === value) {
+				if (args.movedTile.value === value) {
 					coor = findCoor(scope.board.cells, 0);
-					y = args.movedTile.myTile.drow * gap + coor.y;
-					x = args.movedTile.myTile.dcol * gap + coor.x;
+					y = args.movedTile.drow * gap + coor.y;
+					x = args.movedTile.dcol * gap + coor.x;
 					element.animate({
 						"left": x + "px",
 						"top": y + "px"

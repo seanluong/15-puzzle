@@ -26,55 +26,47 @@ var Board = function(board) {
 };
 
 Board.prototype.getLeft = function() {
-	if (this.col <= 0) {
-		return null;
-	} else {
+	if (this.col > 0) {
 		return {
-			myTile: {
-				drow:0, dcol:1
-			},
-			row: this.row, col: this.col-1
+			drow:0, 
+			dcol:1,
+			value: this.cells[this.row][this.col-1]
 		};
-	}
+	} 
+	return null;
 };
 
 Board.prototype.getRight = function() {
-	if (this.col >= 3) {
-		return null;
-	} else {
+	if (this.col < 3) {
 		return {
-			myTile: {
-				drow:0, dcol:-1
-			},
-			row: this.row, col: this.col+1
+			drow:0, 
+			dcol:-1,
+			value: this.cells[this.row][this.col+1]
 		};
-	}
+	} 
+	return null;
 };
 
 Board.prototype.getUp = function() {
-	if (this.row <= 0) {
-		return null;
-	} else {
+	if (this.row > 0) {
 		return {
-			myTile: {
-				drow:+1, dcol:0
-			},
-			row: this.row-1, col: this.col
+			drow:+1, 
+			dcol:0,
+			value: this.cells[this.row-1][this.col]
 		};
 	}
+	return null;
 };
 
 Board.prototype.getDown = function() {
-	if (this.row >= 3) {
-		return null;
-	} else {
+	if (this.row < 3) {
 		return {
-			myTile: {
-				drow:-1, dcol:0
-			},
-			row: this.row+1, col: this.col
+			drow:-1, 
+			dcol:0,
+			value: this.cells[this.row+1][this.col]
 		};
-	}
+	} 
+	return null;
 };
 
 Board.prototype.shuffle = function(nsteps) {
