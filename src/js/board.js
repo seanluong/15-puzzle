@@ -33,9 +33,6 @@ Board.prototype.getLeft = function() {
 			myTile: {
 				drow:0, dcol:1
 			},
-			zeroTile: {
-				drow:0, dcol:-1
-			},
 			row: this.row, col: this.col-1
 		};
 	}
@@ -48,9 +45,6 @@ Board.prototype.getRight = function() {
 		return {
 			myTile: {
 				drow:0, dcol:-1
-			},
-			zeroTile: {
-				drow:0, dcol:1
 			},
 			row: this.row, col: this.col+1
 		};
@@ -65,9 +59,6 @@ Board.prototype.getUp = function() {
 			myTile: {
 				drow:+1, dcol:0
 			},
-			zeroTile: {
-				drow:-1, dcol:0
-			},
 			row: this.row-1, col: this.col
 		};
 	}
@@ -80,9 +71,6 @@ Board.prototype.getDown = function() {
 		return {
 			myTile: {
 				drow:-1, dcol:0
-			},
-			zeroTile: {
-				drow:+1, dcol:0
 			},
 			row: this.row+1, col: this.col
 		};
@@ -102,6 +90,55 @@ Board.prototype.shuffle = function(nsteps) {
 		}
 		step--;
 	}
+};
+
+Board.getDelta = function(direction) {
+	var delta = {};
+	if (direction === "up") {
+		delta.drow = -1;
+		delta.dcol = 0;
+	} else if (direction === "down") {
+		delta.drow = 1;
+		delta.dcol = 0;
+	} else if (direction === "left") {
+		delta.drow = 0;
+		delta.dcol = -1;
+	} else if (direction === "right") {
+		delta.drow = 0;
+		delta.dcol = 1;
+	} else {
+		delta = null;
+	}
+	return delta;
+};
+
+Board.getReverseDirection = function(direction) {
+	if (direction === "up") {
+		return "down";
+	} else if (direction === "down") {
+		return "up";
+	} else if (direction === "left") {
+		return "right";
+	} else if (direction === "right") {
+		return "left";
+	} else {
+		return null;
+	}
+};
+
+Board.prototype.slide = function(direction) {
+	var delta = Board.getDelta(direction),
+		nrow = this.row + delta.drow,
+		ncol = this.col + delta.dcol,
+		temp;
+	if (nrow >=0 && nrow <= 3 && ncol >=0 && ncol <= 3) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[nrow][ncol];
+		this.cells[nrow][ncol] = temp;
+		this.row = nrow;
+		this.col = ncol;
+	}
+	return this;
 };
 
 Board.prototype.slideLeft = function() {

@@ -10,31 +10,19 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 
 		function moveZeroTile(direction, duration) {
 			if (!$scope.board.locked) {
-				var movedTile, value;
+				var movedTile, value, reverse = Board.getReverseDirection(direction);
 				if (direction == "up") {
 					movedTile = $scope.board.getDown();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideDown();	
-					}
 				} else if (direction == "down") {
 					movedTile = $scope.board.getUp();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideUp();	
-					}
 				} else if (direction == "left") {
 					movedTile = $scope.board.getRight();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideRight();	
-					}
 				} else {
 					movedTile = $scope.board.getLeft();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideLeft();	
-					}
+				}
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slide(reverse);	
 				}
 				$document.find(".tile").trigger("move", {
 					duration: duration,

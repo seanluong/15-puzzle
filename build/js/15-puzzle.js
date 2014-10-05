@@ -33,9 +33,6 @@ Board.prototype.getLeft = function() {
 			myTile: {
 				drow:0, dcol:1
 			},
-			zeroTile: {
-				drow:0, dcol:-1
-			},
 			row: this.row, col: this.col-1
 		};
 	}
@@ -48,9 +45,6 @@ Board.prototype.getRight = function() {
 		return {
 			myTile: {
 				drow:0, dcol:-1
-			},
-			zeroTile: {
-				drow:0, dcol:1
 			},
 			row: this.row, col: this.col+1
 		};
@@ -65,9 +59,6 @@ Board.prototype.getUp = function() {
 			myTile: {
 				drow:+1, dcol:0
 			},
-			zeroTile: {
-				drow:-1, dcol:0
-			},
 			row: this.row-1, col: this.col
 		};
 	}
@@ -80,9 +71,6 @@ Board.prototype.getDown = function() {
 		return {
 			myTile: {
 				drow:-1, dcol:0
-			},
-			zeroTile: {
-				drow:+1, dcol:0
 			},
 			row: this.row+1, col: this.col
 		};
@@ -102,6 +90,55 @@ Board.prototype.shuffle = function(nsteps) {
 		}
 		step--;
 	}
+};
+
+Board.getDelta = function(direction) {
+	var delta = {};
+	if (direction === "up") {
+		delta.drow = -1;
+		delta.dcol = 0;
+	} else if (direction === "down") {
+		delta.drow = 1;
+		delta.dcol = 0;
+	} else if (direction === "left") {
+		delta.drow = 0;
+		delta.dcol = -1;
+	} else if (direction === "right") {
+		delta.drow = 0;
+		delta.dcol = 1;
+	} else {
+		delta = null;
+	}
+	return delta;
+};
+
+Board.getReverseDirection = function(direction) {
+	if (direction === "up") {
+		return "down";
+	} else if (direction === "down") {
+		return "up";
+	} else if (direction === "left") {
+		return "right";
+	} else if (direction === "right") {
+		return "left";
+	} else {
+		return null;
+	}
+};
+
+Board.prototype.slide = function(direction) {
+	var delta = Board.getDelta(direction),
+		nrow = this.row + delta.drow,
+		ncol = this.col + delta.dcol,
+		temp;
+	if (nrow >=0 && nrow <= 3 && ncol >=0 && ncol <= 3) {
+		temp = this.cells[this.row][this.col];
+		this.cells[this.row][this.col] = this.cells[nrow][ncol];
+		this.cells[nrow][ncol] = temp;
+		this.row = nrow;
+		this.col = ncol;
+	}
+	return this;
 };
 
 Board.prototype.slideLeft = function() {
@@ -215,31 +252,19 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 
 		function moveZeroTile(direction, duration) {
 			if (!$scope.board.locked) {
-				var movedTile, value;
+				var movedTile, value, reverse = Board.getReverseDirection(direction);
 				if (direction == "up") {
 					movedTile = $scope.board.getDown();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideDown();	
-					}
 				} else if (direction == "down") {
 					movedTile = $scope.board.getUp();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideUp();	
-					}
 				} else if (direction == "left") {
 					movedTile = $scope.board.getRight();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideRight();	
-					}
 				} else {
 					movedTile = $scope.board.getLeft();
-					if (movedTile) {
-						value = $scope.board.cells[movedTile.row][movedTile.col];
-						$scope.board.slideLeft();	
-					}
+				}
+				if (movedTile) {
+					value = $scope.board.cells[movedTile.row][movedTile.col];
+					$scope.board.slide(reverse);	
 				}
 				$document.find(".tile").trigger("move", {
 					duration: duration,
