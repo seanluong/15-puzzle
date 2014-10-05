@@ -108,7 +108,7 @@ module.exports = function(grunt) {
 
 	// one task to rule them all!
   	grunt.registerTask('default', [
-  		// 'unit',
+  		'unit',
   		'js',
   		'css'
   		// 'uglify:js' // uglfy 15-puzzle.js

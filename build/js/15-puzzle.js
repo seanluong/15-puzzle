@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -165,25 +165,28 @@ var bodyController = ["$scope", "keyboardMapService",
 		$scope.handleKeyDown = function(event) {
 			var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey,
 				direction = keyboardMapService(event.which),
-				duration = 75;
+				duration = 75,
+				data;
 	        if (!modifiers && direction) {
 	    		event.preventDefault();
-				$scope.$broadcast("keydown", {
+	    		data = {
 					direction: direction,
 					duration: duration
-				});
+				};
+				$scope.$broadcast("keydown", data);
 	        }
+	        return data;
 		};
 	}
 ];
-var headerController = ["$scope", "$interval", "$timeout", "guideService", 
-	function($scope, $interval, $timeout, guideService) {
-		$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-		$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
+var headerController = ["$scope", "$interval", "guideService", "localStorageService",
+	function($scope, $interval, guideService, localStorageService) {
+		$scope.timePassed =  localStorageService.getTimePassed();
+		$scope.bestTime = localStorageService.getBestTime();
 
 		var timeoutId = $interval(function() {
 			$scope.timePassed += 1;
-			localStorage.setItem("timePassed", $scope.timePassed);
+			localStorageService.setTimePassed($scope.timePassed);
 		},1000,0,true);
 
 		$scope.$on("$destroy", function() {
@@ -192,16 +195,11 @@ var headerController = ["$scope", "$interval", "$timeout", "guideService",
 
 		$scope.$on("new-game", function() {
 			$scope.timePassed = 0;
-			$timeout(function() {
-				$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
-			},0,true);
+			$scope.bestTime = localStorageService.getBestTime();
 		});
 
 		$scope.$on("game-won", function() {
-			var bestTime = localStorage.getItem("bestTime");
-			if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-				localStorage.setItem("bestTime", $scope.timePassed);
-			}
+			localStorageService.updateBestTime($scope.timePassed);
 		});
 
 		$scope.newGame = function() {
@@ -459,8 +457,36 @@ var keyboardMapService = [	function() {
 		return key2dir[whichKey];
 	};
 }];
+var localStorageService = ["$interval",	function($interval) {
+
+	var getBestTime = function() {
+			return parseInt(localStorage.getItem("bestTime")) || null;
+		},
+		setBestTime = function(timePassed) {
+			localStorage.setItem("bestTime", timePassed);
+		},
+		setTimePassed = function(timePassed) {
+			localStorage.setItem("timePassed", timePassed);	
+		};
+	
+	return {
+		getBestTime: getBestTime,
+		setBestTime: setBestTime,
+		setTimePassed: setTimePassed,
+		getTimePassed: function() {
+			return parseInt(localStorage.getItem("timePassed")) || 0;
+		},
+		updateBestTime: function(timePassed) {
+			var bestTime = getBestTime();
+			if (!bestTime || timePassed < bestTime) {
+				setBestTime(timePassed);
+			}
+		}
+	};
+}];
 var myServices = angular.module("myServices", []).
 factory("keyboardMapService", keyboardMapService).
+factory("localStorageService", localStorageService).
 factory("guideService", guideService).
 factory("gameWonService", gameWonService);
 var myApp = angular.module("myApp", [

@@ -1,11 +1,11 @@
-var headerController = ["$scope", "$interval", "$timeout", "guideService", 
-	function($scope, $interval, $timeout, guideService) {
-		$scope.timePassed =  parseInt(localStorage.getItem("timePassed")) || 0;
-		$scope.bestTime = parseInt(localStorage.getItem("bestTime")) || "NA";
+var headerController = ["$scope", "$interval", "guideService", "localStorageService",
+	function($scope, $interval, guideService, localStorageService) {
+		$scope.timePassed =  localStorageService.getTimePassed();
+		$scope.bestTime = localStorageService.getBestTime();
 
 		var timeoutId = $interval(function() {
 			$scope.timePassed += 1;
-			localStorage.setItem("timePassed", $scope.timePassed);
+			localStorageService.setTimePassed($scope.timePassed);
 		},1000,0,true);
 
 		$scope.$on("$destroy", function() {
@@ -14,16 +14,11 @@ var headerController = ["$scope", "$interval", "$timeout", "guideService",
 
 		$scope.$on("new-game", function() {
 			$scope.timePassed = 0;
-			$timeout(function() {
-				$scope.bestTime = parseInt(localStorage.getItem("bestTime"));
-			},0,true);
+			$scope.bestTime = localStorageService.getBestTime();
 		});
 
 		$scope.$on("game-won", function() {
-			var bestTime = localStorage.getItem("bestTime");
-			if (!bestTime || $scope.timePassed < parseInt(bestTime)) {
-				localStorage.setItem("bestTime", $scope.timePassed);
-			}
+			localStorageService.updateBestTime($scope.timePassed);
 		});
 
 		$scope.newGame = function() {

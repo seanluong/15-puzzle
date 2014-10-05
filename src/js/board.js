@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
