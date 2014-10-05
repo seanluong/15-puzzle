@@ -12,8 +12,8 @@ var Board = function(board) {
 			[9,10,11,12],
 			[13,14,15,0]
 		];
-		this.row = 3; // current row of 0
-		this.col = 3; // current col of 0
+		this.row = 3;
+		this.col = 3;
 		this.target = [
 			[1,2,3,4],
 			[5,6,7,8],
