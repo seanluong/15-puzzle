@@ -17,7 +17,12 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 
 		$scope.guide = function() {
-			guideService($scope.$parent);
+			var guideModalInstance = guideService();
+			guideModalInstance.result.then(function () {
+				$scope.$parent.$broadcast("resume");
+			}, function() {
+				$scope.$parent.$broadcast("resume");
+			});
 			$scope.$parent.$broadcast("pause");		
 		};
 	}

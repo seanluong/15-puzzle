@@ -25,7 +25,12 @@ var mainController = ["$scope", "$document", "gameWonService", "localStorageServ
 					if ($scope.board.won() === true) {
 						$scope.$parent.$broadcast("game-won");
 						$scope.$broadcast("pause");
-						gameWonService($scope.$parent);
+						var gameWonModalInstance = gameWonService();
+						gameWonModalInstance.result.then(function () {
+							$scope.$parent.$broadcast("new-game");
+						}, function() {
+							$scope.$parent.$broadcast("new-game");
+						});
 					} else {
 						localStorageService.setBoard($scope.board);
 					}

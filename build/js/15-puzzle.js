@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -114,7 +114,12 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 
 		$scope.guide = function() {
-			guideService($scope.$parent);
+			var guideModalInstance = guideService();
+			guideModalInstance.result.then(function () {
+				$scope.$parent.$broadcast("resume");
+			}, function() {
+				$scope.$parent.$broadcast("resume");
+			});
 			$scope.$parent.$broadcast("pause");		
 		};
 	}
@@ -146,7 +151,12 @@ var mainController = ["$scope", "$document", "gameWonService", "localStorageServ
 					if ($scope.board.won() === true) {
 						$scope.$parent.$broadcast("game-won");
 						$scope.$broadcast("pause");
-						gameWonService($scope.$parent);
+						var gameWonModalInstance = gameWonService();
+						gameWonModalInstance.result.then(function () {
+							$scope.$parent.$broadcast("new-game");
+						}, function() {
+							$scope.$parent.$broadcast("new-game");
+						});
 					} else {
 						localStorageService.setBoard($scope.board);
 					}
@@ -361,32 +371,22 @@ var directionService = [ function() {
 	};
 }];
 var gameWonService = ["$modal", function($modal) {
-	return function($scope) {
+	return function() {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/won.html',
-			scope: $scope,
 			controller: gameWonModalInstanceCtrl,
 		});
-		modalInstance.result.then(function () {
-			$scope.$broadcast("new-game");
-		}, function() {
-			$scope.$broadcast("new-game");
-		});
+		return modalInstance;
 	};	
 }];
 var guideService = ["$modal", function($modal) {
-
-	return function($scope) {
+	return function() {
 		var modalInstance = $modal.open({
 			templateUrl: 'template/guide.html',
 			controller: guideModalInstanceCtrl,
 			size: "sm"
 		});
-		modalInstance.result.then(function () {
-			$scope.$broadcast("resume");
-		}, function() {
-			$scope.$broadcast("resume");
-		});
+		return modalInstance;
 	};
 }];
 var keyboardMapService = [	function() {
