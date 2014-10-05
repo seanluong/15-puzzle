@@ -205,7 +205,6 @@ var headerController = ["$scope", "guideService", "localStorageService",
 ];
 var mainController = ["$scope", "$document", "$timeout", "gameWonService", "localStorageService", 
 	function($scope, $document, $timeout, gameWonService, localStorageService) {
-		// $scope.board = new Board(JSON.parse(localStorage.getItem("board")));
 		$scope.board = new Board(localStorageService.getBoard());
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
@@ -252,14 +251,14 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 					$scope.$broadcast("pause");
 					gameWonService($scope.$parent);
 				} else {
-					localStorage.setItem("board", JSON.stringify($scope.board));
+					// localStorage.setItem("board", JSON.stringify($scope.board));
+					localStorageService.setBoard($scope.board);
 				}
 			}
 		}
 
 		$scope.$on("new-game", function() {
 			$scope.board = new Board();
-			// localStorage.setItem("board", JSON.stringify($scope.board));
 			localStorageService.setBoard($scope.board);
 			$timeout(function() {
 				$document.find(".tile").trigger("init");

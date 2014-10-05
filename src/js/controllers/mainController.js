@@ -46,7 +46,7 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 					$scope.$broadcast("pause");
 					gameWonService($scope.$parent);
 				} else {
-					localStorage.setItem("board", JSON.stringify($scope.board));
+					localStorageService.setBoard($scope.board);
 				}
 			}
 		}
