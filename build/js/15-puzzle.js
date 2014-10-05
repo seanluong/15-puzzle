@@ -35,45 +35,17 @@ Board.prototype.getValue = function(delta) {
 	return null;
 };
 
-Board.prototype.getLeft = function() {
-	if (this.col > 0) {
-		return this.cells[this.row][this.col-1];
-	} 
-	return null;
-};
-
-Board.prototype.getRight = function() {
-	if (this.col < 3) {
-		return this.cells[this.row][this.col+1];
-	} 
-	return null;
-};
-
-Board.prototype.getUp = function() {
-	if (this.row > 0) {
-		return this.cells[this.row-1][this.col];
-	}
-	return null;
-};
-
-Board.prototype.getDown = function() {
-	if (this.row < 3) {
-		return this.cells[this.row+1][this.col];
-	} 
-	return null;
-};
-
 Board.prototype.shuffle = function(nsteps) {
 	var step = nsteps || 100,
-		direction;
+		drs = [0,0,-1,1],
+		dcs = [1,-1,0,0],
+		idx;
 	while (step > 0) {
-		direction = parseInt(Math.random() * 4);
-		switch (direction) {
-			case 0: this.slideLeft(); break;
-			case 1: this.slideRight(); break;
-			case 2: this.slideUp(); break;
-			case 3: this.slideDown(); break;
-		}
+		idx = parseInt(Math.random() * 4);
+		this.slide({
+			drow: drs[idx],
+			dcol: dcs[idx]
+		});
 		step--;
 	}
 };
@@ -88,50 +60,6 @@ Board.prototype.slide = function(delta) {
 		this.cells[nrow][ncol] = temp;
 		this.row = nrow;
 		this.col = ncol;
-	}
-	return this;
-};
-
-Board.prototype.slideLeft = function() {
-	var temp;
-	if (this.col !== 0) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
-		this.cells[this.row][this.col-1] = temp;
-		this.col -= 1;
-	}
-	return this;
-};
-
-Board.prototype.slideRight = function() {
-	var temp;
-	if (this.col !== 3) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
-		this.cells[this.row][this.col+1] = temp;
-		this.col += 1;
-	}
-	return this;
-};
-
-Board.prototype.slideUp = function() {
-	var temp;
-	if (this.row !== 0) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
-		this.cells[this.row-1][this.col] = temp;
-		this.row -= 1;
-	}
-	return this;
-};
-
-Board.prototype.slideDown = function() {
-	var temp;
-	if (this.row !== 3) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
-		this.cells[this.row+1][this.col] = temp;
-		this.row += 1;
 	}
 	return this;
 };
@@ -199,38 +127,30 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 
 		$scope.swipe = function(event) {
 			event.preventDefault();
-			moveZeroTile(event.gesture.direction, 50);
+			moveZeroCell(event.gesture.direction, 50);
 		};
 
-		function moveZeroTile(direction, duration) {
+		function moveZeroCell(direction, duration) {
 			if (!$scope.board.locked) {
 				var reverse = directionService.getReverse(direction),
-					delta = directionService.getDelta(direction),
-					revDelta = directionService.getDelta(reverse),
-					value = $scope.board.getValue(revDelta);
-				// if (direction == "up") {
-				// 	value = $scope.board.getDown();
-				// } else if (direction == "down") {
-				// 	value = $scope.board.getUp();
-				// } else if (direction == "left") {
-				// 	value = $scope.board.getRight();
-				// } else {
-				// 	value = $scope.board.getLeft();
-				// }
-				if (value) {
-					$scope.board.slide(revDelta);	
-				}
-				$document.find(".tile").trigger("move", {
-					duration: duration,
-					value: value,
-					delta: delta
-				});
-				if ($scope.board.won() === true) {
-					$scope.$parent.$broadcast("game-won");
-					$scope.$broadcast("pause");
-					gameWonService($scope.$parent);
-				} else {
-					localStorageService.setBoard($scope.board);
+					movedTileDelta = directionService.getDelta(direction),
+					zeroCellDelta = directionService.getDelta(reverse),
+					movedTiledValue = $scope.board.getValue(zeroCellDelta);
+				if (movedTiledValue) {
+					$scope.board.slide(zeroCellDelta);
+					$document.find(".tile").trigger("move", {
+						duration: duration,
+						movedTiledValue: movedTiledValue,
+						drow: movedTileDelta.drow,
+						dcol: movedTileDelta.dcol
+					});
+					if ($scope.board.won() === true) {
+						$scope.$parent.$broadcast("game-won");
+						$scope.$broadcast("pause");
+						gameWonService($scope.$parent);
+					} else {
+						localStorageService.setBoard($scope.board);
+					}
 				}
 			}
 		}
@@ -244,7 +164,7 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 		});
 
 		$scope.$on("keydown", function(event, args) {
-			moveZeroTile(args.direction, args.duration);
+			moveZeroCell(args.direction, args.duration);
 		});
 
 		$scope.$on("pause", function() {
@@ -380,11 +300,11 @@ var ngTile = function() {
 		element.on("move", function(event, args) {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
-			if (args.value) {
-				if (args.value === value) {
+			if (args.movedTiledValue) {
+				if (args.movedTiledValue === value) {
 					coor = findCoor(scope.board.cells, 0);
-					y = args.delta.drow * gap + coor.y;
-					x = args.delta.dcol * gap + coor.x;
+					y = args.drow * gap + coor.y;
+					x = args.dcol * gap + coor.x;
 					element.animate({
 						"left": x + "px",
 						"top": y + "px"

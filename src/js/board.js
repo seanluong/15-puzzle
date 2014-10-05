@@ -35,45 +35,17 @@ Board.prototype.getValue = function(delta) {
 	return null;
 };
 
-Board.prototype.getLeft = function() {
-	if (this.col > 0) {
-		return this.cells[this.row][this.col-1];
-	} 
-	return null;
-};
-
-Board.prototype.getRight = function() {
-	if (this.col < 3) {
-		return this.cells[this.row][this.col+1];
-	} 
-	return null;
-};
-
-Board.prototype.getUp = function() {
-	if (this.row > 0) {
-		return this.cells[this.row-1][this.col];
-	}
-	return null;
-};
-
-Board.prototype.getDown = function() {
-	if (this.row < 3) {
-		return this.cells[this.row+1][this.col];
-	} 
-	return null;
-};
-
 Board.prototype.shuffle = function(nsteps) {
 	var step = nsteps || 100,
-		direction;
+		drs = [0,0,-1,1],
+		dcs = [1,-1,0,0],
+		idx;
 	while (step > 0) {
-		direction = parseInt(Math.random() * 4);
-		switch (direction) {
-			case 0: this.slideLeft(); break;
-			case 1: this.slideRight(); break;
-			case 2: this.slideUp(); break;
-			case 3: this.slideDown(); break;
-		}
+		idx = parseInt(Math.random() * 4);
+		this.slide({
+			drow: drs[idx],
+			dcol: dcs[idx]
+		});
 		step--;
 	}
 };
@@ -88,50 +60,6 @@ Board.prototype.slide = function(delta) {
 		this.cells[nrow][ncol] = temp;
 		this.row = nrow;
 		this.col = ncol;
-	}
-	return this;
-};
-
-Board.prototype.slideLeft = function() {
-	var temp;
-	if (this.col !== 0) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row][this.col-1];
-		this.cells[this.row][this.col-1] = temp;
-		this.col -= 1;
-	}
-	return this;
-};
-
-Board.prototype.slideRight = function() {
-	var temp;
-	if (this.col !== 3) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row][this.col+1];
-		this.cells[this.row][this.col+1] = temp;
-		this.col += 1;
-	}
-	return this;
-};
-
-Board.prototype.slideUp = function() {
-	var temp;
-	if (this.row !== 0) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row-1][this.col];
-		this.cells[this.row-1][this.col] = temp;
-		this.row -= 1;
-	}
-	return this;
-};
-
-Board.prototype.slideDown = function() {
-	var temp;
-	if (this.row !== 3) {
-		temp = this.cells[this.row][this.col];
-		this.cells[this.row][this.col] = this.cells[this.row+1][this.col];
-		this.cells[this.row+1][this.col] = temp;
-		this.row += 1;
 	}
 	return this;
 };

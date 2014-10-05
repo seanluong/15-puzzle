@@ -6,29 +6,30 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 
 		$scope.swipe = function(event) {
 			event.preventDefault();
-			moveZeroTile(event.gesture.direction, 50);
+			moveZeroCell(event.gesture.direction, 50);
 		};
 
-		function moveZeroTile(direction, duration) {
+		function moveZeroCell(direction, duration) {
 			if (!$scope.board.locked) {
 				var reverse = directionService.getReverse(direction),
-					delta = directionService.getDelta(direction),
-					revDelta = directionService.getDelta(reverse),
-					value = $scope.board.getValue(revDelta);
-				if (value) {
-					$scope.board.slide(revDelta);	
-				}
-				$document.find(".tile").trigger("move", {
-					duration: duration,
-					value: value,
-					delta: delta
-				});
-				if ($scope.board.won() === true) {
-					$scope.$parent.$broadcast("game-won");
-					$scope.$broadcast("pause");
-					gameWonService($scope.$parent);
-				} else {
-					localStorageService.setBoard($scope.board);
+					movedTileDelta = directionService.getDelta(direction),
+					zeroCellDelta = directionService.getDelta(reverse),
+					movedTiledValue = $scope.board.getValue(zeroCellDelta);
+				if (movedTiledValue) {
+					$scope.board.slide(zeroCellDelta);
+					$document.find(".tile").trigger("move", {
+						duration: duration,
+						movedTiledValue: movedTiledValue,
+						drow: movedTileDelta.drow,
+						dcol: movedTileDelta.dcol
+					});
+					if ($scope.board.won() === true) {
+						$scope.$parent.$broadcast("game-won");
+						$scope.$broadcast("pause");
+						gameWonService($scope.$parent);
+					} else {
+						localStorageService.setBoard($scope.board);
+					}
 				}
 			}
 		}
@@ -42,7 +43,7 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 		});
 
 		$scope.$on("keydown", function(event, args) {
-			moveZeroTile(args.direction, args.duration);
+			moveZeroCell(args.direction, args.duration);
 		});
 
 		$scope.$on("pause", function() {
