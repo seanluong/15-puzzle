@@ -1,16 +1,7 @@
-var headerController = ["$scope", "$interval", "guideService", "localStorageService",
-	function($scope, $interval, guideService, localStorageService) {
+var headerController = ["$scope", "guideService", "localStorageService",
+	function($scope, guideService, localStorageService) {
 		$scope.timePassed =  localStorageService.getTimePassed();
 		$scope.bestTime = localStorageService.getBestTime();
-
-		var timeoutId = $interval(function() {
-			$scope.timePassed += 1;
-			localStorageService.setTimePassed($scope.timePassed);
-		},1000,0,true);
-
-		$scope.$on("$destroy", function() {
-			$interval.cancel(timeoutId);
-		});
 
 		$scope.$on("new-game", function() {
 			$scope.timePassed = 0;

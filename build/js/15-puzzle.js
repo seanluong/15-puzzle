@@ -184,13 +184,13 @@ var headerController = ["$scope", "$interval", "guideService", "localStorageServ
 		$scope.timePassed =  localStorageService.getTimePassed();
 		$scope.bestTime = localStorageService.getBestTime();
 
-		var timeoutId = $interval(function() {
-			$scope.timePassed += 1;
-			localStorageService.setTimePassed($scope.timePassed);
-		},1000,0,true);
+		// var timeoutId = $interval(function() {
+		// 	$scope.timePassed += 1;
+		// 	localStorageService.setTimePassed($scope.timePassed);
+		// },1000,0,true);
 
 		$scope.$on("$destroy", function() {
-			$interval.cancel(timeoutId);
+			// $interval.cancel(timeoutId);
 		});
 
 		$scope.$on("new-game", function() {
@@ -334,6 +334,34 @@ var durationFilter = function() {
 };
 var myFilters = angular.module("myFilters", []).
 filter("duration", durationFilter);
+var ngClock = ["$interval", "localStorageService", 
+  function($interval, localStorageService) {
+    function link(scope, element, attrs) {
+      var timeoutId;
+
+      // scope.$watch(attrs.myCurrentTime, function(value) {
+      //   format = value;
+      //   updateTime();
+      // });
+
+      element.on('$destroy', function() {
+        $interval.cancel(timeoutId);
+      });
+
+      timeoutId = $interval(function() {
+        scope.timePassed += 1;
+        localStorageService.setTimePassed(scope.timePassed);
+      }, 1000);
+    }
+
+    return {
+      link: link,
+      template: "{{timePassed | duration}}"
+    };
+  }
+];
+
+
 var ngFacebook = function() {
 	return {
       	restrict: 'E',
@@ -410,6 +438,7 @@ var ngTwitter = function() {
 };
 var myDirectives = angular.module("myDirectives", []).
 directive("ngTile", ngTile).
+directive("ngClock", ngClock).
 directive("ngFacebook", ngFacebook).
 directive("ngTwitter", ngTwitter).
 directive("ngGPlus", ngGPlus);
