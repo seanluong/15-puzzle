@@ -27,8 +27,8 @@
 			<div id="header" ng-controller="headerController">
 				<h1 id="title">15 PUZZLE</h1>
 				<h2 id="stats">
-					<span class="label label-default" ng-cloak id="clock">{{timePassed | duration}}</span>
-					<span class="label label-default" ng-cloak id="best-time">{{bestTime | duration}}</span>
+					<span class="label label-default" ng-cloak >{{timePassed | duration}}</span>
+					<span class="label label-default" ng-cloak >{{bestTime | duration}}</span>
 				</h2>
 				<div id="summary">
 					Try to reach the <button ng-click="guide()" class="btn btn-success guide-trigger">target board</button>
