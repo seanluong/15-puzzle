@@ -15,7 +15,7 @@ var localStorageService = [	function() {
 		setBestTime: setBestTime,
 		setTimePassed: setTimePassed,
 		getBoard: function() {
-			return JSON.parse(localStorage.getItem("board"));
+			return new Board(JSON.parse(localStorage.getItem("board")));
 		},
 		setBoard: function(board) {
 			return localStorage.setItem("board", JSON.stringify(board));

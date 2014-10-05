@@ -25,46 +25,40 @@ var Board = function(board) {
 	}
 };
 
+Board.prototype.getValue = function(delta) {
+	var nrow = this.row + delta.drow,
+		ncol = this.col + delta.dcol,
+		temp;
+	if (nrow >=0 && nrow <= 3 && ncol >=0 && ncol <= 3) {
+		return this.cells[nrow][ncol];
+	}
+	return null;
+};
+
 Board.prototype.getLeft = function() {
 	if (this.col > 0) {
-		return {
-			drow:0, 
-			dcol:1,
-			value: this.cells[this.row][this.col-1]
-		};
+		return this.cells[this.row][this.col-1];
 	} 
 	return null;
 };
 
 Board.prototype.getRight = function() {
 	if (this.col < 3) {
-		return {
-			drow:0, 
-			dcol:-1,
-			value: this.cells[this.row][this.col+1]
-		};
+		return this.cells[this.row][this.col+1];
 	} 
 	return null;
 };
 
 Board.prototype.getUp = function() {
 	if (this.row > 0) {
-		return {
-			drow:+1, 
-			dcol:0,
-			value: this.cells[this.row-1][this.col]
-		};
+		return this.cells[this.row-1][this.col];
 	}
 	return null;
 };
 
 Board.prototype.getDown = function() {
 	if (this.row < 3) {
-		return {
-			drow:-1, 
-			dcol:0,
-			value: this.cells[this.row+1][this.col]
-		};
+		return this.cells[this.row+1][this.col];
 	} 
 	return null;
 };
@@ -84,43 +78,8 @@ Board.prototype.shuffle = function(nsteps) {
 	}
 };
 
-Board.getDelta = function(direction) {
-	var delta = {};
-	if (direction === "up") {
-		delta.drow = -1;
-		delta.dcol = 0;
-	} else if (direction === "down") {
-		delta.drow = 1;
-		delta.dcol = 0;
-	} else if (direction === "left") {
-		delta.drow = 0;
-		delta.dcol = -1;
-	} else if (direction === "right") {
-		delta.drow = 0;
-		delta.dcol = 1;
-	} else {
-		delta = null;
-	}
-	return delta;
-};
-
-Board.getReverseDirection = function(direction) {
-	if (direction === "up") {
-		return "down";
-	} else if (direction === "down") {
-		return "up";
-	} else if (direction === "left") {
-		return "right";
-	} else if (direction === "right") {
-		return "left";
-	} else {
-		return null;
-	}
-};
-
-Board.prototype.slide = function(direction) {
-	var delta = Board.getDelta(direction),
-		nrow = this.row + delta.drow,
+Board.prototype.slide = function(delta) {
+	var nrow = this.row + delta.drow,
 		ncol = this.col + delta.dcol,
 		temp;
 	if (nrow >=0 && nrow <= 3 && ncol >=0 && ncol <= 3) {
@@ -232,9 +191,10 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 	}
 ];
-var mainController = ["$scope", "$document", "$timeout", "gameWonService", "localStorageService", 
-	function($scope, $document, $timeout, gameWonService, localStorageService) {
-		$scope.board = new Board(localStorageService.getBoard());
+var mainController = ["$scope", "$document", "$timeout", "gameWonService", 
+	"localStorageService", "directionService",
+	function($scope, $document, $timeout, gameWonService, localStorageService, directionService) {
+		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 		$scope.swipe = function(event) {
@@ -244,22 +204,26 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 
 		function moveZeroTile(direction, duration) {
 			if (!$scope.board.locked) {
-				var movedTile, value, reverse = Board.getReverseDirection(direction);
-				if (direction == "up") {
-					movedTile = $scope.board.getDown();
-				} else if (direction == "down") {
-					movedTile = $scope.board.getUp();
-				} else if (direction == "left") {
-					movedTile = $scope.board.getRight();
-				} else {
-					movedTile = $scope.board.getLeft();
-				}
-				if (movedTile) {
-					$scope.board.slide(reverse);	
+				var reverse = directionService.getReverse(direction),
+					delta = directionService.getDelta(direction),
+					revDelta = directionService.getDelta(reverse),
+					value = $scope.board.getValue(revDelta);
+				// if (direction == "up") {
+				// 	value = $scope.board.getDown();
+				// } else if (direction == "down") {
+				// 	value = $scope.board.getUp();
+				// } else if (direction == "left") {
+				// 	value = $scope.board.getRight();
+				// } else {
+				// 	value = $scope.board.getLeft();
+				// }
+				if (value) {
+					$scope.board.slide(revDelta);	
 				}
 				$document.find(".tile").trigger("move", {
 					duration: duration,
-					movedTile: movedTile
+					value: value,
+					delta: delta
 				});
 				if ($scope.board.won() === true) {
 					$scope.$parent.$broadcast("game-won");
@@ -416,11 +380,11 @@ var ngTile = function() {
 		element.on("move", function(event, args) {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
-			if (args.movedTile) {
-				if (args.movedTile.value === value) {
+			if (args.value) {
+				if (args.value === value) {
 					coor = findCoor(scope.board.cells, 0);
-					y = args.movedTile.drow * gap + coor.y;
-					x = args.movedTile.dcol * gap + coor.x;
+					y = args.delta.drow * gap + coor.y;
+					x = args.delta.dcol * gap + coor.x;
 					element.animate({
 						"left": x + "px",
 						"top": y + "px"
@@ -443,6 +407,42 @@ directive("ngClock", ngClock).
 directive("ngFacebook", ngFacebook).
 directive("ngTwitter", ngTwitter).
 directive("ngGPlus", ngGPlus);
+var directionService = [ function() {
+	return {
+		getDelta: function(direction) {
+			var delta = {};
+			if (direction === "up") {
+				delta.drow = -1;
+				delta.dcol = 0;
+			} else if (direction === "down") {
+				delta.drow = 1;
+				delta.dcol = 0;
+			} else if (direction === "left") {
+				delta.drow = 0;
+				delta.dcol = -1;
+			} else if (direction === "right") {
+				delta.drow = 0;
+				delta.dcol = 1;
+			} else {
+				delta = null;
+			}
+			return delta;
+		},
+		getReverse: function(direction) {
+			if (direction === "up") {
+				return "down";
+			} else if (direction === "down") {
+				return "up";
+			} else if (direction === "left") {
+				return "right";
+			} else if (direction === "right") {
+				return "left";
+			} else {
+				return null;
+			}
+		}
+	};
+}];
 var gameWonService = ["$modal", function($modal) {
 	return function($scope) {
 		var modalInstance = $modal.open({
@@ -504,7 +504,7 @@ var localStorageService = [	function() {
 		setBestTime: setBestTime,
 		setTimePassed: setTimePassed,
 		getBoard: function() {
-			return JSON.parse(localStorage.getItem("board"));
+			return new Board(JSON.parse(localStorage.getItem("board")));
 		},
 		setBoard: function(board) {
 			return localStorage.setItem("board", JSON.stringify(board));
@@ -524,6 +524,7 @@ var myServices = angular.module("myServices", []).
 factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("guideService", guideService).
+factory("directionService", directionService).
 factory("gameWonService", gameWonService);
 var myApp = angular.module("myApp", [
 	"angular-gestures","ui.bootstrap",

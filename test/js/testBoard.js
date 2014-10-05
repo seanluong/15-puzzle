@@ -26,37 +26,14 @@ describe("Test Board class", function() {
 		});
 	});
 
-	describe("Unit: test getDelta class function", function() {
-		it("should return drow=-1, dcol=0", function() {
-			expect(Board.getDelta("up")).toEqual({
-				drow: -1, dcol: 0
-			});
-		});
-
-		it("should return drow=1, dcol=0", function() {
-			expect(Board.getDelta("down")).toEqual({
-				drow: 1, dcol: 0
-			});
-		});
-
-		it("should return drow=0, dcol=-1", function() {
-			expect(Board.getDelta("left")).toEqual({
-				drow: 0, dcol: -1
-			});
-		});
-
-		it("should return drow=0, dcol=1", function() {
-			expect(Board.getDelta("right")).toEqual({
-				drow: 0, dcol: 1
-			});
-		});
-
-		it("should be undefined", function() {
-			expect(Board.getDelta("top-left")).toBeNull();
-		});
-	});
-
 	describe("Unit: test slide function", function() {
+		var directionService, up, down, left, right;
+		beforeEach(module('myServices'));
+		beforeEach(function() {
+			inject(function(_directionService_) {
+				directionService = _directionService_;
+			});
+		});
 		beforeEach(function() {
 			board = new Board();
 			board.cells = [
@@ -68,10 +45,14 @@ describe("Test Board class", function() {
 			board.row = 2;
 			board.col = 1;
 			board.locked = false;
+			up = directionService.getDelta("up");
+			down = directionService.getDelta("down");
+			left = directionService.getDelta("left");
+			right = directionService.getDelta("right");
 		});
 
 		it("should move the empty cell to the left", function() {
-			board.slide("left");
+			board.slide(left);
 			expect(board.row).toBe(2);
 			expect(board.col).toBe(0);
 			expect(board.locked).toBeFalsy();
@@ -84,63 +65,63 @@ describe("Test Board class", function() {
 		});
 
 		it("should change nothing on the board", function() {
-			board.slide("left").slide("left");
+			board.slide(left).slide(left);
 			expect(board.row).toBe(2);
 			expect(board.col).toBe(0);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should move the empty cell one row down", function() {
-			board.slide("down");
+			board.slide(down);
 			expect(board.row).toBe(3);
 			expect(board.col).toBe(1);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should change nothing on the board", function() {
-			board.slide("down").slide("down");
+			board.slide(down).slide(down);
 			expect(board.row).toBe(3);
 			expect(board.col).toBe(1);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should move the empty cell one row up", function() {
-			board.slide("up");
+			board.slide(up);
 			expect(board.row).toBe(1);
 			expect(board.col).toBe(1);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should move the empty cell one row up", function() {
-			board.slide("up").slide("up");
+			board.slide(up).slide(up);
 			expect(board.row).toBe(0);
 			expect(board.col).toBe(1);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should change nothing on the board", function() {
-			board.slide("up").slide("up").slide("up");
+			board.slide(up).slide(up).slide(up);
 			expect(board.row).toBe(0);
 			expect(board.col).toBe(1);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should move the empty cell to the right", function() {
-			board.slide("right");
+			board.slide(right);
 			expect(board.row).toBe(2);
 			expect(board.col).toBe(2);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should move the empty cell one row up", function() {
-			board.slide("right").slide("right");
+			board.slide(right).slide(right);
 			expect(board.row).toBe(2);
 			expect(board.col).toBe(3);
 			expect(board.locked).toBeFalsy();
 		});
 
 		it("should change nothing on the board", function() {
-			board.slide("right").slide("right").slide("right");
+			board.slide(right).slide(right).slide(right);
 			expect(board.row).toBe(2);
 			expect(board.col).toBe(3);
 			expect(board.locked).toBeFalsy();

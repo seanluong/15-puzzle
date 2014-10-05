@@ -1,6 +1,7 @@
-var mainController = ["$scope", "$document", "$timeout", "gameWonService", "localStorageService", 
-	function($scope, $document, $timeout, gameWonService, localStorageService) {
-		$scope.board = new Board(localStorageService.getBoard());
+var mainController = ["$scope", "$document", "$timeout", "gameWonService", 
+	"localStorageService", "directionService",
+	function($scope, $document, $timeout, gameWonService, localStorageService, directionService) {
+		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 		$scope.swipe = function(event) {
@@ -10,22 +11,17 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService", "loca
 
 		function moveZeroTile(direction, duration) {
 			if (!$scope.board.locked) {
-				var movedTile, value, reverse = Board.getReverseDirection(direction);
-				if (direction == "up") {
-					movedTile = $scope.board.getDown();
-				} else if (direction == "down") {
-					movedTile = $scope.board.getUp();
-				} else if (direction == "left") {
-					movedTile = $scope.board.getRight();
-				} else {
-					movedTile = $scope.board.getLeft();
-				}
-				if (movedTile) {
-					$scope.board.slide(reverse);	
+				var reverse = directionService.getReverse(direction),
+					delta = directionService.getDelta(direction),
+					revDelta = directionService.getDelta(reverse),
+					value = $scope.board.getValue(revDelta);
+				if (value) {
+					$scope.board.slide(revDelta);	
 				}
 				$document.find(".tile").trigger("move", {
 					duration: duration,
-					movedTile: movedTile
+					value: value,
+					delta: delta
 				});
 				if ($scope.board.won() === true) {
 					$scope.$parent.$broadcast("game-won");

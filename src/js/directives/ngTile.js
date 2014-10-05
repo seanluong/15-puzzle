@@ -39,11 +39,11 @@ var ngTile = function() {
 		element.on("move", function(event, args) {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
-			if (args.movedTile) {
-				if (args.movedTile.value === value) {
+			if (args.value) {
+				if (args.value === value) {
 					coor = findCoor(scope.board.cells, 0);
-					y = args.movedTile.drow * gap + coor.y;
-					x = args.movedTile.dcol * gap + coor.x;
+					y = args.delta.drow * gap + coor.y;
+					x = args.delta.dcol * gap + coor.x;
 					element.animate({
 						"left": x + "px",
 						"top": y + "px"

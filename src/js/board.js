@@ -25,46 +25,40 @@ var Board = function(board) {
 	}
 };
 
+Board.prototype.getValue = function(delta) {
+	var nrow = this.row + delta.drow,
+		ncol = this.col + delta.dcol,
+		temp;
+	if (nrow >=0 && nrow <= 3 && ncol >=0 && ncol <= 3) {
+		return this.cells[nrow][ncol];
+	}
+	return null;
+};
+
 Board.prototype.getLeft = function() {
 	if (this.col > 0) {
-		return {
-			drow:0, 
-			dcol:1,
-			value: this.cells[this.row][this.col-1]
-		};
+		return this.cells[this.row][this.col-1];
 	} 
 	return null;
 };
 
 Board.prototype.getRight = function() {
 	if (this.col < 3) {
-		return {
-			drow:0, 
-			dcol:-1,
-			value: this.cells[this.row][this.col+1]
-		};
+		return this.cells[this.row][this.col+1];
 	} 
 	return null;
 };
 
 Board.prototype.getUp = function() {
 	if (this.row > 0) {
-		return {
-			drow:+1, 
-			dcol:0,
-			value: this.cells[this.row-1][this.col]
-		};
+		return this.cells[this.row-1][this.col];
 	}
 	return null;
 };
 
 Board.prototype.getDown = function() {
 	if (this.row < 3) {
-		return {
-			drow:-1, 
-			dcol:0,
-			value: this.cells[this.row+1][this.col]
-		};
+		return this.cells[this.row+1][this.col];
 	} 
 	return null;
 };
@@ -84,43 +78,8 @@ Board.prototype.shuffle = function(nsteps) {
 	}
 };
 
-Board.getDelta = function(direction) {
-	var delta = {};
-	if (direction === "up") {
-		delta.drow = -1;
-		delta.dcol = 0;
-	} else if (direction === "down") {
-		delta.drow = 1;
-		delta.dcol = 0;
-	} else if (direction === "left") {
-		delta.drow = 0;
-		delta.dcol = -1;
-	} else if (direction === "right") {
-		delta.drow = 0;
-		delta.dcol = 1;
-	} else {
-		delta = null;
-	}
-	return delta;
-};
-
-Board.getReverseDirection = function(direction) {
-	if (direction === "up") {
-		return "down";
-	} else if (direction === "down") {
-		return "up";
-	} else if (direction === "left") {
-		return "right";
-	} else if (direction === "right") {
-		return "left";
-	} else {
-		return null;
-	}
-};
-
-Board.prototype.slide = function(direction) {
-	var delta = Board.getDelta(direction),
-		nrow = this.row + delta.drow,
+Board.prototype.slide = function(delta) {
+	var nrow = this.row + delta.drow,
 		ncol = this.col + delta.dcol,
 		temp;
 	if (nrow >=0 && nrow <= 3 && ncol >=0 && ncol <= 3) {
