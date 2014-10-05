@@ -28,7 +28,7 @@ The implementation makes use of the following libraries:
 + [UI Bootstrap](http://angular-ui.github.io/bootstrap/) for `AngularJS`
 + [jQuery](http://jquery.com/)
 
-Besides, [Grunt](http://gruntjs.com/) and some of its modules (`jshint`, `cssmin`, `concat`, `qunit`) are used to help automating the development process. To use `Grunt`, we need [NodeJS](http://nodejs.org/)
+Besides, [Grunt](http://gruntjs.com/) and some of its modules (`jshint`, `cssmin`, `concat`, `qunit`) are used to help automating the development process. To use `Grunt`, we need [NodeJS](http://nodejs.org/). [Bower](http://bower.io/) is used for managing dependencies on front-end librraries (`AngularJS`, `jQuery`, `angular-gestures`).
 
 ## Contribution
 
