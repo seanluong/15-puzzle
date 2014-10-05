@@ -972,12 +972,7 @@ body {
 	display: inline;	
 }
 
-#share-social {
-	margin: 15px 0px;
-	text-align: center;
-}
-
-#share {
+.share-social {
 	margin: 15px 0px;
 	text-align: center;
 }

@@ -22,7 +22,7 @@
 		<link rel="stylesheet" href="build/css/15-puzzle.min.css">
 	</head>
 	<body ng-controller="bodyController" ng-keydown="handleKeyDown($event)">
-<div id="fb-root"></div>
+		<div id="fb-root"></div>
 		<div id="game-container">
 			<div id="header" ng-controller="headerController">
 				<h1 id="title">15 PUZZLE</h1>
@@ -48,8 +48,8 @@
 			</div>
 
 			<div id="footer">
-				<div id="share-social">
-					<ng-facebook></ng-facebook>
+				<div class="share-social">
+					<!-- <ng-facebook></ng-facebook> -->
 					<ng-g-plus></ng-g-plus>
 					<ng-twitter></ng-twitter>
 				</div>
