@@ -179,19 +179,10 @@ var bodyController = ["$scope", "keyboardMapService",
 		};
 	}
 ];
-var headerController = ["$scope", "$interval", "guideService", "localStorageService",
-	function($scope, $interval, guideService, localStorageService) {
+var headerController = ["$scope", "guideService", "localStorageService",
+	function($scope, guideService, localStorageService) {
 		$scope.timePassed =  localStorageService.getTimePassed();
 		$scope.bestTime = localStorageService.getBestTime();
-
-		// var timeoutId = $interval(function() {
-		// 	$scope.timePassed += 1;
-		// 	localStorageService.setTimePassed($scope.timePassed);
-		// },1000,0,true);
-
-		$scope.$on("$destroy", function() {
-			// $interval.cancel(timeoutId);
-		});
 
 		$scope.$on("new-game", function() {
 			$scope.timePassed = 0;
@@ -212,9 +203,10 @@ var headerController = ["$scope", "$interval", "guideService", "localStorageServ
 		};
 	}
 ];
-var mainController = ["$scope", "$document", "$timeout", "gameWonService", 
-	function($scope, $document, $timeout, gameWonService) {
-		$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+var mainController = ["$scope", "$document", "$timeout", "gameWonService", "localStorageService", 
+	function($scope, $document, $timeout, gameWonService, localStorageService) {
+		// $scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+		$scope.board = new Board(localStorageService.getBoard());
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 		$scope.swipe = function(event) {
@@ -267,7 +259,8 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 
 		$scope.$on("new-game", function() {
 			$scope.board = new Board();
-			localStorage.setItem("board", JSON.stringify($scope.board));
+			// localStorage.setItem("board", JSON.stringify($scope.board));
+			localStorageService.setBoard($scope.board);
 			$timeout(function() {
 				$document.find(".tile").trigger("init");
 			},0,true);
@@ -336,18 +329,12 @@ var myFilters = angular.module("myFilters", []).
 filter("duration", durationFilter);
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
+
     function link(scope, element, attrs) {
       var timeoutId;
-
-      // scope.$watch(attrs.myCurrentTime, function(value) {
-      //   format = value;
-      //   updateTime();
-      // });
-
       element.on('$destroy', function() {
         $interval.cancel(timeoutId);
       });
-
       timeoutId = $interval(function() {
         scope.timePassed += 1;
         localStorageService.setTimePassed(scope.timePassed);
@@ -355,6 +342,7 @@ var ngClock = ["$interval", "localStorageService",
     }
 
     return {
+      restrict: "A",
       link: link,
       template: "{{timePassed | duration}}"
     };
@@ -486,7 +474,7 @@ var keyboardMapService = [	function() {
 		return key2dir[whichKey];
 	};
 }];
-var localStorageService = ["$interval",	function($interval) {
+var localStorageService = [	function() {
 
 	var getBestTime = function() {
 			return parseInt(localStorage.getItem("bestTime")) || null;
@@ -502,6 +490,12 @@ var localStorageService = ["$interval",	function($interval) {
 		getBestTime: getBestTime,
 		setBestTime: setBestTime,
 		setTimePassed: setTimePassed,
+		getBoard: function() {
+			return JSON.parse(localStorage.getItem("board"));
+		},
+		setBoard: function(board) {
+			return localStorage.setItem("board", JSON.stringify(board));
+		},
 		getTimePassed: function() {
 			return parseInt(localStorage.getItem("timePassed")) || 0;
 		},

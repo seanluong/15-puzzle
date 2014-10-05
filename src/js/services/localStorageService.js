@@ -14,6 +14,12 @@ var localStorageService = [	function() {
 		getBestTime: getBestTime,
 		setBestTime: setBestTime,
 		setTimePassed: setTimePassed,
+		getBoard: function() {
+			return JSON.parse(localStorage.getItem("board"));
+		},
+		setBoard: function(board) {
+			return localStorage.setItem("board", JSON.stringify(board));
+		},
 		getTimePassed: function() {
 			return parseInt(localStorage.getItem("timePassed")) || 0;
 		},

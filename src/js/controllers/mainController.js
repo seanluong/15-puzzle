@@ -1,6 +1,6 @@
-var mainController = ["$scope", "$document", "$timeout", "gameWonService", 
-	function($scope, $document, $timeout, gameWonService) {
-		$scope.board = new Board(JSON.parse(localStorage.getItem("board")));
+var mainController = ["$scope", "$document", "$timeout", "gameWonService", "localStorageService", 
+	function($scope, $document, $timeout, gameWonService, localStorageService) {
+		$scope.board = new Board(localStorageService.getBoard());
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 		$scope.swipe = function(event) {
@@ -53,7 +53,7 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 
 		$scope.$on("new-game", function() {
 			$scope.board = new Board();
-			localStorage.setItem("board", JSON.stringify($scope.board));
+			localStorageService.setBoard($scope.board);
 			$timeout(function() {
 				$document.find(".tile").trigger("init");
 			},0,true);

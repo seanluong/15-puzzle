@@ -34,4 +34,20 @@ describe("Test myServices", function() {
 		});
 
 	});
+
+	describe('Unit: Test localStorageService', function() {
+		var localStorageService;
+		beforeEach(module('myServices'));
+		beforeEach(function() {
+			inject(function(_localStorageService_) {
+				localStorageService = _localStorageService_;
+			});
+		});
+
+		it("should return 'up'", function() {
+			
+			expect(true).toBeTruthy();
+		});
+
+	});
 });
