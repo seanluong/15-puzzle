@@ -119,9 +119,8 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 	}
 ];
-var mainController = ["$scope", "$document", "$timeout", "gameWonService", 
-	"localStorageService", "directionService",
-	function($scope, $document, $timeout, gameWonService, localStorageService, directionService) {
+var mainController = ["$scope", "$document", "gameWonService", "localStorageService", "directionService",
+	function($scope, $document, gameWonService, localStorageService, directionService) {
 		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
@@ -158,9 +157,7 @@ var mainController = ["$scope", "$document", "$timeout", "gameWonService",
 		$scope.$on("new-game", function() {
 			$scope.board = new Board();
 			localStorageService.setBoard($scope.board);
-			$timeout(function() {
-				$document.find(".tile").trigger("init");
-			},0,true);
+			$document.find(".tile").trigger("init");
 		});
 
 		$scope.$on("keydown", function(event, args) {
