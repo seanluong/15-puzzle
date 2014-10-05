@@ -36,18 +36,30 @@ describe("Test myServices", function() {
 	});
 
 	describe('Unit: Test localStorageService', function() {
-		var localStorageService;
+		var localStorageService,
+			timePassed, bestTime, boardStr;
 		beforeEach(module('myServices'));
 		beforeEach(function() {
 			inject(function(_localStorageService_) {
 				localStorageService = _localStorageService_;
 			});
 		});
+		beforeEach(function() { // store current data in localStorage
+			timePassed = localStorage.getItem("timePassed");
+			bestTime = localStorage.getItem("bestTime");
+			boardStr = localStorage.getItem("board");
+		});
+		afterEach(function() {
+			localStorage.setItem("timePassed", timePassed);
+			localStorage.setItem("bestTime", bestTime);
+			localStorage.setItem("board", boardStr);
+		});
 
-		it("should return 'up'", function() {
-			
+		it("should return true", function() {
+			// TODO:
 			expect(true).toBeTruthy();
 		});
+
 
 	});
 });
