@@ -1,6 +1,6 @@
 html {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 html body {
   background: #F7EFB7;
@@ -9,7 +9,7 @@ html body {
 
 #game-container {
   width: 500px;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 #header {
@@ -72,8 +72,8 @@ html body {
 #footer {
   margin-bottom: 10px;
   margin-top: 20px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
 }
 #footer > div > span {
   margin-top: 5px;
@@ -98,7 +98,7 @@ html body {
 }
 
 .share-social {
-  margin: 15px 0px;
+  margin: 15px 0;
   text-align: center;
 }
 
