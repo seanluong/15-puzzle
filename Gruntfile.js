@@ -79,6 +79,17 @@ module.exports = function(grunt) {
 			unit: {
 				configFile: "karma.conf.js"
 			}
+		},
+		sass: {
+			dist: {
+				options: {
+					style: 'expanded',
+					sourcemap: 'none'
+				},
+				files: {
+					'src/css/style.css': 'src/css/style.scss'
+				}
+			}
 		}
 	});
 	
@@ -86,6 +97,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-karma');
 
 	// testing task
@@ -110,6 +122,7 @@ module.exports = function(grunt) {
   	grunt.registerTask('default', [
   		'unit',
   		'js',
+  		'sass',
   		'css'
   		// 'uglify:js' // uglfy 15-puzzle.js
   	]);
