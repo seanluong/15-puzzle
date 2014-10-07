@@ -130,7 +130,7 @@ body {
 	z-index: 100;
 }
 
-.guide-trigger {
+#guide-trigger {
 	font-weight: bold;
 	font-size: 16px;
 }
@@ -153,4 +153,8 @@ body {
 
 .fb-share-button span {
 	vertical-align: baseline !important;
+}
+
+.keyboard-img {
+	height: 32px;
 }

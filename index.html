@@ -5,7 +5,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="HandheldFriendly" content="True">
 		<meta name="MobileOptimized" content="640">
-		<meta name="viewport" content="width=640, initial-scale=0.5">
+		<meta name="viewport" content="width=640, initial-scale=0.5, user-scalable=no">
 		<meta property="og:title" content="15 Puzzle">
 		<meta property="og:site_name" content="15 Puzzle">
 		<meta property="og:description" content="Move the empty cell to reach the target state and solve the 15 Puzzle!">
@@ -31,7 +31,7 @@
 					<span class="label label-default" ng-cloak >{{bestTime | duration}}</span>
 				</h2>
 				<div id="summary">
-					Try to reach the <button ng-click="guide()" class="btn btn-success guide-trigger">target board</button>
+					Try to reach the <button id="guide-trigger" ng-click="guide()" class="btn btn-success">target board</button>
 				</div>
 				<div id="buttons">
 					<button id="new-game" class="btn btn-danger" ng-click="newGame()">
@@ -58,14 +58,18 @@
 			    	<span class="footer-section-header">HOW TO PLAY</span>
 			    	<ul>
 			    		<li>
-			    			On <span>PC</span>:
-							<ul>
-								<li>Press  <img src="images/wasd.png">  to move <span>the empty cell<span>.</li>
-								<li>Press  <img src="images/keys.png">  to move in <span>the tiles<span>.</li>
-							</ul>
+			    			<span>Mobile</span>: swipe on the  board.
 			    		</li>
 			    		<li>
-			    			On <span>Mobile</span>: swipe on the  board.
+			    			<span>PC</span>:
+			    			<ul>
+			    				<li>
+			    					Move <span>the empty cell</span> with <img class="keyboard-img" src="images/wasd.png">, or
+			    				</li>
+			    				<li>
+			    					Move <span>the tiles<span> with <img class="keyboard-img" src="images/keys.png">
+			    				</li>
+			    			</ul>
 			    		</li>
 			    	</ul>
 			    </div>
