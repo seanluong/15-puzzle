@@ -1,13 +1,16 @@
+$board-size: 500px;
+$board-border-thickness: 12px;
+$board-border-radius: 6px;
+$tile-margin: 4px;
+$tile-size: ($board-size - 2 * $board-border-thickness - 3 * $tile-margin) / 4;
+
 html {
 	margin: 0px;
 	padding: 0px;
-}
-
-body {
-	background: #F7EFB7;
-	margin: 80px 0px;
-	padding-left: 10px;
-	padding-right: 10px;
+	body {
+		background: #F7EFB7;
+		margin: 80px 0;
+	}
 }
 
 #game-container {
@@ -15,31 +18,20 @@ body {
 	margin: 0px auto;
 }
 
-#source-img {
-	width: 25px;
-	display: inline;
-}
-
 #header {
-	vertical-align: top;
-	line-height: 0px;
-	padding-right: 15px;
-	padding-left: 15px;
-}
-
-#title {
-	font-size: 36px;
-	font-weight: bolder;
-	float: left;
-}
-
-#stats {
-	float: right;
-}
-
-#stats span {
-	vertical-align: bottom;
-	font-size: 20px;
+	line-height: 0;
+	> h1 {
+		font-size: 36px;
+		font-weight: bolder;
+		float: left;
+	}
+	> h2 {
+		float: right;
+		span {
+			vertical-align: bottom;
+			font-size: 20px;	
+		}
+	}
 }
 
 #summary {
@@ -49,32 +41,38 @@ body {
 	font-weight: bolder;
 	margin-bottom: 25px;
 	margin-top: 15px;
+	> button {
+		font-weight: bold;
+		font-size: 16px;
+	}
 }
 
 #buttons {
 	float: right;
-}
-
-#buttons button {
-	font-size: 16px;
-	font-weight: bold;
-	line-height: 38px;
+	button {
+		font-size: 16px;
+		font-weight: bold;
+		line-height: 38px;
+	}
 }
 
 #board-container {
-	width: 500px;
-	height: 500px;
+	width: $board-size;
+	height: $board-size;
 	position: relative;
 	background: rgba(204, 138, 138, 1);
-	border: 12px solid;
+	border: $board-border-thickness solid;
 	border-color: #7C0909;
-	border-radius: 6px;
+	border-radius: $board-border-radius;
 	box-sizing: border-box;
 	clear: both;
-}
-
-#board {
-	z-index: 1;
+	> div {
+		z-index: 1;
+		> div {
+			display: inline-block;
+			position: absolute;
+		}
+	}
 }
 
 #footer {
@@ -82,11 +80,29 @@ body {
 	margin-top: 20px;
 	margin-left: 0px;
 	margin-right: 0px;
+	> div {
+		> span {
+			margin-top: 5px;
+			margin-bottom: 5px;
+			font-size: 22px;
+			font-weight: bold;
+		}
+	}
 }
 
-#author a img {
-	height: 24px;
-	display: inline;	
+#author {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	a {
+		font-weight: bolder;
+		img {
+			height: 24px;
+			display: inline;	
+		}
+	}
+	p {
+		text-align: center;
+	}
 }
 
 .share-social {
@@ -94,45 +110,15 @@ body {
 	text-align: center;
 }
 
-#author {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-#author p {
-	text-align: center;
-}
-
-#author a {
-	font-weight: bolder;
-}
-
-.footer-section-header {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-size: 22px;
-	font-weight: bold;
-}
-
-.tile {
-	display: inline-block;
-	position: absolute;
-}
-
 .my-tile {
 	text-align: center;
-	width: 116px;
-	height: 116px;
-	border-radius: 3px;
+	width: $tile-size;
+	height: $tile-size;
+	border-radius: $board-border-radius / 2;
 	background: rgba(255, 255, 255, 1.0);
 	font-size: 55px;
 	line-height: 116.25px;
 	z-index: 100;
-}
-
-#guide-trigger {
-	font-weight: bold;
-	font-size: 16px;
 }
 
 #guide-content {
@@ -143,18 +129,20 @@ body {
 	text-align: center;
 }
 
-#explanation ul li {
-	font-size: 18px;
-}
-
-#explanation ul li span {
-	font-weight: bolder;
+#explanation {
+	ul {
+		li {
+			font-size: 18px;
+			span {
+				font-weight: bolder;
+			}
+			img {
+				height: 32px;
+			}
+		}
+	}
 }
 
 .fb-share-button span {
 	vertical-align: baseline !important;
-}
-
-.keyboard-img {
-	height: 32px;
 }

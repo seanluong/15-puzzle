@@ -885,12 +885,9 @@ html {
   margin: 0px;
   padding: 0px;
 }
-
-body {
+html body {
   background: #F7EFB7;
-  margin: 80px 0px;
-  padding-left: 10px;
-  padding-right: 10px;
+  margin: 80px 0;
 }
 
 #game-container {
@@ -898,29 +895,18 @@ body {
   margin: 0px auto;
 }
 
-#source-img {
-  width: 25px;
-  display: inline;
-}
-
 #header {
-  vertical-align: top;
-  line-height: 0px;
-  padding-right: 15px;
-  padding-left: 15px;
+  line-height: 0;
 }
-
-#title {
+#header > h1 {
   font-size: 36px;
   font-weight: bolder;
   float: left;
 }
-
-#stats {
+#header > h2 {
   float: right;
 }
-
-#stats span {
+#header > h2 span {
   vertical-align: bottom;
   font-size: 20px;
 }
@@ -933,11 +919,14 @@ body {
   margin-bottom: 25px;
   margin-top: 15px;
 }
+#summary > button {
+  font-weight: bold;
+  font-size: 16px;
+}
 
 #buttons {
   float: right;
 }
-
 #buttons button {
   font-size: 16px;
   font-weight: bold;
@@ -955,9 +944,12 @@ body {
   box-sizing: border-box;
   clear: both;
 }
-
-#board {
+#board-container > div {
   z-index: 1;
+}
+#board-container > div > div {
+  display: inline-block;
+  position: absolute;
 }
 
 #footer {
@@ -966,40 +958,31 @@ body {
   margin-left: 0px;
   margin-right: 0px;
 }
-
-#author a img {
-  height: 24px;
-  display: inline;
-}
-
-.share-social {
-  margin: 15px 0px;
-  text-align: center;
-}
-
-#author {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-#author p {
-  text-align: center;
-}
-
-#author a {
-  font-weight: bolder;
-}
-
-.footer-section-header {
+#footer > div > span {
   margin-top: 5px;
   margin-bottom: 5px;
   font-size: 22px;
   font-weight: bold;
 }
 
-.tile {
-  display: inline-block;
-  position: absolute;
+#author {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#author a {
+  font-weight: bolder;
+}
+#author a img {
+  height: 24px;
+  display: inline;
+}
+#author p {
+  text-align: center;
+}
+
+.share-social {
+  margin: 15px 0px;
+  text-align: center;
 }
 
 .my-tile {
@@ -1013,11 +996,6 @@ body {
   z-index: 100;
 }
 
-#guide-trigger {
-  font-weight: bold;
-  font-size: 16px;
-}
-
 #guide-content {
   text-align: center;
 }
@@ -1029,15 +1007,13 @@ body {
 #explanation ul li {
   font-size: 18px;
 }
-
 #explanation ul li span {
   font-weight: bolder;
+}
+#explanation ul li img {
+  height: 32px;
 }
 
 .fb-share-button span {
   vertical-align: baseline !important;
-}
-
-.keyboard-img {
-  height: 32px;
 }

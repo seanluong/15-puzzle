@@ -25,23 +25,23 @@
 		<div id="fb-root"></div>
 		<div id="game-container">
 			<div id="header" ng-controller="headerController">
-				<h1 id="title">15 PUZZLE</h1>
-				<h2 id="stats">
+				<h1>15 PUZZLE</h1>
+				<h2>
 					<span class="label label-default" ng-cloak ng-clock></span>
 					<span class="label label-default" ng-cloak >{{bestTime | duration}}</span>
 				</h2>
 				<div id="summary">
-					Try to reach the <button id="guide-trigger" ng-click="guide()" class="btn btn-success">target board</button>
+					Try to reach the <button ng-click="guide()" class="btn btn-success">target board</button>
 				</div>
 				<div id="buttons">
-					<button id="new-game" class="btn btn-danger" ng-click="newGame()">
+					<button class="btn btn-danger" ng-click="newGame()">
 						New Game
 					</button>
 				</div>
 			</div>
 			<div id="main" ng-controller="mainController">				
 				<div id="board-container">
-					<div id="board">
+					<div>
 						<div ng-if="value !== 0" class="tile" ng-tile ng-repeat="value in series" hm-swipe="swipe($event)">{{value}}</div>
 					</div>
 				</div>			
@@ -53,9 +53,8 @@
 					<ng-g-plus></ng-g-plus>
 					<ng-twitter></ng-twitter>
 				</div>
-				
 				<div id="explanation">
-			    	<span class="footer-section-header">HOW TO PLAY</span>
+			    	<span>HOW TO PLAY</span>
 			    	<ul>
 			    		<li>
 			    			<span>Mobile</span>: swipe on the  board.
@@ -64,20 +63,20 @@
 			    			<span>PC</span>:
 			    			<ul>
 			    				<li>
-			    					Move <span>the empty cell</span> with <img class="keyboard-img" src="images/wasd.png">, or
+			    					Move <span>the empty cell</span> with <img src="images/wasd.png">, or
 			    				</li>
 			    				<li>
-			    					Move <span>the tiles<span> with <img class="keyboard-img" src="images/keys.png">
+			    					Move <span>the tiles</span> with <img src="images/keys.png">
 			    				</li>
 			    			</ul>
 			    		</li>
 			    	</ul>
 			    </div>
 			    <div id="author">
-			    	<span class="footer-section-header">AUTHOR</span>
+			    	<span>AUTHOR</span>
 			    	<p>
 		    			Created by <a href="https://twitter.com/xuanluong">Xuan Luong</a>. 
-		    			Code hosted on <a href="https://github.com/xuanluong">GitHub <img src="images/github.png" class="img-responsive" alt="Github"></a>
+		    			Code hosted on <a href="https://github.com/xuanluong">GitHub <img src="images/github.png" alt="Github"></a>
 			    	</p>
 				</div>
 			</div>

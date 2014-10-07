@@ -108,6 +108,7 @@ module.exports = function(grunt) {
 
 	// css minify task
 	grunt.registerTask('css', [
+		'sass',
 		'concat:css',
 		'cssmin'
 	]);
@@ -122,7 +123,6 @@ module.exports = function(grunt) {
   	grunt.registerTask('default', [
   		'unit',
   		'js',
-  		'sass',
   		'css'
   		// 'uglify:js' // uglfy 15-puzzle.js
   	]);
