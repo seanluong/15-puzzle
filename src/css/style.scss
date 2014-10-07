@@ -5,14 +5,24 @@ $board-border-radius: 6px;
 $tile-margin: 4px;
 $tile-size: ($board-size - 2 * $board-border-thickness - 3 * $tile-margin) / 4;
 
+$board-border-color: #7C0909;
+$board-background: rgba(204, 138, 138, 1);
+$tile-background: rgba(255, 255, 255, 1.0);
+$body-background: #F7EFB7;
 
+@function calc-rem($target-px, $context) {
+	@return ($target-px / $context) * 1rem;
+}
+
+$font-size: 10px;
 
 html {
 	margin: 0;
 	padding: 0;
+	font-size: $font-size;
 	body {
-		background: #F7EFB7;
-		margin: 10px;
+		background: $body-background;
+		margin: 1rem;
 	}
 }
 
@@ -24,7 +34,7 @@ html {
 #header {
 	line-height: 0;
 	> h1 {
-		font-size: 36px;
+		font-size: calc-rem(36px, $font-size);
 		font-weight: bolder;
 		float: left;
 	}
@@ -32,7 +42,7 @@ html {
 		float: right;
 		span {
 			vertical-align: bottom;
-			font-size: 20px;	
+			font-size: calc-rem(20px, $font-size);
 		}
 	}
 }
@@ -40,22 +50,22 @@ html {
 #summary {
 	float: left;
 	width: 75%;
-	font-size: 18px;
+	font-size: calc-rem(18px, $font-size);
 	font-weight: bolder;
-	margin-bottom: 25px;
-	margin-top: 15px;
+	margin-bottom: calc-rem(25px, $font-size);
+	margin-top: calc-rem(15px, $font-size);
 	> button {
 		font-weight: bold;
-		font-size: 16px;
+		font-size: calc-rem(16px, $font-size);
 	}
 }
 
 #buttons {
 	float: right;
 	button {
-		font-size: 16px;
+		font-size: calc-rem(16px, $font-size);
 		font-weight: bold;
-		line-height: 38px;
+		line-height: calc-rem(38px, $font-size);
 	}
 }
 
@@ -63,9 +73,9 @@ html {
 	width: $board-size;
 	height: $board-size;
 	position: relative;
-	background: rgba(204, 138, 138, 1);
+	background: $board-background;
 	border: $board-border-thickness solid;
-	border-color: #7C0909;
+	border-color: $board-border-color;
 	border-radius: $board-border-radius;
 	box-sizing: border-box;
 	clear: both;
@@ -79,27 +89,27 @@ html {
 }
 
 #footer {
-	margin-bottom: 10px;
-	margin-top: 20px;
+	margin-bottom: calc-rem(10px, $font-size);
+	margin-top: calc-rem(20px, $font-size);
 	margin-left: 0;
 	margin-right: 0;
 	> div {
 		> span {
-			margin-top: 5px;
-			margin-bottom: 5px;
-			font-size: 22px;
+			margin-top: calc-rem(5px, $font-size);
+			margin-bottom: calc-rem(5px, $font-size);
+			font-size: calc-rem(22px, $font-size);
 			font-weight: bold;
 		}
 	}
 }
 
 #author {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: calc-rem(5px, $font-size);
+	margin-bottom: calc-rem(5px, $font-size);
 	a {
 		font-weight: bolder;
 		img {
-			height: 24px;
+			height: calc-rem(24px, $font-size);
 			display: inline;	
 		}
 	}
@@ -109,7 +119,7 @@ html {
 }
 
 .share-social {
-	margin: 15px 0;
+	margin: calc-rem(15px, $font-size) 0;
 	text-align: center;
 }
 
@@ -118,9 +128,9 @@ html {
 	width: $tile-size;
 	height: $tile-size;
 	border-radius: $board-border-radius / 2;
-	background: rgba(255, 255, 255, 1.0);
-	font-size: 55px;
-	line-height: 116.25px;
+	background: $tile-background;
+	font-size: calc-rem(55px, $font-size);
+	line-height: calc-rem(116.25px, $font-size);
 	z-index: 100;
 }
 
@@ -135,12 +145,12 @@ html {
 #explanation {
 	ul {
 		li {
-			font-size: 18px;
+			font-size: calc-rem(18px, $font-size);
 			span {
 				font-weight: bolder;
 			}
 			img {
-				height: 32px;
+				height: calc-rem(32px, $font-size);
 			}
 		}
 	}

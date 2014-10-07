@@ -1,10 +1,11 @@
 html {
   margin: 0;
   padding: 0;
+  font-size: 10px;
 }
 html body {
   background: #F7EFB7;
-  margin: 10px;
+  margin: 1rem;
 }
 
 #game-container {
@@ -16,7 +17,7 @@ html body {
   line-height: 0;
 }
 #header > h1 {
-  font-size: 36px;
+  font-size: 3.6rem;
   font-weight: bolder;
   float: left;
 }
@@ -25,29 +26,29 @@ html body {
 }
 #header > h2 span {
   vertical-align: bottom;
-  font-size: 20px;
+  font-size: 2rem;
 }
 
 #summary {
   float: left;
   width: 75%;
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: bolder;
-  margin-bottom: 25px;
-  margin-top: 15px;
+  margin-bottom: 2.5rem;
+  margin-top: 1.5rem;
 }
 #summary > button {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1.6rem;
 }
 
 #buttons {
   float: right;
 }
 #buttons button {
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: bold;
-  line-height: 38px;
+  line-height: 3.8rem;
 }
 
 #board-container {
@@ -70,27 +71,27 @@ html body {
 }
 
 #footer {
-  margin-bottom: 10px;
-  margin-top: 20px;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
   margin-left: 0;
   margin-right: 0;
 }
 #footer > div > span {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-size: 22px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
   font-weight: bold;
 }
 
 #author {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 #author a {
   font-weight: bolder;
 }
 #author a img {
-  height: 24px;
+  height: 2.4rem;
   display: inline;
 }
 #author p {
@@ -98,7 +99,7 @@ html body {
 }
 
 .share-social {
-  margin: 15px 0;
+  margin: 1.5rem 0;
   text-align: center;
 }
 
@@ -108,8 +109,8 @@ html body {
   height: 116px;
   border-radius: 3px;
   background: white;
-  font-size: 55px;
-  line-height: 116.25px;
+  font-size: 5.5rem;
+  line-height: 11.625rem;
   z-index: 100;
 }
 
@@ -122,13 +123,13 @@ html body {
 }
 
 #explanation ul li {
-  font-size: 18px;
+  font-size: 1.8rem;
 }
 #explanation ul li span {
   font-weight: bolder;
 }
 #explanation ul li img {
-  height: 32px;
+  height: 3.2rem;
 }
 
 .fb-share-button span {
