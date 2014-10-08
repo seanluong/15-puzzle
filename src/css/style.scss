@@ -12,10 +12,10 @@ $container-size: calc-rem(500px, $font-size);
 $board-size: $container-size;
 
 html {
-	@media (max-width: 360px) {
-		font-size: $font-size / 2;
+	@media (max-width: 320px) {
+		font-size: $font-size / 1.7;
 	}
-	@media (min-width: 361px) and (max-width: 420px) {
+	@media (min-width: 321px) and (max-width: 420px) {
 		font-size: $font-size / 1.5;
 	}
 	@media (min-width: 421px) and (max-width: 640px) {
@@ -67,7 +67,8 @@ html {
 	}
 	#buttons {
 		float: left;
-	}	
+	}
+	margin-top: calc-rem(60px, $font-size);
 }
 
 #board-container {
