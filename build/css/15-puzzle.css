@@ -922,36 +922,22 @@ html body {
 #header > h1 {
   font-size: 3.6rem;
   font-weight: bolder;
-  float: left;
+  text-align: center;
 }
-#header > h2 {
-  float: right;
+#header > div {
+  margin-top: 1.6rem;
+  margin-bottom: 1.6rem;
 }
-#header > h2 span {
-  vertical-align: bottom;
-  font-size: 2rem;
-}
-
-#summary {
-  float: left;
-  width: 75%;
-  font-size: 1.8rem;
+#header > div .header-button {
+  font-size: 1.6rem;
   font-weight: bolder;
-  margin-bottom: 2.5rem;
-  margin-top: 1.5rem;
+  line-height: 3.8rem;
 }
-#summary > button {
-  font-weight: bold;
-  font-size: 1.6rem;
-}
-
-#buttons {
+#header #clocks {
   float: right;
 }
-#buttons button {
-  font-size: 1.6rem;
-  font-weight: bold;
-  line-height: 3.8rem;
+#header #buttons {
+  float: left;
 }
 
 #board-container {

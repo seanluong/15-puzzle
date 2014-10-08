@@ -26,17 +26,13 @@
 		<div id="game-container">
 			<div id="header" ng-controller="headerController">
 				<h1>15 PUZZLE</h1>
-				<h2>
-					<span class="label label-default" ng-cloak ng-clock></span>
-					<span class="label label-default" ng-cloak >{{bestTime | duration}}</span>
-				</h2>
-				<div id="summary">
-					Try to reach the <button ng-click="guide()" class="btn btn-success">target board</button>
+				<div id="clocks">
+					<button class="btn btn-danger header-button" ng-cloak ng-clock></button>
+					<button class="btn btn-success header-button" ng-cloak >{{bestTime | duration}}</button>
 				</div>
 				<div id="buttons">
-					<button class="btn btn-danger" ng-click="newGame()">
-						New Game
-					</button>
+					<button class="btn btn-primary header-button" ng-click="newGame()">New Game</button>
+					<button ng-click="guide()" class="btn btn-danger header-button">Target</button>
 				</div>
 			</div>
 			<div id="main" ng-controller="mainController">				

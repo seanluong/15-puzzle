@@ -45,37 +45,23 @@ html {
 	> h1 {
 		font-size: calc-rem(36px, $font-size);
 		font-weight: bolder;
-		float: left;
-	}
-	> h2 {
-		float: right;
-		span {
-			vertical-align: bottom;
-			font-size: calc-rem(20px, $font-size);
+		text-align: center;
+	} 
+	> div {
+		margin-top: calc-rem(16px, $font-size);
+		margin-bottom: calc-rem(16px, $font-size);
+		.header-button {
+			font-size: calc-rem(16px, $font-size);
+			font-weight: bolder;
+			line-height: calc-rem(38px, $font-size);
 		}
 	}
-}
-
-#summary {
-	float: left;
-	width: 75%;
-	font-size: calc-rem(18px, $font-size);
-	font-weight: bolder;
-	margin-bottom: calc-rem(25px, $font-size);
-	margin-top: calc-rem(15px, $font-size);
-	> button {
-		font-weight: bold;
-		font-size: calc-rem(16px, $font-size);
+	#clocks {
+		float: right;
 	}
-}
-
-#buttons {
-	float: right;
-	button {
-		font-size: calc-rem(16px, $font-size);
-		font-weight: bold;
-		line-height: calc-rem(38px, $font-size);
-	}
+	#buttons {
+		float: left;
+	}	
 }
 
 #board-container {
