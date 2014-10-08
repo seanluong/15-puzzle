@@ -149,6 +149,10 @@ html body {
   height: 3.2rem;
 }
 
+.twitter-share-button.twitter-tweet-button.twitter-share-button.twitter-count-horizontal {
+  width: 15rem !important;
+}
+
 .fb-share-button.fb_iframe_widget.fb_iframe_widget_fluid {
   display: inline !important;
 }

@@ -158,6 +158,10 @@ html {
 	}
 }
 
+.twitter-share-button.twitter-tweet-button.twitter-share-button.twitter-count-horizontal {
+	width: calc-rem(150px, $font-size) !important;
+}
+
 .fb-share-button.fb_iframe_widget.fb_iframe_widget_fluid {
 	display: inline !important;
 }
