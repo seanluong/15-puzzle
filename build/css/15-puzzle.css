@@ -881,10 +881,30 @@ a.label:focus {
   transform: translate3d(0, 0, 0);
 }
 
+@media screen and (max-width: 360px) {
+  html {
+    font-size: 5.55556px;
+  }
+}
+@media screen and (min-width: 360px) and (max-width: 420px) {
+  html {
+    font-size: 6.66667px;
+  }
+}
+@media screen and (min-width: 420px) and (max-width: 640px) {
+  html {
+    font-size: 8.33333px;
+  }
+}
+@media screen and (min-width: 640px) {
+  html {
+    font-size: 10px;
+  }
+}
+
 html {
   margin: 0;
   padding: 0;
-  font-size: 10px;
 }
 html body {
   background: #F7EFB7;
@@ -892,7 +912,7 @@ html body {
 }
 
 #game-container {
-  width: 500px;
+  width: 50rem;
   margin: 0 auto;
 }
 
@@ -935,13 +955,13 @@ html body {
 }
 
 #board-container {
-  width: 500px;
-  height: 500px;
+  width: 50rem;
+  height: 50rem;
   position: relative;
   background: #cc8a8a;
-  border: 12px solid;
+  border: 1.2rem solid;
   border-color: #7C0909;
-  border-radius: 6px;
+  border-radius: 0.6rem;
   box-sizing: border-box;
   clear: both;
 }
@@ -988,9 +1008,9 @@ html body {
 
 .my-tile {
   text-align: center;
-  width: 116px;
-  height: 116px;
-  border-radius: 3px;
+  width: 11.6rem;
+  height: 11.6rem;
+  border-radius: 0.3rem;
   background: white;
   font-size: 5.5rem;
   line-height: 11.625rem;

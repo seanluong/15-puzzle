@@ -1,8 +1,8 @@
 var ngTile = function() {
 
 	return function (scope, element, attrs) {
-		var size = 116,
-			margin = 4,
+		var size = 11.6,
+			margin = 0.4,
 			gap = size + margin;
 
 		function findCoor(cells, value) {
@@ -25,8 +25,8 @@ var ngTile = function() {
 				y = coor.y,
 				x = coor.x;
 			element.css({
-				"left": x + "px",
-				"top": y + "px"
+				"left": x + "rem",
+				"top": y + "rem"
 			});
 			if (value !== 0) {
 				element.attr({
@@ -45,8 +45,8 @@ var ngTile = function() {
 					y = args.drow * gap + coor.y;
 					x = args.dcol * gap + coor.x;
 					element.animate({
-						"left": x + "px",
-						"top": y + "px"
+						"left": x + "rem",
+						"top": y + "rem"
 					}, args.duration);
 				}
 			}
