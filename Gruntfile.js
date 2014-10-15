@@ -26,8 +26,7 @@ module.exports = function(grunt) {
 		      	src: [
 		      		"bower_components/jquery/dist/jquery.min.js",
 		      		"bower_components/angular/angular.min.js",
-		      		"lib/js/ui-bootstrap-tpls.min.js",
-		      		"bower_components/angular-gestures/gestures.min.js",
+		      		"bower_components/angular-gestures/gestures.min.js"
 		      	],
 		      	dest: 'build/js/<%= pkg.name %>.lib.min.js',
 		    },

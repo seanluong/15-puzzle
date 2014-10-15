@@ -95,8 +95,8 @@ var bodyController = ["$scope", "keyboardMapService",
 		};
 	}
 ];
-var headerController = ["$scope", "guideService", "localStorageService",
-	function($scope, guideService, localStorageService) {
+var headerController = ["$scope", "localStorageService",
+	function($scope, localStorageService) {
 		$scope.timePassed =  localStorageService.getTimePassed();
 		$scope.bestTime = localStorageService.getBestTime();
 
@@ -114,13 +114,7 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 
 		$scope.guide = function() {
-			var guideModalInstance = guideService();
-			guideModalInstance.result.then(function () {
-				$scope.$parent.$broadcast("resume");
-			}, function() {
-				$scope.$parent.$broadcast("resume");
-			});
-			$scope.$parent.$broadcast("pause");		
+			$scope.$parent.$broadcast("pause");
 		};
 	}
 ];
@@ -177,11 +171,24 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 		});
 	}
 ];
-var guideModalInstanceCtrl = function($scope, $modalInstance) {
-	$scope.ok = function() {
-		$modalInstance.dismiss("done");
-	};
-};
+var showTargetController = ["$scope",
+	function ($scope) {
+		$scope.show = false;
+
+		$scope.resume = function() {
+			$scope.show = false;
+			$scope.$parent.$broadcast("resume");
+		};
+
+		$scope.$on("pause", function() {
+			$scope.show = true;
+		});
+
+		$scope.$on("new-game", function() {
+			$scope.show = false;
+		});
+	}
+];
 var wonMessageController = ["$scope",
 	function ($scope) {
 		$scope.show = false;
@@ -199,6 +206,7 @@ var myControllers = angular.module("myControllers", []).
 controller("bodyController", bodyController).
 controller("headerController", headerController).
 controller("wonMessageController", wonMessageController).
+controller("showTargetController", showTargetController).
 controller("mainController", mainController);
 var durationFilter = function() {
 
@@ -372,25 +380,6 @@ var directionService = [ function() {
 		}
 	};
 }];
-var gameWonService = ["$modal", function($modal) {
-	return function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/won.html',
-			controller: gameWonModalInstanceCtrl,
-		});
-		return modalInstance;
-	};	
-}];
-var guideService = ["$modal", function($modal) {
-	return function() {
-		var modalInstance = $modal.open({
-			templateUrl: 'template/guide.html',
-			controller: guideModalInstanceCtrl,
-			size: "sm"
-		});
-		return modalInstance;
-	};
-}];
 var keyboardMapService = [	function() {
 	var key2dir = {
 		38: "up",
@@ -442,9 +431,7 @@ var localStorageService = [	function() {
 var myServices = angular.module("myServices", []).
 factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
-factory("guideService", guideService).
-factory("directionService", directionService).
-factory("gameWonService", gameWonService);
+factory("directionService", directionService);
 var myApp = angular.module("myApp", [
 	"angular-gestures","ui.bootstrap",
 	"myControllers",

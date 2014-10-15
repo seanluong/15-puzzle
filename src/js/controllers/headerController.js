@@ -1,5 +1,5 @@
-var headerController = ["$scope", "guideService", "localStorageService",
-	function($scope, guideService, localStorageService) {
+var headerController = ["$scope", "localStorageService",
+	function($scope, localStorageService) {
 		$scope.timePassed =  localStorageService.getTimePassed();
 		$scope.bestTime = localStorageService.getBestTime();
 
@@ -17,13 +17,7 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 
 		$scope.guide = function() {
-			var guideModalInstance = guideService();
-			guideModalInstance.result.then(function () {
-				$scope.$parent.$broadcast("resume");
-			}, function() {
-				$scope.$parent.$broadcast("resume");
-			});
-			$scope.$parent.$broadcast("pause");		
+			$scope.$parent.$broadcast("pause");
 		};
 	}
 ];
