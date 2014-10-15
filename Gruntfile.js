@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 		    css: {
 		    	src: [
 		    		'lib/css/angular-socialshare.min.css',
-		    		'lib/css/bootstrap.css',
+		    		'bower_components/bootstrap/dist/css/bootstrap.min.css',
 		    		'src/css/style.css'
 		    	],
 		    	dest: 'build/css/<%= pkg.name %>.css'
@@ -58,7 +58,6 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'build/css/<%= pkg.name %>.min.css': [
-						'lib/css/angular-socialshare.min.css',
 						'build/css/<%= pkg.name %>.css'
 					]
 				}
