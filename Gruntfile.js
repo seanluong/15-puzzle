@@ -32,7 +32,6 @@ module.exports = function(grunt) {
 		    },
 		    css: {
 		    	src: [
-		    		'lib/css/angular-socialshare.min.css',
 		    		'bower_components/bootstrap/dist/css/bootstrap.min.css',
 		    		'src/css/style.css'
 		    	],
@@ -64,7 +63,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			files: ['gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
+			files: ['Gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
 			options: {
 				globals: {
 					jQuery: true,
@@ -97,27 +96,19 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-karma');
-
-	// testing task
 	grunt.registerTask('unit', [
 		'karma',
-  // 		'qunit',
 	]);
-
-	// css minify task
 	grunt.registerTask('css', [
 		'sass',
 		'concat:css',
 		'cssmin'
 	]);
-	// js-related task
 	grunt.registerTask('js', [
 		'jshint',
 		'concat:js',
   		'concat:js_lib',
 	]);
-
-	// one task to rule them all!
   	grunt.registerTask('default', [
   		'unit',
   		'js',
