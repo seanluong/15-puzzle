@@ -42,6 +42,12 @@ html body {
   width: 50rem;
   margin: 0 auto;
 }
+#game-container #target-state {
+  text-align: center;
+}
+#game-container #target-state img {
+  width: 20rem;
+}
 
 #header {
   line-height: 0;

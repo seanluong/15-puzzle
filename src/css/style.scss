@@ -44,6 +44,12 @@ html {
 #game-container {
 	width: $container-size;
 	margin: 0 auto;
+	#target-state {
+		text-align: center;
+		img {
+			width: 20rem;
+		}
+	}
 }
 
 #header {
