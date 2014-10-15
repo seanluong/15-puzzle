@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		this.shuffle();
+		// this.shuffle();
 	}
 };
 
@@ -124,8 +124,8 @@ var headerController = ["$scope", "guideService", "localStorageService",
 		};
 	}
 ];
-var mainController = ["$scope", "$document", "gameWonService", "localStorageService", "directionService",
-	function($scope, $document, gameWonService, localStorageService, directionService) {
+var mainController = ["$scope", "$document", "localStorageService", "directionService",
+	function($scope, $document, localStorageService, directionService) {
 		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
@@ -151,12 +151,6 @@ var mainController = ["$scope", "$document", "gameWonService", "localStorageServ
 					if ($scope.board.won() === true) {
 						$scope.$parent.$broadcast("game-won");
 						$scope.$broadcast("pause");
-						var gameWonModalInstance = gameWonService();
-						gameWonModalInstance.result.then(function () {
-							$scope.$parent.$broadcast("new-game");
-						}, function() {
-							$scope.$parent.$broadcast("new-game");
-						});
 					} else {
 						localStorageService.setBoard($scope.board);
 					}
@@ -188,15 +182,23 @@ var guideModalInstanceCtrl = function($scope, $modalInstance) {
 		$modalInstance.dismiss("done");
 	};
 };
+var wonMessageController = ["$scope",
+	function ($scope) {
+		$scope.show = false;
 
-var gameWonModalInstanceCtrl = function ($scope, $modalInstance) {
-	$scope.ok = function() {
-		$modalInstance.close({});
-	};
-};
+		$scope.$on("new-game", function() {
+			$scope.show = false;
+		});
+
+		$scope.$on("game-won", function() {
+			$scope.show = true;
+		});
+	}
+];
 var myControllers = angular.module("myControllers", []).
 controller("bodyController", bodyController).
 controller("headerController", headerController).
+controller("wonMessageController", wonMessageController).
 controller("mainController", mainController);
 var durationFilter = function() {
 

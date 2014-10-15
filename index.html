@@ -44,6 +44,12 @@
 			</div>
 
 			<div id="footer">
+				<div ng-controller="wonMessageController" ng-show="show">
+				    <h3>Congratulations!</h3>
+				    <p>
+				        You did it! The 15 puzzle is solved. Let's share this with friends.
+				    </p>
+				</div>
 				<div class="share-social">
 					<ng-facebook></ng-facebook>
 					<ng-g-plus></ng-g-plus>
