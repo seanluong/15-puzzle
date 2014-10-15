@@ -433,7 +433,7 @@ factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
 var myApp = angular.module("myApp", [
-	"angular-gestures","ui.bootstrap",
+	"angular-gestures",
 	"myControllers",
 	"myFilters",
 	"myDirectives",
