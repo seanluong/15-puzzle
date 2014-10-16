@@ -1,6 +1,5 @@
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
-
     function link(scope, element, attrs) {
       var timeoutId;
       element.on('$destroy', function() {

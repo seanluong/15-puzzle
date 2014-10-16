@@ -204,7 +204,6 @@ var wonMessageController = ["$scope",
 ];
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
-
     function link(scope, element, attrs) {
       var timeoutId;
       element.on('$destroy', function() {
@@ -225,6 +224,36 @@ var ngClock = ["$interval", "localStorageService",
 ];
 
 
+var ngFacebook = [function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/facebook.html"
+	};
+}];
+var ngGplus = [function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/gplus.html"
+	};
+}];
+var ngMyFade = [function() {
+	return {
+		restrict: "A",
+		link: function (scope, element, attrs) {
+			scope.$watch(attrs.ngMyFade, function(newValue, oldValue) {
+				if (newValue === true) {
+					element.fadeIn();
+				} else {
+					if (oldValue) {
+						element.fadeOut();
+					} else {
+						element.hide();
+					}
+				}
+			});
+		}
+	};
+}];
 var ngTile = function() {
 
 	return function (scope, element, attrs) {
@@ -281,6 +310,12 @@ var ngTile = function() {
 	};
 
 };
+var ngTwitter = [function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/twitter.html"
+	};
+}];
 var directionService = [ function() {
 	return {
 		getDelta: function(direction) {
@@ -364,63 +399,7 @@ var localStorageService = [	function() {
 		}
 	};
 }];
-var animation = angular.module("animation", []).
-directive("ngMyFade", [
-	function() {
-		return {
-			restrict: "A",
-			link: function (scope, element, attrs) {
-				scope.$watch(attrs.ngMyFade, function(newValue, oldValue) {
-					if (newValue === true) {
-						element.fadeIn();
-					} else {
-						if (oldValue) {
-							element.fadeOut();
-						} else {
-							element.hide();
-						}
-					}
-				});
-			}
-		};
-	}
-]);
-var directives = angular.module("directives", []).
-directive("ngTile", ngTile).
-directive("ngClock", ngClock);
-var keyboardInput = angular.module("keyboardInput", []).
-factory("keyboardMapService", keyboardMapService).
-controller("bodyController", bodyController);
-var main = angular.module("main", ["services", "directives"]).
-controller("headerController", headerController).
-controller("mainController", mainController);
-
-var services = angular.module("services", []).
-factory("localStorageService", localStorageService).
-factory("directionService", directionService);
-var showTarget = angular.module("showTarget", ["animation"]).
-controller("showTargetController", showTargetController);
-var social = angular.module("social", []).
-directive("ngFacebook", function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/facebook.html"
-	};
-}).
-directive("ngTwitter", function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/twitter.html"
-	};
-}).
-directive("ngGPlus", function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/gplus.html"
-	};
-});
-var timeFormat = angular.module("timeFormat", []).
-filter("duration", function() {
+var durationFilter = [function() {
 	function pad(amount) {
 		if (amount > 9) {
 			return amount;
@@ -448,7 +427,30 @@ filter("duration", function() {
 			return formatTime(parseInt(input));
 		}
     };
-});
+}];
+var animation = angular.module("animation", []).
+directive("ngMyFade", ngMyFade);
+var directives = angular.module("directives", []).
+directive("ngTile", ngTile).
+directive("ngClock", ngClock);
+var keyboardInput = angular.module("keyboardInput", []).
+factory("keyboardMapService", keyboardMapService).
+controller("bodyController", bodyController);
+var main = angular.module("main", ["services", "directives"]).
+controller("headerController", headerController).
+controller("mainController", mainController);
+
+var services = angular.module("services", []).
+factory("localStorageService", localStorageService).
+factory("directionService", directionService);
+var showTarget = angular.module("showTarget", ["animation"]).
+controller("showTargetController", showTargetController);
+var social = angular.module("social", []).
+directive("ngFacebook", ngFacebook).
+directive("ngTwitter", ngTwitter).
+directive("ngGplus", ngGplus);
+var timeFormat = angular.module("timeFormat", []).
+filter("duration", durationFilter);
 var wonMessage = angular.module("wonMessage", ["animation"]).
 controller("wonMessageController", wonMessageController);
 var myApp = angular.module("myApp", [

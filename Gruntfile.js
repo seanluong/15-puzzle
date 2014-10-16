@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 					'src/js/controllers/*.js',
 					'src/js/directives/*.js',
 					'src/js/services/*.js',
+					'src/js/filters/*.js',
 					'src/js/modules/*.js',
 					'src/js/app.js'
 				],

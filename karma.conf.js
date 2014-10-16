@@ -19,6 +19,7 @@ module.exports = function(config) {
         'src/js/controllers/*.js',
         'src/js/services/*.js',
         'src/js/directives/*.js',
+        'src/js/filters/*.js',
         'src/js/modules/*.js',
         'src/js/board.js',
         'src/js/app.js',
