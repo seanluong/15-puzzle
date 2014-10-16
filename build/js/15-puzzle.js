@@ -270,6 +270,12 @@ var ngFacebook = function() {
 		templateUrl: "template/facebook.html"
 	};
 };
+var ngGPlus = function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/gplus.html"
+	};
+};
 var ngMyFade = [
   function() {
     return {
@@ -286,17 +292,10 @@ var ngMyFade = [
             }
           }
         });
-      },
-      templateUrl: "template/won.html"
+      }
     };
   }
 ];
-var ngGPlus = function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/gplus.html"
-	};
-};
 var ngTile = function() {
 
 	return function (scope, element, attrs) {

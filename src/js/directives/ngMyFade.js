@@ -14,8 +14,7 @@ var ngMyFade = [
             }
           }
         });
-      },
-      templateUrl: "template/won.html"
+      }
     };
   }
 ];
