@@ -203,10 +203,7 @@ var wonMessageController = ["$scope",
 	}
 ];
 var myControllers = angular.module("myControllers", []).
-// controller("bodyController", bodyController).
 controller("headerController", headerController).
-controller("wonMessageController", wonMessageController).
-controller("showTargetController", showTargetController).
 controller("mainController", mainController);
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
@@ -375,7 +372,6 @@ var localStorageService = [	function() {
 	};
 }];
 var myServices = angular.module("myServices", []).
-// factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
 var animation = angular.module("animation", []).
@@ -432,6 +428,8 @@ filter("duration", function() {
 var keyboardInput = angular.module("keyboardInput", []).
 factory("keyboardMapService", keyboardMapService).
 controller("bodyController", bodyController);
+var showTarget = angular.module("showTarget", ["animation"]).
+controller("showTargetController", showTargetController);
 var social = angular.module("social", []).
 directive("ngFacebook", function() {
 	return {
@@ -451,12 +449,15 @@ directive("ngGPlus", function() {
 		templateUrl: "template/gplus.html"
 	};
 });
+var wonMessage = angular.module("wonMessage", ["animation"]).
+controller("wonMessageController", wonMessageController);
 var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",
-	"animation",
 	"filters",
 	"keyboardInput",
+	"wonMessage",
+	"showTarget",
 	"myControllers",
 	"myDirectives",
 	"myServices"
