@@ -195,12 +195,10 @@ var wonMessageController = ["$scope",
 
 		$scope.$on("new-game", function() {
 			$scope.show = false;
-			// $("#won-message").fadeOut();
 		});
 
 		$scope.$on("game-won", function() {
 			$scope.show = true;
-			// $("#won-message").fadeIn();
 		});
 	}
 ];
@@ -364,10 +362,7 @@ var ngTwitter = function() {
 var myDirectives = angular.module("myDirectives", []).
 directive("ngTile", ngTile).
 directive("ngClock", ngClock).
-directive("ngFacebook", ngFacebook).
-directive("ngTwitter", ngTwitter).
-directive("ngMyFade", ngMyFade).
-directive("ngGPlus", ngGPlus);
+directive("ngMyFade", ngMyFade);
 var directionService = [ function() {
 	return {
 		getDelta: function(direction) {
@@ -456,8 +451,13 @@ var myServices = angular.module("myServices", []).
 factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
+var social = angular.module("social", []).
+directive("ngFacebook", ngFacebook).
+directive("ngTwitter", ngTwitter).
+directive("ngGPlus", ngGPlus);
 var myApp = angular.module("myApp", [
 	"angular-gestures",
+	"social",
 	"myControllers",
 	"myFilters",
 	"myDirectives",

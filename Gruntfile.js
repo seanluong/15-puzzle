@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 					'src/js/directives.js',
 					'src/js/services/*.js',
 					'src/js/services.js',
+					'src/js/modules/*.js',
 					'src/js/app.js'
 				],
 				dest: 'build/js/<%= pkg.name %>.js'
