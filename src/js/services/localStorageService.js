@@ -1,5 +1,4 @@
 var localStorageService = [	function() {
-
 	var getBestTime = function() {
 			return parseInt(localStorage.getItem("bestTime")) || null;
 		},

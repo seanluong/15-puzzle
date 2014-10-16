@@ -1,12 +1,12 @@
 var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",
-	"filters",
+	"timeFormat",
 	"keyboardInput",
 	"wonMessage",
 	"showTarget",
+	"directives",
 	"myControllers",
-	"myDirectives",
 	"myServices"
 ]).
 run(function() {

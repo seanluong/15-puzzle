@@ -1,6 +1,6 @@
 describe("Test filters", function() {
 	describe('Unit: Test durationFilter', function() {
-		beforeEach(module('filters'));
+		beforeEach(module('timeFormat'));
 
 		it("should return 00:00:00", inject(function($filter) {
 			expect($filter("duration")("0")).toEqual("00:00:00");

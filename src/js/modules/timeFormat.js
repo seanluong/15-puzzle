@@ -1,4 +1,4 @@
-var filters = angular.module("filters", []).
+var timeFormat = angular.module("timeFormat", []).
 filter("duration", function() {
 	function pad(amount) {
 		if (amount > 9) {

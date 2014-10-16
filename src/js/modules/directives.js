@@ -1,3 +1,3 @@
-var myDirectives = angular.module("myDirectives", []).
+var directives = angular.module("directives", []).
 directive("ngTile", ngTile).
 directive("ngClock", ngClock);

@@ -284,9 +284,6 @@ var ngTile = function() {
 	};
 
 };
-var myDirectives = angular.module("myDirectives", []).
-directive("ngTile", ngTile).
-directive("ngClock", ngClock);
 var directionService = [ function() {
 	return {
 		getDelta: function(direction) {
@@ -339,7 +336,6 @@ var keyboardMapService = [	function() {
 	};
 }];
 var localStorageService = [	function() {
-
 	var getBestTime = function() {
 			return parseInt(localStorage.getItem("bestTime")) || null;
 		},
@@ -395,7 +391,34 @@ directive("ngMyFade", [
 		};
 	}
 ]);
-var filters = angular.module("filters", []).
+var directives = angular.module("directives", []).
+directive("ngTile", ngTile).
+directive("ngClock", ngClock);
+var keyboardInput = angular.module("keyboardInput", []).
+factory("keyboardMapService", keyboardMapService).
+controller("bodyController", bodyController);
+var showTarget = angular.module("showTarget", ["animation"]).
+controller("showTargetController", showTargetController);
+var social = angular.module("social", []).
+directive("ngFacebook", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/facebook.html"
+	};
+}).
+directive("ngTwitter", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/twitter.html"
+	};
+}).
+directive("ngGPlus", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/gplus.html"
+	};
+});
+var timeFormat = angular.module("timeFormat", []).
 filter("duration", function() {
 	function pad(amount) {
 		if (amount > 9) {
@@ -425,41 +448,17 @@ filter("duration", function() {
 		}
     };
 });
-var keyboardInput = angular.module("keyboardInput", []).
-factory("keyboardMapService", keyboardMapService).
-controller("bodyController", bodyController);
-var showTarget = angular.module("showTarget", ["animation"]).
-controller("showTargetController", showTargetController);
-var social = angular.module("social", []).
-directive("ngFacebook", function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/facebook.html"
-	};
-}).
-directive("ngTwitter", function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/twitter.html"
-	};
-}).
-directive("ngGPlus", function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/gplus.html"
-	};
-});
 var wonMessage = angular.module("wonMessage", ["animation"]).
 controller("wonMessageController", wonMessageController);
 var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",
-	"filters",
+	"timeFormat",
 	"keyboardInput",
 	"wonMessage",
 	"showTarget",
+	"directives",
 	"myControllers",
-	"myDirectives",
 	"myServices"
 ]).
 run(function() {
