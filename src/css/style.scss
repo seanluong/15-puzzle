@@ -44,12 +44,6 @@ html {
 #game-container {
 	width: $container-size;
 	margin: 0 auto;
-	#target-state {
-		text-align: center;
-		img {
-			width: 20rem;
-		}
-	}
 	#won-message {
 		margin-top: 10rem;
 	}
@@ -163,6 +157,12 @@ html {
 			img {
 				height: calc-rem(32px, $font-size);
 			}
+		}
+	}
+	p {
+		text-align: center;
+		img {
+			width: 20rem;
 		}
 	}
 }

@@ -4,7 +4,6 @@ var myApp = angular.module("myApp", [
 	"timeFormat",
 	"keyboardInput",
 	"wonMessage",
-	"showTarget",
 	"main"
 ]).
 run(function() {

@@ -21,7 +21,7 @@ var Board = function(board) {
 			[13,14,15,0]
 		];
 		this.locked = false;
-		// this.shuffle();
+		this.shuffle();
 	}
 };
 
@@ -116,10 +116,6 @@ var headerController = ["$scope", "localStorageService",
 		$scope.newGame = function() {
 			$scope.$parent.$broadcast("new-game");
 		};
-
-		$scope.guide = function() {
-			$scope.$parent.$broadcast("pause");
-		};
 	}
 ];
 var mainController = ["$scope", "localStorageService", "directionService",
@@ -175,24 +171,6 @@ var mainController = ["$scope", "localStorageService", "directionService",
 
 		$scope.$on("resume", function() {
 			$scope.board.locked = false;
-		});
-	}
-];
-var showTargetController = ["$scope",
-	function ($scope) {
-		$scope.show = false;
-
-		$scope.resume = function() {
-			$scope.show = false;
-			$scope.$parent.$broadcast("resume");
-		};
-
-		$scope.$on("pause", function() {
-			$scope.show = true;
-		});
-
-		$scope.$on("new-game", function() {
-			$scope.show = false;
 		});
 	}
 ];
@@ -472,8 +450,6 @@ controller("mainController", mainController);
 var services = angular.module("services", []).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
-var showTarget = angular.module("showTarget", ["animation"]).
-controller("showTargetController", showTargetController);
 var social = angular.module("social", []).
 directive("ngFacebook", ngFacebook).
 directive("ngTwitter", ngTwitter).
@@ -488,7 +464,6 @@ var myApp = angular.module("myApp", [
 	"timeFormat",
 	"keyboardInput",
 	"wonMessage",
-	"showTarget",
 	"main"
 ]).
 run(function() {

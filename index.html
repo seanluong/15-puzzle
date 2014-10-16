@@ -33,14 +33,7 @@
 				</div>
 				<div id="buttons">
 					<button class="btn btn-primary header-button" ng-click="newGame()">New Game</button>
-					<button ng-click="guide()" class="btn btn-danger header-button">Target</button>
 				</div>
-			</div>
-			<div id="target-state" ng-controller="showTargetController" ng-my-fade="show" 
-			ng-click="resume()">
-				<p>
-					<img src="images/target-state.png" >
-				</p>
 			</div>
 			<div id="won-message" ng-controller="wonMessageController" ng-my-fade="show">
 				<div class="alert alert-success" role="alert">
@@ -66,6 +59,13 @@
 				</div>
 				<div id="explanation">
 			    	<span>HOW TO PLAY</span>
+			    	<ul>
+			    		<li>Return the board to this state:
+						</li>
+			    	</ul>
+			    	<p>
+						<img src="images/target-state.png" >
+					</p>
 			    	<ul>
 			    		<li>
 			    			<span>Mobile</span>: swipe on the  board.

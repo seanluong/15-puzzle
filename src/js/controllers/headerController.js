@@ -19,9 +19,5 @@ var headerController = ["$scope", "localStorageService",
 		$scope.newGame = function() {
 			$scope.$parent.$broadcast("new-game");
 		};
-
-		$scope.guide = function() {
-			$scope.$parent.$broadcast("pause");
-		};
 	}
 ];
