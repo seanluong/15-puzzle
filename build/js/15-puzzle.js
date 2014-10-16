@@ -264,18 +264,6 @@ var ngClock = ["$interval", "localStorageService",
 ];
 
 
-var ngFacebook = function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/facebook.html"
-	};
-};
-var ngGPlus = function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/gplus.html"
-	};
-};
 var ngMyFade = [
   function() {
     return {
@@ -351,12 +339,6 @@ var ngTile = function() {
 		});
 	};
 
-};
-var ngTwitter = function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/twitter.html"
-	};
 };
 var myDirectives = angular.module("myDirectives", []).
 directive("ngTile", ngTile).
@@ -452,9 +434,24 @@ factory("directionService", directionService);
 var animation = angular.module("animation", []).
 directive("ngMyFade", ngMyFade);
 var social = angular.module("social", []).
-directive("ngFacebook", ngFacebook).
-directive("ngTwitter", ngTwitter).
-directive("ngGPlus", ngGPlus);
+directive("ngFacebook", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/facebook.html"
+	};
+}).
+directive("ngTwitter", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/twitter.html"
+	};
+}).
+directive("ngGPlus", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/gplus.html"
+	};
+});
 var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",

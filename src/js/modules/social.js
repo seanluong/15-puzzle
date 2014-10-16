@@ -1,4 +1,19 @@
 var social = angular.module("social", []).
-directive("ngFacebook", ngFacebook).
-directive("ngTwitter", ngTwitter).
-directive("ngGPlus", ngGPlus);
+directive("ngFacebook", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/facebook.html"
+	};
+}).
+directive("ngTwitter", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/twitter.html"
+	};
+}).
+directive("ngGPlus", function() {
+	return {
+      	restrict: 'E',
+		templateUrl: "template/gplus.html"
+	};
+});
