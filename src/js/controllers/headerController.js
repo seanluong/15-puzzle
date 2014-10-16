@@ -12,6 +12,7 @@ var headerController = ["$scope", "localStorageService",
 
 		$scope.$on("game-won", function() {
 			localStorageService.updateBestTime($scope.timePassed);
+			localStorageService.setTimePassed(0);
 			$scope.stopClock = true;
 		});
 

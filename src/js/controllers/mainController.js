@@ -25,6 +25,7 @@ var mainController = ["$scope", "localStorageService", "directionService",
 						dcol: movedTileDelta.dcol
 					};
 					if ($scope.board.won() === true) {
+						localStorageService.setBoard(new Board());
 						$scope.$parent.$broadcast("game-won");
 						$scope.$broadcast("pause");
 					} else {
