@@ -3,4 +3,5 @@ directive("ngTile", ngTile).
 directive("ngClock", ngClock).
 directive("ngFacebook", ngFacebook).
 directive("ngTwitter", ngTwitter).
+directive("ngMyFade", ngMyFade).
 directive("ngGPlus", ngGPlus);

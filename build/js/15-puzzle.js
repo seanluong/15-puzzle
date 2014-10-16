@@ -195,10 +195,12 @@ var wonMessageController = ["$scope",
 
 		$scope.$on("new-game", function() {
 			$scope.show = false;
+			// $("#won-message").fadeOut();
 		});
 
 		$scope.$on("game-won", function() {
 			$scope.show = true;
+			// $("#won-message").fadeIn();
 		});
 	}
 ];
@@ -270,6 +272,27 @@ var ngFacebook = function() {
 		templateUrl: "template/facebook.html"
 	};
 };
+var ngMyFade = [
+  function() {
+    return {
+      restrict: "A",
+      link: function (scope, element, attrs) {
+        scope.$watch(attrs.ngMyFade, function(newValue, oldValue) {
+          if (newValue === true) {
+            element.fadeIn();
+          } else {
+            if (oldValue) {
+              element.fadeOut();
+            } else {
+              element.hide();
+            }
+          }
+        });
+      },
+      templateUrl: "template/won.html"
+    };
+  }
+];
 var ngGPlus = function() {
 	return {
       	restrict: 'E',
@@ -343,6 +366,7 @@ directive("ngTile", ngTile).
 directive("ngClock", ngClock).
 directive("ngFacebook", ngFacebook).
 directive("ngTwitter", ngTwitter).
+directive("ngMyFade", ngMyFade).
 directive("ngGPlus", ngGPlus);
 var directionService = [ function() {
 	return {
