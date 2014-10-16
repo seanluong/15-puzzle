@@ -208,39 +208,6 @@ controller("headerController", headerController).
 controller("wonMessageController", wonMessageController).
 controller("showTargetController", showTargetController).
 controller("mainController", mainController);
-var durationFilter = function() {
-
-	function pad(amount) {
-		if (amount > 9) {
-			return amount;
-		} else if (amount >= 0) {
-			return "0" + amount;
-		} else {
-			return "--";
-		}
-	}
-
-	function formatTime(time) {
-		var seconds, minutes, hours;
-		seconds = time;
-		hours = Math.floor(seconds / 3600);
-		seconds %= 3600;
-		minutes = Math.floor(seconds / 60);
-		seconds %= 60;
-		return pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
-	}
-
-    return function(input) {
-		input = input || "";
-		if (input.length === 0) {
-			return "--:--:--";
-		} else {
-			return formatTime(parseInt(input));
-		}
-    };
-};
-var myFilters = angular.module("myFilters", []).
-filter("duration", durationFilter);
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
 
@@ -264,26 +231,6 @@ var ngClock = ["$interval", "localStorageService",
 ];
 
 
-var ngMyFade = [
-  function() {
-    return {
-      restrict: "A",
-      link: function (scope, element, attrs) {
-        scope.$watch(attrs.ngMyFade, function(newValue, oldValue) {
-          if (newValue === true) {
-            element.fadeIn();
-          } else {
-            if (oldValue) {
-              element.fadeOut();
-            } else {
-              element.hide();
-            }
-          }
-        });
-      }
-    };
-  }
-];
 var ngTile = function() {
 
 	return function (scope, element, attrs) {
@@ -432,7 +379,56 @@ factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
 var animation = angular.module("animation", []).
-directive("ngMyFade", ngMyFade);
+directive("ngMyFade", [
+	function() {
+		return {
+			restrict: "A",
+			link: function (scope, element, attrs) {
+				scope.$watch(attrs.ngMyFade, function(newValue, oldValue) {
+					if (newValue === true) {
+						element.fadeIn();
+					} else {
+						if (oldValue) {
+							element.fadeOut();
+						} else {
+							element.hide();
+						}
+					}
+				});
+			}
+		};
+	}
+]);
+var filters = angular.module("filters", []).
+filter("duration", function() {
+	function pad(amount) {
+		if (amount > 9) {
+			return amount;
+		} else if (amount >= 0) {
+			return "0" + amount;
+		} else {
+			return "--";
+		}
+	}
+	function formatTime(time) {
+		var seconds, minutes, hours;
+		seconds = time;
+		hours = Math.floor(seconds / 3600);
+		seconds %= 3600;
+		minutes = Math.floor(seconds / 60);
+		seconds %= 60;
+		return pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+	}
+
+    return function(input) {
+		input = input || "";
+		if (input.length === 0) {
+			return "--:--:--";
+		} else {
+			return formatTime(parseInt(input));
+		}
+    };
+});
 var social = angular.module("social", []).
 directive("ngFacebook", function() {
 	return {
@@ -456,8 +452,8 @@ var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",
 	"animation",
+	"filters",
 	"myControllers",
-	"myFilters",
 	"myDirectives",
 	"myServices"
 ]).

@@ -1,5 +1,5 @@
-var durationFilter = function() {
-
+var filters = angular.module("filters", []).
+filter("duration", function() {
 	function pad(amount) {
 		if (amount > 9) {
 			return amount;
@@ -9,7 +9,6 @@ var durationFilter = function() {
 			return "--";
 		}
 	}
-
 	function formatTime(time) {
 		var seconds, minutes, hours;
 		seconds = time;
@@ -28,4 +27,4 @@ var durationFilter = function() {
 			return formatTime(parseInt(input));
 		}
     };
-};
+});

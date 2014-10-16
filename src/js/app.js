@@ -2,8 +2,8 @@ var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",
 	"animation",
+	"filters",
 	"myControllers",
-	"myFilters",
 	"myDirectives",
 	"myServices"
 ]).

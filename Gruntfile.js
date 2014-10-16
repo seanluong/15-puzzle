@@ -12,8 +12,6 @@ module.exports = function(grunt) {
 					'src/js/board.js',
 					'src/js/controllers/*.js',
 					'src/js/controllers.js',
-					'src/js/filters/*.js',
-					'src/js/filters.js',
 					'src/js/directives/*.js',
 					'src/js/directives.js',
 					'src/js/services/*.js',
