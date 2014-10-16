@@ -360,8 +360,7 @@ var ngTwitter = function() {
 };
 var myDirectives = angular.module("myDirectives", []).
 directive("ngTile", ngTile).
-directive("ngClock", ngClock).
-directive("ngMyFade", ngMyFade);
+directive("ngClock", ngClock);
 var directionService = [ function() {
 	return {
 		getDelta: function(direction) {
@@ -450,6 +449,8 @@ var myServices = angular.module("myServices", []).
 factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
+var animation = angular.module("animation", []).
+directive("ngMyFade", ngMyFade);
 var social = angular.module("social", []).
 directive("ngFacebook", ngFacebook).
 directive("ngTwitter", ngTwitter).
@@ -457,6 +458,7 @@ directive("ngGPlus", ngGPlus);
 var myApp = angular.module("myApp", [
 	"angular-gestures",
 	"social",
+	"animation",
 	"myControllers",
 	"myFilters",
 	"myDirectives",
