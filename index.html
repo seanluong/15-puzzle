@@ -42,6 +42,11 @@
 					<img src="images/target-state.png" >
 				</p>
 			</div>
+			<div id="won-message" ng-controller="wonMessageController" ng-my-fade="show">
+				<div class="alert alert-success" role="alert">
+					<strong>Congratulations!</strong> The 15 puzzle is solved. Let's <a href="#share">share</a> this with friends.
+				</div>					
+			</div>
 			<div id="main" ng-controller="mainController">
 				<div id="board-container">
 					<div>
@@ -54,12 +59,7 @@
 			</div>
 
 			<div id="footer">
-				<div ng-controller="wonMessageController" ng-my-fade="show">
-					<div class="alert alert-success" role="alert">
-						<strong>Congratulations!</strong> The 15 puzzle is solved. Let's share this with friends.
-					</div>					
-				</div>
-				<div class="share-social">
+				<div id="share" class="share-social">
 					<ng-facebook></ng-facebook>
 					<ng-gplus></ng-gplus>
 					<ng-twitter></ng-twitter>

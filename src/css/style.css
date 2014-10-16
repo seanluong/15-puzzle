@@ -48,6 +48,9 @@ html body {
 #game-container #target-state img {
   width: 20rem;
 }
+#game-container #won-message {
+  margin-top: 10rem;
+}
 
 #header {
   line-height: 0;
