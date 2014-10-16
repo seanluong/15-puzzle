@@ -1,14 +1,12 @@
 var ngTile = function() {
 
-	return function (scope, element, attrs) {
-		var size = 11.6,
-			margin = 0.4,
-			gap = size + margin;
-
-		function findCoor(cells, value) {
-			var row, col;
-			for (row in [0,1,2,3]) {
-				for (col in [0,1,2,3]) {
+	function link(scope, element, attrs) {
+		var gap = 12; // size 11.6 + margin 0.4
+		
+		function findCoor(cells, value, gap) {
+			var row, col, arr = [0,1,2,3];
+			for (row in arr) {
+				for (col in arr) {
 					if (cells[row][col] === value) {
 						return {
 							y: row * gap,
@@ -19,9 +17,9 @@ var ngTile = function() {
 			}
 		}
 
-		element.on("init", function() {
+		function init() {
 			var value = parseInt(element.text()) || 0,
-				coor = findCoor(scope.board.cells, value),
+				coor = findCoor(scope.board.cells, value, gap),
 				y = coor.y,
 				x = coor.x;
 			element.css({
@@ -34,6 +32,11 @@ var ngTile = function() {
 				});
 				element.text(value);
 			}
+		}
+		
+
+		scope.$watch(attrs.init, function(value) {
+			init();
 		});
 
 		element.on("move", function(event, args) {
@@ -41,7 +44,7 @@ var ngTile = function() {
 				y, x, coor;
 			if (args.movedTiledValue) {
 				if (args.movedTiledValue === value) {
-					coor = findCoor(scope.board.cells, 0);
+					coor = findCoor(scope.board.cells, 0, gap);
 					y = args.drow * gap + coor.y;
 					x = args.dcol * gap + coor.x;
 					element.animate({
@@ -51,6 +54,10 @@ var ngTile = function() {
 				}
 			}
 		});
+	}
+
+	return {
+		link: link
 	};
 
 };

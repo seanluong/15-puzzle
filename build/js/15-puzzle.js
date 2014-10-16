@@ -122,6 +122,7 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 	function($scope, $document, localStorageService, directionService) {
 		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+		$scope.init = true;
 
 		$scope.swipe = function(event) {
 			event.preventDefault();
@@ -155,7 +156,8 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 		$scope.$on("new-game", function() {
 			$scope.board = new Board();
 			localStorageService.setBoard($scope.board);
-			$document.find(".tile").trigger("init");
+			$scope.init = !$scope.init; // invert to change it
+			// $document.find(".tile").trigger("init");
 		});
 
 		$scope.$on("keydown", function(event, args) {
@@ -256,15 +258,12 @@ var ngMyFade = [function() {
 }];
 var ngTile = function() {
 
-	return function (scope, element, attrs) {
-		var size = 11.6,
-			margin = 0.4,
-			gap = size + margin;
-
-		function findCoor(cells, value) {
-			var row, col;
-			for (row in [0,1,2,3]) {
-				for (col in [0,1,2,3]) {
+	function link(scope, element, attrs) {
+		var gap = 12; // size 11.6 + margin 0.4
+		function findCoor(cells, value, gap) {
+			var row, col, arr = [0,1,2,3];
+			for (row in arr) {
+				for (col in arr) {
 					if (cells[row][col] === value) {
 						return {
 							y: row * gap,
@@ -275,9 +274,9 @@ var ngTile = function() {
 			}
 		}
 
-		element.on("init", function() {
+		function init() {
 			var value = parseInt(element.text()) || 0,
-				coor = findCoor(scope.board.cells, value),
+				coor = findCoor(scope.board.cells, value, gap),
 				y = coor.y,
 				x = coor.x;
 			element.css({
@@ -290,14 +289,21 @@ var ngTile = function() {
 				});
 				element.text(value);
 			}
+		}
+		
+
+		scope.$watch(attrs.init, function(value) {
+			init();
 		});
+
+		// element.on("init", init);
 
 		element.on("move", function(event, args) {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
 			if (args.movedTiledValue) {
 				if (args.movedTiledValue === value) {
-					coor = findCoor(scope.board.cells, 0);
+					coor = findCoor(scope.board.cells, 0, gap);
 					y = args.drow * gap + coor.y;
 					x = args.dcol * gap + coor.x;
 					element.animate({
@@ -307,6 +313,10 @@ var ngTile = function() {
 				}
 			}
 		});
+	}
+
+	return {
+		link: link
 	};
 
 };
@@ -467,6 +477,6 @@ run(function() {
 		$("#board-container").on("touchmove", function(e) {
 			e.preventDefault();
 		});
-		$(".tile").trigger("init");
+		// $(".tile").trigger("init");
 	});
 });

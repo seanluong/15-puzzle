@@ -2,6 +2,7 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 	function($scope, $document, localStorageService, directionService) {
 		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+		$scope.init = true;
 
 		$scope.swipe = function(event) {
 			event.preventDefault();
@@ -35,7 +36,7 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 		$scope.$on("new-game", function() {
 			$scope.board = new Board();
 			localStorageService.setBoard($scope.board);
-			$document.find(".tile").trigger("init");
+			$scope.init = !$scope.init; // invert to change it
 		});
 
 		$scope.$on("keydown", function(event, args) {
