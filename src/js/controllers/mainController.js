@@ -1,8 +1,9 @@
-var mainController = ["$scope", "$document", "localStorageService", "directionService",
-	function($scope, $document, localStorageService, directionService) {
+var mainController = ["$scope", "localStorageService", "directionService",
+	function($scope, localStorageService, directionService) {
 		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 		$scope.init = true;
+		$scope.move = {};
 
 		$scope.swipe = function(event) {
 			event.preventDefault();
@@ -17,12 +18,12 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 					movedTiledValue = $scope.board.getValue(zeroCellDelta);
 				if (movedTiledValue) {
 					$scope.board.slide(zeroCellDelta);
-					$document.find(".tile").trigger("move", {
+					$scope.move = {
 						duration: duration,
 						movedTiledValue: movedTiledValue,
 						drow: movedTileDelta.drow,
 						dcol: movedTileDelta.dcol
-					});
+					};
 					if ($scope.board.won() === true) {
 						$scope.$parent.$broadcast("game-won");
 						$scope.$broadcast("pause");

@@ -45,7 +45,7 @@
 				<div id="board-container">
 					<div>
 						<div ng-if="value !== 0" class="tile" ng-tile ng-repeat="value in series" 
-						hm-swipe="swipe($event)" init="init">
+						hm-swipe="swipe($event)" init="init" move="move">
 						{{value}}
 						</div>
 					</div>

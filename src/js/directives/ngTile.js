@@ -2,7 +2,7 @@ var ngTile = function() {
 
 	function link(scope, element, attrs) {
 		var gap = 12; // size 11.6 + margin 0.4
-		
+
 		function findCoor(cells, value, gap) {
 			var row, col, arr = [0,1,2,3];
 			for (row in arr) {
@@ -34,12 +34,7 @@ var ngTile = function() {
 			}
 		}
 		
-
-		scope.$watch(attrs.init, function(value) {
-			init();
-		});
-
-		element.on("move", function(event, args) {
+		function move(args) {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
 			if (args.movedTiledValue) {
@@ -53,6 +48,15 @@ var ngTile = function() {
 					}, args.duration);
 				}
 			}
+		}
+
+		scope.$watch(attrs.init, function(value) {
+			init();
+		});
+
+		scope.$watch(attrs.move, function(value) {
+			console.log(value);
+			move(value);
 		});
 	}
 

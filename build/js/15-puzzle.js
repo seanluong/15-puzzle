@@ -118,11 +118,12 @@ var headerController = ["$scope", "localStorageService",
 		};
 	}
 ];
-var mainController = ["$scope", "$document", "localStorageService", "directionService",
-	function($scope, $document, localStorageService, directionService) {
+var mainController = ["$scope", "localStorageService", "directionService",
+	function($scope, localStorageService, directionService) {
 		$scope.board = localStorageService.getBoard();
 		$scope.series = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 		$scope.init = true;
+		$scope.move = {};
 
 		$scope.swipe = function(event) {
 			event.preventDefault();
@@ -137,12 +138,12 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 					movedTiledValue = $scope.board.getValue(zeroCellDelta);
 				if (movedTiledValue) {
 					$scope.board.slide(zeroCellDelta);
-					$document.find(".tile").trigger("move", {
+					$scope.move = {
 						duration: duration,
 						movedTiledValue: movedTiledValue,
 						drow: movedTileDelta.drow,
 						dcol: movedTileDelta.dcol
-					});
+					};
 					if ($scope.board.won() === true) {
 						$scope.$parent.$broadcast("game-won");
 						$scope.$broadcast("pause");
@@ -157,7 +158,6 @@ var mainController = ["$scope", "$document", "localStorageService", "directionSe
 			$scope.board = new Board();
 			localStorageService.setBoard($scope.board);
 			$scope.init = !$scope.init; // invert to change it
-			// $document.find(".tile").trigger("init");
 		});
 
 		$scope.$on("keydown", function(event, args) {
@@ -260,6 +260,7 @@ var ngTile = function() {
 
 	function link(scope, element, attrs) {
 		var gap = 12; // size 11.6 + margin 0.4
+
 		function findCoor(cells, value, gap) {
 			var row, col, arr = [0,1,2,3];
 			for (row in arr) {
@@ -291,14 +292,7 @@ var ngTile = function() {
 			}
 		}
 		
-
-		scope.$watch(attrs.init, function(value) {
-			init();
-		});
-
-		// element.on("init", init);
-
-		element.on("move", function(event, args) {
+		function move(args) {
 			var value = parseInt(element.text()) || 0,
 				y, x, coor;
 			if (args.movedTiledValue) {
@@ -312,6 +306,15 @@ var ngTile = function() {
 					}, args.duration);
 				}
 			}
+		}
+
+		scope.$watch(attrs.init, function(value) {
+			init();
+		});
+
+		scope.$watch(attrs.move, function(value) {
+			console.log(value);
+			move(value);
 		});
 	}
 
@@ -477,6 +480,5 @@ run(function() {
 		$("#board-container").on("touchmove", function(e) {
 			e.preventDefault();
 		});
-		// $(".tile").trigger("init");
 	});
 });
