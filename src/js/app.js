@@ -3,6 +3,7 @@ var myApp = angular.module("myApp", [
 	"social",
 	"animation",
 	"filters",
+	"keyboardInput",
 	"myControllers",
 	"myDirectives",
 	"myServices"

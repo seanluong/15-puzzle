@@ -1,8 +1,8 @@
-describe("Test myControllers", function() {
+describe("Test controllers", function() {
 	beforeEach(module("myControllers"));
 	describe('Test bodyController', function() {
 		var scope, keybardMapService;
-		beforeEach(module('myServices'));
+		beforeEach(module('keyboardInput'));
 		beforeEach(function() {
 			inject(function(_keyboardMapService_) {
 				keybardMapService = _keyboardMapService_;

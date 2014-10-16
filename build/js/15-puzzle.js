@@ -203,7 +203,7 @@ var wonMessageController = ["$scope",
 	}
 ];
 var myControllers = angular.module("myControllers", []).
-controller("bodyController", bodyController).
+// controller("bodyController", bodyController).
 controller("headerController", headerController).
 controller("wonMessageController", wonMessageController).
 controller("showTargetController", showTargetController).
@@ -375,7 +375,7 @@ var localStorageService = [	function() {
 	};
 }];
 var myServices = angular.module("myServices", []).
-factory("keyboardMapService", keyboardMapService).
+// factory("keyboardMapService", keyboardMapService).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
 var animation = angular.module("animation", []).
@@ -429,6 +429,9 @@ filter("duration", function() {
 		}
     };
 });
+var keyboardInput = angular.module("keyboardInput", []).
+factory("keyboardMapService", keyboardMapService).
+controller("bodyController", bodyController);
 var social = angular.module("social", []).
 directive("ngFacebook", function() {
 	return {
@@ -453,6 +456,7 @@ var myApp = angular.module("myApp", [
 	"social",
 	"animation",
 	"filters",
+	"keyboardInput",
 	"myControllers",
 	"myDirectives",
 	"myServices"

@@ -1,7 +1,7 @@
-describe("Test myServices", function() {
+describe("Test services", function() {
 	describe('Unit: Test keybardMapService', function() {
 		var keybardMapService;
-		beforeEach(module('myServices'));
+		beforeEach(module('keyboardInput'));
 		beforeEach(function() {
 			inject(function(_keyboardMapService_) {
 				keybardMapService = _keyboardMapService_;
