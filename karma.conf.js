@@ -17,11 +17,8 @@ module.exports = function(config) {
     files: [
         "bower_components/angular/angular.min.js",
         'src/js/controllers/*.js',
-        'src/js/controllers.js',
         'src/js/services/*.js',
-        'src/js/services.js',
         'src/js/directives/*.js',
-        'src/js/directives.js',
         'src/js/modules/*.js',
         'src/js/board.js',
         'src/js/app.js',

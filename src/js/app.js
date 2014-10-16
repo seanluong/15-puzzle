@@ -5,9 +5,7 @@ var myApp = angular.module("myApp", [
 	"keyboardInput",
 	"wonMessage",
 	"showTarget",
-	"directives",
-	"myControllers",
-	"myServices"
+	"main"
 ]).
 run(function() {
 	$(function() {

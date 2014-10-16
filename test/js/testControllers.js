@@ -1,5 +1,5 @@
 describe("Test controllers", function() {
-	beforeEach(module("myControllers"));
+	beforeEach(module("main"));
 	describe('Test bodyController', function() {
 		var scope, keybardMapService;
 		beforeEach(module('keyboardInput'));

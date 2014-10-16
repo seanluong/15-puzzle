@@ -28,7 +28,7 @@ describe("Test Board class", function() {
 
 	describe("Unit: test slide function", function() {
 		var directionService, up, down, left, right;
-		beforeEach(module('myServices'));
+		beforeEach(module('services'));
 		beforeEach(function() {
 			inject(function(_directionService_) {
 				directionService = _directionService_;

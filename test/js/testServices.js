@@ -38,7 +38,7 @@ describe("Test services", function() {
 	describe('Unit: Test localStorageService', function() {
 		var localStorageService,
 			timePassed, bestTime, boardStr;
-		beforeEach(module('myServices'));
+		beforeEach(module('services'));
 		beforeEach(function() {
 			inject(function(_localStorageService_) {
 				localStorageService = _localStorageService_;

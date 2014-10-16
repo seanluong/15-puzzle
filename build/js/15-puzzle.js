@@ -202,9 +202,6 @@ var wonMessageController = ["$scope",
 		});
 	}
 ];
-var myControllers = angular.module("myControllers", []).
-controller("headerController", headerController).
-controller("mainController", mainController);
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
 
@@ -367,9 +364,6 @@ var localStorageService = [	function() {
 		}
 	};
 }];
-var myServices = angular.module("myServices", []).
-factory("localStorageService", localStorageService).
-factory("directionService", directionService);
 var animation = angular.module("animation", []).
 directive("ngMyFade", [
 	function() {
@@ -397,6 +391,13 @@ directive("ngClock", ngClock);
 var keyboardInput = angular.module("keyboardInput", []).
 factory("keyboardMapService", keyboardMapService).
 controller("bodyController", bodyController);
+var main = angular.module("main", ["services", "directives"]).
+controller("headerController", headerController).
+controller("mainController", mainController);
+
+var services = angular.module("services", []).
+factory("localStorageService", localStorageService).
+factory("directionService", directionService);
 var showTarget = angular.module("showTarget", ["animation"]).
 controller("showTargetController", showTargetController);
 var social = angular.module("social", []).
@@ -457,9 +458,7 @@ var myApp = angular.module("myApp", [
 	"keyboardInput",
 	"wonMessage",
 	"showTarget",
-	"directives",
-	"myControllers",
-	"myServices"
+	"main"
 ]).
 run(function() {
 	$(function() {
