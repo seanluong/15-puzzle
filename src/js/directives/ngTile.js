@@ -55,7 +55,6 @@ var ngTile = function() {
 		});
 
 		scope.$watch(attrs.move, function(value) {
-			console.log(value);
 			move(value);
 		});
 	}

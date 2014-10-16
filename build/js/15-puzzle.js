@@ -99,14 +99,17 @@ var headerController = ["$scope", "localStorageService",
 	function($scope, localStorageService) {
 		$scope.timePassed =  localStorageService.getTimePassed();
 		$scope.bestTime = localStorageService.getBestTime();
+		$scope.stopClock = false;
 
 		$scope.$on("new-game", function() {
 			$scope.timePassed = 0;
 			$scope.bestTime = localStorageService.getBestTime();
+			$scope.stopClock = false;
 		});
 
 		$scope.$on("game-won", function() {
 			localStorageService.updateBestTime($scope.timePassed);
+			$scope.stopClock = true;
 		});
 
 		$scope.newGame = function() {
@@ -207,14 +210,26 @@ var wonMessageController = ["$scope",
 var ngClock = ["$interval", "localStorageService", 
   function($interval, localStorageService) {
     function link(scope, element, attrs) {
-      var timeoutId;
+      var timeoutId, delta = 1;
       element.on('$destroy', function() {
         $interval.cancel(timeoutId);
       });
+
       timeoutId = $interval(function() {
-        scope.timePassed += 1;
-        localStorageService.setTimePassed(scope.timePassed);
+        scope.timePassed += delta;
+        if (delta > 0) {
+          localStorageService.setTimePassed(scope.timePassed);
+        }
       }, 1000);
+
+      scope.$watch(attrs.stop, function(stopClock) {
+        console.log(stopClock);
+        if (stopClock) {
+          delta = 0;
+        } else {
+          delta = 1;
+        }
+      });
     }
 
     return {
@@ -313,7 +328,6 @@ var ngTile = function() {
 		});
 
 		scope.$watch(attrs.move, function(value) {
-			console.log(value);
 			move(value);
 		});
 	}

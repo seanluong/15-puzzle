@@ -27,7 +27,8 @@
 			<div id="header" ng-controller="headerController">
 				<h1>15 PUZZLE</h1>
 				<div id="clocks">
-					<button class="btn btn-danger header-button" ng-cloak ng-clock></button>
+					<button class="btn btn-danger header-button" ng-cloak ng-clock stop="stopClock">
+					</button>
 					<button class="btn btn-success header-button" ng-cloak >{{bestTime | duration}}</button>
 				</div>
 				<div id="buttons">
@@ -54,10 +55,9 @@
 
 			<div id="footer">
 				<div ng-controller="wonMessageController" ng-my-fade="show">
-					<h3>Congratulations!</h3>
-					<p>
-					    You did it! The 15 puzzle is solved. Let's share this with friends.
-					</p>
+					<div class="alert alert-success" role="alert">
+						<strong>Congratulations!</strong> The 15 puzzle is solved. Let's share this with friends.
+					</div>					
 				</div>
 				<div class="share-social">
 					<ng-facebook></ng-facebook>
