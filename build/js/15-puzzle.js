@@ -221,18 +221,6 @@ var ngClock = ["$interval", "localStorageService",
 ];
 
 
-var ngFacebook = [function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/facebook.html"
-	};
-}];
-var ngGplus = [function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/gplus.html"
-	};
-}];
 var ngMyFade = [function() {
 	return {
 		restrict: "A",
@@ -317,12 +305,6 @@ var ngTile = function() {
 	};
 
 };
-var ngTwitter = [function() {
-	return {
-      	restrict: 'E',
-		templateUrl: "template/twitter.html"
-	};
-}];
 var directionService = [ function() {
 	return {
 		getDelta: function(direction) {
@@ -450,17 +432,13 @@ controller("mainController", mainController);
 var services = angular.module("services", []).
 factory("localStorageService", localStorageService).
 factory("directionService", directionService);
-var social = angular.module("social", []).
-directive("ngFacebook", ngFacebook).
-directive("ngTwitter", ngTwitter).
-directive("ngGplus", ngGplus);
 var timeFormat = angular.module("timeFormat", []).
 filter("duration", durationFilter);
 var wonMessage = angular.module("wonMessage", ["animation"]).
 controller("wonMessageController", wonMessageController);
 var myApp = angular.module("myApp", [
 	"angular-gestures",
-	"social",
+	"ngSocial",
 	"timeFormat",
 	"keyboardInput",
 	"wonMessage",

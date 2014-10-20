@@ -1,6 +1,6 @@
 var myApp = angular.module("myApp", [
 	"angular-gestures",
-	"social",
+	"ngSocial",
 	"timeFormat",
 	"keyboardInput",
 	"wonMessage",

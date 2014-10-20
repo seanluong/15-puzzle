@@ -111,15 +111,19 @@ html {
 #author {
 	margin-top: calc-rem(5px, $font-size);
 	margin-bottom: calc-rem(5px, $font-size);
-	a {
-		font-weight: bolder;
-		img {
-			height: calc-rem(24px, $font-size);
-			display: inline;	
-		}
-	}
-	p {
+	div {
 		text-align: center;
+		font-size: calc-rem(18px, $font-size);
+		.ng-social-container {
+			display: inline;
+		}
+		a {
+			font-weight: bolder;
+			img {
+				height: calc-rem(24px, $font-size);
+				display: inline;	
+			}
+		}
 	}
 }
 

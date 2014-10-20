@@ -20,6 +20,7 @@
     "jquery": "http://github.com/jquery/jquery.git#~2.1.1",
     "angular": "http://github.com/angular/bower-angular.git#~1.2.26",
     "angular-gestures": "http://github.com/wzr1337/bower-angular-gestures.git#~0.2.3",
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "angular-social": "git://github.com/esvit/angular-social.git#~0.1.1"
   }
 }

@@ -53,9 +53,16 @@
 
 			<div id="footer">
 				<div id="share" class="share-social">
-					<ng-facebook></ng-facebook>
-					<ng-gplus></ng-gplus>
-					<ng-twitter></ng-twitter>
+					<ul ng-social-buttons
+					     data-url="'http://xuanluong.github.io/15-puzzle/'"
+					     data-title="'15 Puzzle'"
+					     data-description="'15 Puzzle game'"
+					     data-image="'https://github.com/xuanluong/15-puzzle/blob/master/favicon.png'">
+					    <li class="ng-social-facebook">Facebook</li>
+					    <!-- <li class="ng-social-google-plus">Google+</li> -->
+					    <li class="ng-social-twitter">Twitter</li>
+					</ul>
+
 				</div>
 				<div id="explanation">
 			    	<span>HOW TO PLAY</span>
@@ -85,10 +92,14 @@
 			    </div>
 			    <div id="author">
 			    	<span>AUTHOR</span>
-			    	<p>
-		    			Created by <a href="https://twitter.com/xuanluong">Xuan Luong</a>. 
-		    			Code hosted on <a href="https://github.com/xuanluong">GitHub <img src="images/github.png" alt="Github"></a>
-			    	</p>
+			    	<div>
+			    		Created by <a href="https://twitter.com/xuanluong">Xuan Luong</a>
+			    		<ul ng-social-buttons data-url="'http://xuanluong.github.io/15-puzzle/'"
+					     	data-title="'15 Puzzle'" data-description="'15 Puzzle game'"
+					     	data-image="'https://github.com/xuanluong/15-puzzle/blob/master/favicon.png'">
+				     		<li class="ng-social-github" user="xuanluong" repository="15-puzzle">GitHub</li>
+				    	</ul>
+			    	</div>			    	
 				</div>
 			</div>
 		</div>

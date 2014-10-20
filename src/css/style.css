@@ -107,15 +107,19 @@ html body {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-#author a {
-  font-weight: bolder;
+#author div {
+  text-align: center;
+  font-size: 1.8rem;
 }
-#author a img {
-  height: 2.4rem;
+#author div .ng-social-container {
   display: inline;
 }
-#author p {
-  text-align: center;
+#author div a {
+  font-weight: bolder;
+}
+#author div a img {
+  height: 2.4rem;
+  display: inline;
 }
 
 .share-social {

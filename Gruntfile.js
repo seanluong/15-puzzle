@@ -23,13 +23,15 @@ module.exports = function(grunt) {
 		      	src: [
 		      		"bower_components/jquery/dist/jquery.min.js",
 		      		"bower_components/angular/angular.min.js",
-		      		"bower_components/angular-gestures/gestures.min.js"
+		      		"bower_components/angular-gestures/gestures.min.js",
+		      		"bower_components/angular-social/angular-social.js"
 		      	],
 		      	dest: 'build/js/<%= pkg.name %>.lib.min.js',
 		    },
 		    css: {
 		    	src: [
 		    		'bower_components/bootstrap/dist/css/bootstrap.min.css',
+		    		'bower_components/angular-social/angular-social.css',
 		    		'src/css/style.css'
 		    	],
 		    	dest: 'build/css/<%= pkg.name %>.css'
