@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 			options: {
 				wrap: true,
 				preserveComments: false,
-				sourceMap: true
+				sourceMap: false
 			},
 			js: {
 				files: {
@@ -106,6 +106,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('js', [
 		'jshint',
 		'concat:js',
+		'uglify:js',
   		'concat:js_lib',
 	]);
   	grunt.registerTask('default', [
