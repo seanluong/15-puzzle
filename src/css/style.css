@@ -37,6 +37,15 @@ html body {
   background: #F7EFB7;
   margin: 1rem;
 }
+html body .my-header {
+  font-family: "Chewy", cursive;
+}
+html body .my-text {
+  font-family: "Architects Daughter", cursive;
+}
+html body .my-sans-serif {
+  font-family: "Roboto", cursive;
+}
 
 #game-container {
   width: 50rem;
@@ -136,6 +145,7 @@ html body {
   font-size: 5.5rem;
   line-height: 11.625rem;
   z-index: 100;
+  font-family: "Gloria Hallelujah", cursive;
 }
 
 #guide-content {

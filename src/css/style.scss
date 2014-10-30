@@ -11,6 +11,11 @@ $font-size: 10px;
 $container-size: calc-rem(500px, $font-size);
 $board-size: $container-size;
 
+$header-font: 'Chewy', cursive;
+$tile-font: 'Gloria Hallelujah', cursive;
+$text-font: 'Architects Daughter', cursive;
+$sans-serif-font: 'Roboto', cursive;
+
 html {
 	@media (max-width: 320px) {
 		font-size: $font-size / 1.7;
@@ -38,6 +43,15 @@ html {
 	body {
 		background: $body-background;
 		margin: calc-rem(10px, $font-size);
+		.my-header {
+			font-family: $header-font;
+		}
+		.my-text {
+			font-family: $text-font;
+		}
+		.my-sans-serif {
+			font-family: $sans-serif-font;
+		}
 	}
 }
 
@@ -141,6 +155,7 @@ html {
 	font-size: calc-rem(55px, $font-size);
 	line-height: calc-rem(116.25px, $font-size);
 	z-index: 100;
+	font-family: $tile-font;
 }
 
 #guide-content {

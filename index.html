@@ -18,6 +18,10 @@
 		
 		<title>15 Puzzle</title>
 		<link rel="stylesheet" href="build/css/15-puzzle.min.css">
+		<link href='//fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<script src="build/js/15-puzzle.lib.min.js"></script>
 		<script src="build/js/15-puzzle.js"></script>
 	</head>
@@ -25,14 +29,14 @@
 		<div id="fb-root"></div>
 		<div id="game-container">
 			<div id="header" ng-controller="headerController">
-				<h1>15 PUZZLE</h1>
+				<h1 class="my-header">15 Puzzle</h1>
 				<div id="clocks">
-					<button class="btn btn-danger header-button" ng-cloak ng-clock stop="stopClock">
+					<button class="btn btn-danger header-button my-sans-serif" ng-clock stop="stopClock">
 					</button>
-					<button class="btn btn-success header-button" ng-cloak >{{bestTime | duration}}</button>
+					<button class="btn btn-success header-button my-sans-serif" >{{bestTime | duration}}</button>
 				</div>
 				<div id="buttons">
-					<button class="btn btn-primary header-button" ng-click="newGame()">New Game</button>
+					<button class="btn btn-primary header-button my-sans-serif" ng-click="newGame()">New Game</button>
 				</div>
 			</div>
 			<div id="won-message" ng-controller="wonMessageController" ng-my-fade="show">
@@ -64,8 +68,8 @@
 					</ul>
 
 				</div>
-				<div id="explanation">
-			    	<span>HOW TO PLAY</span>
+				<div class="my-text" id="explanation">
+			    	<span class="my-header">How to play?</span>
 			    	<ul>
 			    		<li>Return the board to this state:
 						</li>
@@ -90,8 +94,8 @@
 			    		</li>
 			    	</ul>
 			    </div>
-			    <div id="author">
-			    	<span>AUTHOR</span>
+			    <div class="my-sans-serif" id="author">
+			    	<span class="my-header">Author</span>
 			    	<div>
 			    		Created by <a href="https://twitter.com/xuanluong">Xuan Luong</a>
 			    		<ul ng-social-buttons data-url="'http://xuanluong.github.io/15-puzzle/'"
